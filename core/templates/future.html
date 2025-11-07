@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3 class="text-center text-info">📊 Future Crime Prediction (2023–2024)</h3>
+  <form method="POST" class="mt-4">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input type="text" name="state" class="form-control" placeholder="Enter State/UT" required>
+      </div>
+      <div class="col-md-6">
+        <input type="number" name="rate" class="form-control" placeholder="Crime Rate (IPC 2022)" required>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input type="number" name="charge" class="form-control" placeholder="Chargesheeting Rate (2022)" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-warning w-100">Predict Future Trend</button>
+  </form>
+  {% if result %}
+  <div class="alert alert-info text-center mt-4">
+    <h5>{{ result }}</h5>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

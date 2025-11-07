@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">📂 Upload Dataset</h3>
+
+    <form method="POST" enctype="multipart/form-data" action="/upload/">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="file" name="file" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    <hr>
+
+    {% if msg %}
+        <div class="alert alert-info mt-3">{{ msg }}</div>
+    {% endif %}
+
+    {% if rows %}
+        <h5>Preview:</h5>
+        <div class="table-responsive">{{ rows|safe }}</div>
+    {% endif %}
+</div>
+{% endblock %}

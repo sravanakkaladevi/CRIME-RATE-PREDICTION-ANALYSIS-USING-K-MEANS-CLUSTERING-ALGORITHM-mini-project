@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-4 text-center">
+  <h2 class="text-light">Crime Rate Analysis (NCRB 2022)</h2>
+
+  <div class="my-3">
+    <a href="/" class="btn btn-dark">Home</a>
+    <a href="/upload/" class="btn btn-secondary">Upload</a>
+  </div>
+<div class="analysis-images text-center">
+  <img src="{% static 'graphs/top10_trend.png' %}" alt="Crimes by State" onclick="openFullscreen(this)">
+  <img src="{% static 'graphs/rate_vs_chargesheet.png' %}" alt="Rate vs Chargesheeting" onclick="openFullscreen(this)">
+  <img src="{% static 'graphs/clusters.png' %}" alt="Cluster Plot" onclick="openFullscreen(this)">
+  <img src="{% static 'graphs/elbow.png' %}" alt="Elbow Method" onclick="openFullscreen(this)">
+</div>
+  <h4 class="text-light">Preview Table</h4>
+  <div class="table-responsive">
+    {{ table|safe }}
+  </div>
+</div>
+<script>
+function openFullscreen(img) {
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = 10000;
+  overlay.style.cursor = 'zoom-out';
+
+  // Add image inside overlay
+  const fullImg = document.createElement('img');
+  fullImg.src = img.src;
+  fullImg.style.maxWidth = '95vw';
+  fullImg.style.maxHeight = '95vh';
+  fullImg.style.borderRadius = '12px';
+  fullImg.style.boxShadow = '0 0 20px rgba(0,255,255,0.4)';
+  fullImg.style.transition = 'transform 0.3s ease';
+
+  // Append image and handle close
+  overlay.appendChild(fullImg);
+  overlay.onclick = () => document.body.removeChild(overlay);
+
+  document.body.appendChild(overlay);
+}
+</script>
+
+{% endblock %}

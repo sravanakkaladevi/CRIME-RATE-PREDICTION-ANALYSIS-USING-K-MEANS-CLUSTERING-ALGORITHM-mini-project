@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crime Rate Prediction</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  <style>
+    body {
+      background-color: #121212;
+      color: #f1f1f1;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #000000, #1a1a1a);
+      border-bottom: 2px solid #00ffff33;
+      padding: 12px 40px;
+    }
+
+    .navbar-brand {
+      color: #00e0ff !important;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    .navbar .d-flex {
+      gap: 18px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #00e0ff;
+      color: #000;
+      border-color: #00e0ff;
+    }
+
+    .btn-outline-danger {
+      border-color: #ff4d4d;
+      color: #ff4d4d;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #ff4d4d;
+      color: #fff;
+    }
+
+    .content-wrapper {
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: 40px;
+      padding: 15px 0;
+    }
+  </style>
+</head>
+
+<body>
+  {% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} text-center">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container-fluid justify-content-between">
+      <a class="navbar-brand" href="/">Crime Rate Prediction</a>
+
+      <div class="d-flex flex-wrap">
+        <a href="/" class="btn btn-outline-light btn-sm">Home</a>
+        <a href="/upload/" class="btn btn-outline-light btn-sm">Upload</a>
+        <a href="/analyze/" class="btn btn-outline-light btn-sm">Analyze</a>
+        <a href="/cluster/" class="btn btn-outline-light btn-sm">Cluster</a>
+        <a href="/future/" class="btn btn-outline-light btn-sm">Future</a>
+        <a href="/logout/" class="btn btn-outline-danger btn-sm">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container content-wrapper">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <footer style="position: fixed; bottom: 0; width: 100%; background: transparent; color: #aaa; text-align: center; padding: 10px 0;">
+    © 2025 Crime Rate Prediction Project | A. Sravan Kumar MCA
+</footer>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

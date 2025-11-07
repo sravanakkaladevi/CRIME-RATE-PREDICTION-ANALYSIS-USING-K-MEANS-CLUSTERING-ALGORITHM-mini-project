@@ -1,0 +1,101 @@
+.analysis-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 0;
+}
+
+.analysis-images img {
+  width: 100%;
+  max-width: 340px;     /* controls size per plot */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+  background: #fff;
+  padding: 8px;
+  transition: transform 0.2s ease;
+}
+
+.analysis-images img:hover {
+  transform: scale(1.03);
+}
+.navbar {
+  background: linear-gradient(90deg, #000000, #1a1a1a);
+  border-bottom: 2px solid #00ffff33;
+  padding: 12px 40px;
+}
+
+.navbar-brand {
+  color: #00e0ff !important;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.navbar .btn {
+  border-radius: 8px;
+  padding: 5px 15px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-light:hover {
+  background-color: #00e0ff;
+  color: #000;
+  border-color: #00e0ff;
+}
+
+.btn-outline-danger {
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+.btn-primary {
+  background-color: #00e0ff;
+  border-color: #00e0ff;
+}
+.welcome-container {
+  animation: fadeSlide 1.5s ease forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+@keyframes fadeSlide {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.welcome-text {
+  color: #00e0ff;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+  animation: pulse 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse {
+  0% { text-shadow: 0 0 5px #00e0ff; }
+  100% { text-shadow: 0 0 20px #00e0ff; }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+.analysis-images img {
+  cursor: zoom-in;
+}

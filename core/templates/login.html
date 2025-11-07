@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+body {
+    background: url("{% static 'images/login_bg.jpg' %}") no-repeat center center fixed;    background-size: cover;
+}
+.login-box {
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    max-width: 400px;
+    margin: 80px auto;
+    text-align: center;
+}
+.login-box h2 {
+    color: #00e0ff;
+    margin-bottom: 25px;
+}
+.login-box input {
+    background-color: #111;
+    color: #00e0ff;
+    border: 1px solid #00e0ff;
+}
+.login-box .btn {
+    background-color: #00e0ff;
+    color: #000;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.login-box .btn:hover {
+    background-color: #00b8cc;
+}
+</style>
+
+<div class="login-box">
+    <h2>Login</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+        {% if msg %}
+        <p class="text-danger mt-3">{{ msg }}</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

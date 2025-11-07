@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center mt-5">
+    <h2 class="welcome-text">👋 Welcome, {{ request.user.username|default:"User" }}!</h2>
+    <p class="lead fade-in">Let’s begin analyzing crime trends across states.</p>
+
+    <div class="mt-4">
+        <a href="/upload/" class="btn btn-primary me-2">Upload Dataset</a>
+        <a href="/analyze/" class="btn btn-outline-light">View Analysis</a>
+    </div>
+</div>
+{% endblock %}
