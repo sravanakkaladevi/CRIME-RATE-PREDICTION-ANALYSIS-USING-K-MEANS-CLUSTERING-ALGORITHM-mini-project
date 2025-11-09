@@ -1,55 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container my-4 text-center">
-  <h2 class="text-light">Crime Rate Analysis (NCRB 2022)</h2>
+<style>
+body {
+  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(7px);
+  z-index: -1;
+}
+.analysis-box {
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,255,255,0.25);
+  border-radius: 18px;
+  padding: 35px;
+  margin: 50px auto;
+  max-width: 1250px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,255,255,0.25);
+  animation: fadeIn 0.8s ease;
+}
+.analysis-box h2 {
+  color: #00eaff;
+  text-shadow: 0 0 10px rgba(0,255,255,0.6);
+  font-weight: 700;
+}
+.underline-glow {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg,#00eaff,transparent);
+  margin: 8px auto 25px auto;
+  border-radius: 10px;
+}
+.img-fluid {
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.img-fluid:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px rgba(0,255,255,0.5);
+}
+.text-light.mt-2 { font-size:1rem; font-weight:500; color:#bfefff !important; }
+.table-container { background: rgba(255,255,255,0.97); color:#000; border-radius:14px; padding:20px; margin-top:25px; overflow-x:auto; box-shadow:0 0 25px rgba(0,255,255,0.3); animation: fadeUp 1s ease; }
+.table-container table { width:100%; border-collapse: collapse; text-align:center; }
+.table-container th { background:linear-gradient(90deg,#00eaff,#0099cc); color:#000; font-weight:700; padding:10px; border-bottom:3px solid rgba(0,0,0,0.15); position: sticky; top:0; cursor:pointer; }
+.table-container th:hover { background:#00ffff; transition:0.3s; }
+.table-container td { padding:8px; border-bottom:1px solid #ccc; }
+.table-container tr:hover { background-color: rgba(0,238,255,0.07); }
+.sort-container { display:flex; justify-content:flex-end; align-items:center; margin:15px 0 10px 0; }
+.sort-select { background: rgba(0,255,255,0.1); border:1px solid #00eaff; border-radius:8px; color:#00eaff; padding:6px 12px; font-weight:500; cursor:pointer; transition:0.3s; }
+.sort-select:hover { background:#00eaff; color:#000; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+</style>
 
-  <div class="my-3">
-    <a href="/" class="btn btn-dark">Home</a>
-    <a href="/upload/" class="btn btn-secondary">Upload</a>
+<div class="analysis-box text-center">
+  <h2>📊 Crime Analysis Dashboard</h2>
+  <div class="underline-glow"></div>
+
+  <div class="row justify-content-center">
+    {% for name, path in graphs.items %}
+    <div class="col-md-5 mb-4">
+      <img src="{{ path }}" class="img-fluid shadow-lg" alt="{{ name }}" onclick="openFullscreen(this)">
+      <p class="text-light mt-2">{{ name|title|cut:"_" }}</p>
+    </div>
+    {% endfor %}
   </div>
-<div class="analysis-images text-center">
-  <img src="{% static 'graphs/top10_trend.png' %}" alt="Crimes by State" onclick="openFullscreen(this)">
-  <img src="{% static 'graphs/rate_vs_chargesheet.png' %}" alt="Rate vs Chargesheeting" onclick="openFullscreen(this)">
-  <img src="{% static 'graphs/clusters.png' %}" alt="Cluster Plot" onclick="openFullscreen(this)">
-  <img src="{% static 'graphs/elbow.png' %}" alt="Elbow Method" onclick="openFullscreen(this)">
-</div>
-  <h4 class="text-light">Preview Table</h4>
-  <div class="table-responsive">
+
+  <h4 class="text-light mt-5">🧾 Dataset Preview</h4>
+  <div class="table-container" id="tableContainer">
     {{ table|safe }}
   </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
 <script>
 function openFullscreen(img) {
-  // Create overlay
   const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-  overlay.style.zIndex = 10000;
-  overlay.style.cursor = 'zoom-out';
-
-  // Add image inside overlay
+  overlay.style = `position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); display:flex; align-items:center; justify-content:center; z-index:9999; cursor:zoom-out;`;
   const fullImg = document.createElement('img');
   fullImg.src = img.src;
-  fullImg.style.maxWidth = '95vw';
-  fullImg.style.maxHeight = '95vh';
-  fullImg.style.borderRadius = '12px';
-  fullImg.style.boxShadow = '0 0 20px rgba(0,255,255,0.4)';
-  fullImg.style.transition = 'transform 0.3s ease';
-
-  // Append image and handle close
+  fullImg.style = `max-width:95vw; max-height:95vh; border-radius:12px; box-shadow:0 0 25px rgba(0,255,255,0.6);`;
   overlay.appendChild(fullImg);
-  overlay.onclick = () => document.body.removeChild(overlay);
-
+  overlay.onclick = () => overlay.remove();
   document.body.appendChild(overlay);
 }
-</script>
 
+$(document).ready(function(){
+  const table = $('#tableContainer table');
+  table.addClass('table table-bordered table-hover table-sm');
+  table.DataTable({
+    pageLength: 20,
+    lengthChange: true,
+    ordering: true,
+    order: [],
+    scrollX: true,
+    language: { search: "🔍 Search:" },
+    columnDefs: [ { targets: "_all", className: "text-center align-middle" } ]
+  });
+});
+</script>
 {% endblock %}

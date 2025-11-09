@@ -1,25 +1,16 @@
+/* Remove image section styling */
 .analysis-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  padding: 10px 0;
+  display: none;
+  padding: 0;
+  margin: 0;
+  background: none;
 }
 
 .analysis-images img {
-  width: 100%;
-  max-width: 340px;     /* controls size per plot */
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-  background: #fff;
-  padding: 8px;
-  transition: transform 0.2s ease;
+  display: none;
 }
 
-.analysis-images img:hover {
-  transform: scale(1.03);
-}
+/* Navbar styling */
 .navbar {
   background: linear-gradient(90deg, #000000, #1a1a1a);
   border-bottom: 2px solid #00ffff33;
@@ -53,10 +44,13 @@
   background-color: #ff4d4d;
   color: #fff;
 }
+
 .btn-primary {
   background-color: #00e0ff;
   border-color: #00e0ff;
 }
+
+/* Welcome animation */
 .welcome-container {
   animation: fadeSlide 1.5s ease forwards;
   transform: translateY(20px);
@@ -96,6 +90,49 @@
 @keyframes fadeIn {
   to { opacity: 1; }
 }
-.analysis-images img {
-  cursor: zoom-in;
+
+/* Upload container cleanup */
+.upload-container {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  max-width: none;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Full-width table styling */
+.table-container {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+table th, table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  table th, table td {
+    font-size: 14px;
+    padding: 8px;
+  }
 }

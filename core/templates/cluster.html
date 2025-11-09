@@ -1,28 +1,124 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-<div class="container mt-4">
-  <h3 class="text-center text-info">🔍 Cluster Crime Prediction</h3>
-  <form method="POST" class="mt-4">
+
+<style>
+body {
+  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: -1;
+}
+
+/* Glass container */
+.cluster-box {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 18px;
+  padding: 40px;
+  margin: 50px auto;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  max-width: 750px;
+}
+
+.cluster-box h3 {
+  color: #00eaff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  font-weight: 700;
+}
+
+/* Inputs & selects */
+.form-select,
+.form-control {
+  background: #f9f9f9;
+  color: #111;
+  border: 1px solid #00bde0;
+  border-radius: 8px;
+  font-weight: 500;
+}
+.form-select:hover,
+.form-control:hover {
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+
+/* Buttons */
+.btn-info {
+  background-color: #00d5ff;
+  color: #000;
+  font-weight: 600;
+  border: none;
+}
+.btn-info:hover {
+  background-color: #00b3db;
+}
+
+/* Zoom effect for cluster image */
+.zoomable {
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+}
+.zoomable:hover {
+  transform: scale(1.04);
+}
+</style>
+
+<div class="container cluster-box">
+  <h3 class="text-center mb-4">🔍 Crime Cluster Prediction</h3>
+
+  <form method="POST" action="/cluster/">
     {% csrf_token %}
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <input type="text" name="state" class="form-control" placeholder="Enter State/UT" required>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Select City</label>
+        <select name="city" class="form-select" required>
+          <option value="">-- Choose City --</option>
+          {% for c in cities %}
+          <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
       </div>
-      <div class="col-md-6">
-        <input type="number" name="rate" class="form-control" placeholder="Crime Rate (IPC 2022)" required>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Select Crime Type</label>
+        <select name="crime" class="form-select">
+          <option value="">-- Optional --</option>
+          {% for cr in crimes %}
+          <option value="{{ cr }}">{{ cr }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <input type="number" name="charge" class="form-control" placeholder="Chargesheeting Rate (2022)" required>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-info w-100">Predict Cluster</button>
+    <button type="submit" class="btn btn-info w-100 fw-bold">Predict Cluster</button>
   </form>
+
   {% if result %}
-  <div class="alert alert-success text-center mt-4">
-    <h5>{{ result }}</h5>
+  <div class="alert alert-info mt-4 text-center"><b>{{ result }}</b></div>
+  {% endif %}
+
+  {% if cluster_plot %}
+  <div class="text-center mt-4">
+    <h5 class="text-light">Cluster Visualization</h5>
+    <img src="{{ cluster_plot }}" class="img-fluid rounded shadow zoomable" onclick="openFullscreen(this)">
+    <p class="text-secondary small mt-2">Click to enlarge</p>
   </div>
   {% endif %}
 </div>
+
+<script>
+function openFullscreen(img){
+  const overlay=document.createElement('div');
+  overlay.style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out";
+  const full=document.createElement('img');
+  full.src=img.src;
+  full.style="max-width:95vw;max-height:95vh;border-radius:12px;box-shadow:0 0 20px rgba(0,255,255,0.5)";
+  overlay.appendChild(full);
+  overlay.onclick=()=>overlay.remove();
+  document.body.appendChild(overlay);
+}
+</script>
 {% endblock %}

@@ -1,25 +1,168 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<div class="container mt-4">
-    <h3 class="mb-3">📂 Upload Dataset</h3>
 
-    <form method="POST" enctype="multipart/form-data" action="/upload/">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input type="file" name="file" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
+<style>
+body {
+  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: -1;
+}
 
-    <hr>
+/* Upload Container */
+.upload-box {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 40px 45px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+  width: 95%;
+  max-width: 1100px;
+  margin: 40px auto;
+}
 
-    {% if msg %}
-        <div class="alert alert-info mt-3">{{ msg }}</div>
-    {% endif %}
+/* Header */
+.upload-box h3 {
+  color: #00e5ff;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
 
-    {% if rows %}
-        <h5>Preview:</h5>
-        <div class="table-responsive">{{ rows|safe }}</div>
-    {% endif %}
+/* Buttons & Inputs */
+.form-control,
+.form-select {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  border: 1px solid #00cfff;
+  color: #111;
+}
+.btn-cyan {
+  background-color: #00e5ff;
+  color: #000;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.btn-cyan:hover {
+  background-color: #00b8d4;
+  box-shadow: 0 0 10px #00e5ff;
+}
+
+/* Table */
+.table-container {
+  background: #fff;
+  color: #000;
+  border-radius: 12px;
+  margin-top: 30px;
+  padding: 15px;
+  overflow-x: auto;
+}
+.table th {
+  background-color: #00cfff;
+  color: #fff;
+  font-weight: 600;
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+}
+</style>
+
+<div class="upload-box text-center">
+  <h3>📂 Upload & Explore Dataset</h3>
+  <p class="lead text-light">Easily upload your dataset and preview the records below.</p>
+
+  <form method="POST" enctype="multipart/form-data" action="/upload/">
+    {% csrf_token %}
+    <div class="mb-3">
+      <input type="file" name="file" class="form-control form-control-lg" required>
+    </div>
+    <button type="submit" class="btn btn-cyan w-100">Upload Dataset</button>
+  </form>
+
+  {% if msg %}
+  <div class="alert alert-info mt-3">{{ msg }}</div>
+  {% endif %}
+
+  {% if rows %}
+  <h5 class="mt-5 text-cyan">🔍 Filter Dataset</h5>
+  <form method="GET" class="row g-2 mb-3">
+    <div class="col-md-2">
+      <select name="report" class="form-select">
+        <option value="">Report No.</option>
+        {% for r in reports %}
+        <option value="{{ r }}" {% if request.GET.report == r %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select name="city" class="form-select">
+        <option value="">City</option>
+        {% for c in cities %}
+        <option value="{{ c }}" {% if request.GET.city == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select name="crime" class="form-select">
+        <option value="">Crime Type</option>
+        {% for cr in crimes %}
+        <option value="{{ cr }}" {% if request.GET.crime == cr %}selected{% endif %}>{{ cr }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select name="gender" class="form-select">
+        <option value="">Gender</option>
+        {% for g in genders %}
+        <option value="{{ g }}" {% if request.GET.gender == g %}selected{% endif %}>{{ g }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select name="weapon" class="form-select">
+        <option value="">Weapon Used</option>
+        {% for w in weapons %}
+        <option value="{{ w }}" {% if request.GET.weapon == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-cyan w-100">Go</button>
+    </div>
+  </form>
+
+  <div class="table-container">
+    {{ rows|safe }}
+  </div>
+  {% endif %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<script>
+$(document).ready(function(){
+  const table = $('table');
+  table.addClass('table table-bordered table-hover table-sm');
+  table.DataTable({
+    pageLength: 25,
+    lengthChange: true,
+    scrollX: true
+  });
+});
+</script>
+
 {% endblock %}

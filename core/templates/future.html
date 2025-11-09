@@ -1,28 +1,149 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="container mt-4">
-  <h3 class="text-center text-info">📊 Future Crime Prediction (2023–2024)</h3>
-  <form method="POST" class="mt-4">
+
+<style>
+body {
+  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(7px);
+  z-index: -1;
+}
+
+/* Main Container */
+.future-box {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 18px;
+  padding: 35px;
+  margin: 40px auto;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  max-width: 900px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.future-box h2 {
+  color: #00eaff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  font-weight: 700;
+}
+
+.underline-glow {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #00eaff, transparent);
+  margin: 8px auto 25px auto;
+  border-radius: 10px;
+}
+
+/* Inputs & Buttons */
+.form-select,
+.form-control {
+  background: #f9f9f9;
+  color: #111;
+  border: 1px solid #00bde0;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: box-shadow 0.3s ease;
+}
+.form-select:hover,
+.form-control:hover {
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+}
+.btn-info {
+  background-color: #00d5ff;
+  color: #000;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+.btn-info:hover {
+  background-color: #00b3db;
+  transform: scale(1.05);
+}
+
+.prediction-result {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #00eaff;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+  margin-top: 20px;
+}
+
+/* Risk assessment box */
+.risk-box {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-left: 6px solid var(--risk-color, #00eaff);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  animation: glowFade 1.5s ease-in-out infinite alternate;
+}
+
+.risk-box h5 {
+  color: var(--risk-color, #00eaff);
+  font-weight: 600;
+}
+
+@keyframes glowFade {
+  from { box-shadow: 0 0 10px var(--risk-color, #00eaff); }
+  to { box-shadow: 0 0 20px var(--risk-color, #00eaff); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<div class="future-box text-center">
+  <h2>🔮 Future Crime Trend Prediction</h2>
+  <div class="underline-glow"></div>
+
+  <form method="POST" action="/future/">
     {% csrf_token %}
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <input type="text" name="state" class="form-control" placeholder="Enter State/UT" required>
+    <div class="row justify-content-center mb-3">
+      <div class="col-md-5">
+        <select name="city" class="form-select" required>
+          <option value="">-- Select City --</option>
+          {% for c in cities %}
+          <option value="{{ c }}">{{ c }}</option>
+          {% endfor %}
+        </select>
       </div>
-      <div class="col-md-6">
-        <input type="number" name="rate" class="form-control" placeholder="Crime Rate (IPC 2022)" required>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-info w-100">Predict</button>
       </div>
     </div>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <input type="number" name="charge" class="form-control" placeholder="Chargesheeting Rate (2022)" required>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-warning w-100">Predict Future Trend</button>
   </form>
+
   {% if result %}
-  <div class="alert alert-info text-center mt-4">
-    <h5>{{ result }}</h5>
+  <div class="alert alert-info mt-4 text-center">
+    <b>{{ result }}</b>
+  </div>
+
+  {% if risk_level %}
+  <div class="risk-box" style="--risk-color: {{ risk_color|default:'#00eaff' }}">
+    <h5>⚠️ Risk Assessment: <b>{{ risk_level }}</b></h5>
+    <p style="color: #ccc; margin-bottom: 0;">
+      Based on historical data trends, this area shows a <b>{{ risk_level }}</b> likelihood for crime incidents next year.
+    </p>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  {% if line_plot %}
+  <div class="text-center mt-4">
+    <h5 class="text-light">📊 Trend Visualization</h5>
+    <img src="{{ line_plot }}" class="img-fluid rounded shadow mt-2" style="max-height: 400px;">
   </div>
   {% endif %}
 </div>
+
 {% endblock %}
