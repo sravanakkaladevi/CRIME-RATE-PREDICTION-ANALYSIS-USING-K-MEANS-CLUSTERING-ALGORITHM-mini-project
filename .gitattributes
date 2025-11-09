@@ -1,14 +1,60 @@
-# Tell GitHub Linguist to treat only Python files as primary
-*.html linguist-detectable=false
-*.css linguist-detectable=false
-*.js linguist-detectable=false
-*.json linguist-detectable=false
-*.png linguist-detectable=false
-*.jpg linguist-detectable=false
-*.svg linguist-detectable=false
-*.ico linguist-detectable=false
-*.txt linguist-detectable=false
-*.csv linguist-detectable=false
+# ===========================================
+#  Django + Data Science Project GitIgnore
+# ===========================================
 
-# Keep Python visible
-*.py linguist-language=Python
+# Python cache and build files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.idea/
+.vscode/
+
+# Django files
+db.sqlite3
+*.log
+*.pot
+*.pyc
+
+# Static and media files (auto-generated)
+static/graphs/
+staticfiles/
+media/
+uploads/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Jupyter notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# Data files (optional)
+*.csv
+*.xlsx
+*.xls
+
+# System and temp files
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.tmp
+*.swo
+
+# Environment variables
+.env
+*.env
+
+# PyCharm and VS Code
+.vscode/
+.idea/
+
+# OS-specific
+desktop.ini
