@@ -113,7 +113,7 @@ def upload_dataset(request):
     return render(request, "upload.html", context)
 
 # ---------------- ANALYSIS PAGE ----------------
-@login_required(login_url='/login/')
+@login_required(login_url='/')
 def analyze_data(request):
     csv_path = os.path.join(settings.BASE_DIR, "data", "NCRB_Table_1A.1.csv")
     if not os.path.exists(csv_path):
@@ -184,8 +184,9 @@ def analyze_data(request):
         },
     }
     return render(request, "analysis.html", context)
+
 # ---------------- CLUSTER PREDICTION (with Elbow Method) ----------------
-@login_required(login_url='/login/')
+@login_required(login_url='/')
 def cluster_prediction(request):
     result, cluster_plot = None, None
     csv_path = os.path.join(settings.BASE_DIR, "data", "NCRB_Table_1A.1.csv")
@@ -313,19 +314,28 @@ def cluster_prediction(request):
             "genders": genders,
         },
     )
-
-# ---------------- FUTURE PREDICTION WITH NORMALIZED TREND-BASED RISK ----------------
-@login_required(login_url='/login/')
+# ---------------- FUTURE PREDICTION PAGE (FIXED) ----------------
+@login_required(login_url='/')
 def future_prediction(request):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from sklearn.linear_model import Ridge
+    from sklearn.preprocessing import PolynomialFeatures
+    from sklearn.pipeline import Pipeline
+    from sklearn.model_selection import GridSearchCV, TimeSeriesSplit, cross_val_score
+    from sklearn.metrics import r2_score, mean_squared_error
+    import pandas as pd
+    import os
+
     result, line_plot, risk_level, risk_color = None, None, None, None
     csv_path = os.path.join(settings.BASE_DIR, "data", "NCRB_Table_1A.1.csv")
 
-    # Step 1: Ensure dataset exists
+    # Check dataset
     if not os.path.exists(csv_path):
         messages.warning(request, "⚠️ Please upload the dataset first.")
         return redirect("/upload/")
 
-    # Step 2: Load dataset safely
+    # Load CSV
     try:
         df = pd.read_csv(csv_path, encoding="utf-8", on_bad_lines="skip", dtype=str)
         df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
@@ -333,105 +343,153 @@ def future_prediction(request):
         messages.error(request, f"❌ Error reading dataset: {e}")
         return redirect("/upload/")
 
-    # Step 3: Convert date columns
+    # Extract year
     for col in ["Date Reported", "Date of Occurrence"]:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors="coerce")
 
-    # Step 4: Extract year
     if "Date Reported" in df.columns and df["Date Reported"].notna().any():
         df["year"] = df["Date Reported"].dt.year
     elif "Date of Occurrence" in df.columns and df["Date of Occurrence"].notna().any():
         df["year"] = df["Date of Occurrence"].dt.year
     else:
-        result = "❌ No valid date column found."
-        return render(request, "future.html", {"result": result})
+        return render(request, "future.html", {"result": "❌ No valid date column found."})
 
-    # Step 5: Clean city/year
+    # Clean and prepare cities list
     df = df.dropna(subset=["City", "year"])
-    cities = sorted(df["City"].dropna().unique().tolist())
+    df["City"] = df["City"].astype(str).str.strip().str.title()
+    cities = sorted(set(df["City"].dropna().tolist()))
+
     selected_city = request.POST.get("city") if request.method == "POST" else None
 
-    if request.method == "POST":
-        # Step 6: Filter by city
-        df_filtered = df if selected_city in [None, "All"] else df[df["City"] == selected_city]
-
-        year_counts = df_filtered.groupby("year").size().reset_index(name="count").dropna()
-        if len(year_counts) < 2:
-            result = f"⚠️ Not enough data to predict for {selected_city or 'All Cities'}."
+    if request.method == "POST" and selected_city:
+        # handle "All" explicitly
+        if selected_city.lower() == "all":
+            city_df = df.copy()
         else:
-            # Step 7: Polynomial Regression (smooth trend)
-            from sklearn.linear_model import LinearRegression
-            from sklearn.preprocessing import PolynomialFeatures
-            from sklearn.metrics import r2_score
-            import numpy as np
+            city_df = df[df["City"].str.lower() == selected_city.lower()]
 
-            X = year_counts["year"].values.reshape(-1, 1)
-            y = year_counts["count"].values
-
-            # Smooth the data slightly
-            y = pd.Series(y).rolling(window=2, min_periods=1).mean().values
-
-            poly = PolynomialFeatures(degree=2)
-            X_poly = poly.fit_transform(X)
-            model = LinearRegression().fit(X_poly, y)
-
-            y_pred_train = model.predict(X_poly)
-            r2 = r2_score(y, y_pred_train)
-            model_accuracy = f"Model Accuracy: {round(r2 * 100, 2)}% (Polynomial Fit)"
-
-            # Step 8: Predict next year
-            next_year = int(year_counts["year"].max()) + 1
-            next_year_poly = poly.transform([[next_year]])
-            pred = model.predict(next_year_poly)[0]
-            pred = max(pred, np.mean(y) * 0.5)  # realistic lower bound
-
-            # Step 9: Compute trend and normalized metrics
-            trend = y[-1] - y[-2] if len(y) >= 2 else 0
-            city_mean = np.mean(y)
-            global_mean = df.groupby("City").size().mean()
-
-            normalized_pred = pred / global_mean
-            growth_factor = trend / max(global_mean, 1)
-            final_score = normalized_pred + (0.25 * np.tanh(growth_factor))
-
-            # Step 10: Risk classification
-            if final_score >= 1.3:
-                risk_level, risk_color = "High Risk", "#ff4d4d"
-            elif final_score >= 0.8:
-                risk_level, risk_color = "Medium Risk", "#ffcc00"
+        if city_df.empty:
+            result = f"⚠️ No data found for {selected_city if selected_city.lower() != 'all' else 'overall dataset'}."
+        else:
+            year_counts = city_df.groupby("year").size().reset_index(name="count").sort_values("year")
+            if len(year_counts) < 3:
+                result = f"⚠️ Not enough yearly data to predict for {selected_city}."
             else:
-                risk_level, risk_color = "Low Risk", "#00ff88"
+                X = year_counts["year"].values.reshape(-1, 1).astype(float)
+                y = year_counts["count"].values.astype(float)
+                y_smoothed = pd.Series(y).rolling(window=2, min_periods=1).mean().values
 
-            # Step 11: Final result
-            predicted_cases = int(round(float(pred), 0))
-            result = (
-                f"📈 Predicted incidents for {selected_city or 'All Cities'} in {next_year}: "
-                f"{predicted_cases} cases ({risk_level}). "
-                f"{model_accuracy}"
-            )
+                # Pipeline and CV
+                pipe = Pipeline([
+                    ("poly", PolynomialFeatures(include_bias=False)),
+                    ("ridge", Ridge())
+                ])
+                param_grid = {"poly__degree": [1, 2], "ridge__alpha": [0.01, 0.1, 1.0, 10.0]}
+                n_splits = min(4, max(2, len(X) - 1))
+                tscv = TimeSeriesSplit(n_splits=n_splits)
+                gscv = GridSearchCV(pipe, param_grid, cv=tscv, scoring="r2", n_jobs=1)
 
-            # Step 12: Plot visualization
-            plt.figure(figsize=(7, 4))
-            plt.plot(year_counts["year"], year_counts["count"], marker="o",
-                     label="Past Data", linewidth=2)
-            plt.scatter([next_year], [predicted_cases], color="red", s=80,
-                        label=f"Prediction {next_year}")
-            plt.title(f"Crime Trend Prediction - {selected_city or 'All Cities'}", fontsize=12)
-            plt.xlabel("Year")
-            plt.ylabel("Number of Cases")
-            plt.legend()
-            plt.grid(True, linestyle="--", alpha=0.5)
-            plt.tight_layout()
+                mean_cv_r2, std_cv_r2 = 0.0, 0.0
+                try:
+                    gscv.fit(X, y_smoothed)
+                    best_model = gscv.best_estimator_
+                    cv_scores = cross_val_score(best_model, X, y_smoothed, cv=tscv, scoring="r2", n_jobs=1)
+                    mean_cv_r2 = float(np.nanmean(cv_scores))
+                    std_cv_r2 = float(np.nanstd(cv_scores))
+                except Exception:
+                    # fallback: fit a simple pipeline (no grid)
+                    best_model = pipe.fit(X, y_smoothed)
+                    mean_cv_r2, std_cv_r2 = 0.0, 0.0
 
-            graph_dir = os.path.join(settings.BASE_DIR, "static", "graphs")
-            os.makedirs(graph_dir, exist_ok=True)
-            graph_path = os.path.join(graph_dir, "future_trend.png")
-            plt.savefig(graph_path, dpi=150)
-            plt.close()
-            line_plot = "/static/graphs/future_trend.png"
+                # Predict next year
+                try:
+                    best_model.fit(X, y_smoothed)
+                    next_year = int(year_counts["year"].max()) + 1
+                    pred_raw = float(best_model.predict(np.array([[next_year]]))[0])
+                except Exception:
+                    next_year = int(year_counts["year"].max()) + 1
+                    pred_raw = float(np.mean(y_smoothed))
 
-    # Step 13: Render
+                pred = float(max(pred_raw, np.mean(y_smoothed) * 0.5))
+                predicted_cases = int(round(pred, 0))
+
+                # Risk Calculation (straightforward, manual)
+                trend = y_smoothed[-1] - y_smoothed[-2] if len(y_smoothed) >= 2 else 0.0
+                city_mean = float(np.mean(y_smoothed))
+                global_mean = float(df.groupby("City").size().mean() if len(df) > 0 else 0.0)
+                total_crimes = len(df)
+                city_total = len(city_df)
+                city_weight = (city_total / total_crimes) if total_crimes > 0 else 0.0
+
+                relative_activity = (city_mean / (global_mean + 1e-6))
+                growth_rate = (trend / (abs(city_mean) + 1e-6))
+                risk_score = (relative_activity * 2.0) + (growth_rate * 2.5) + (city_weight * 3.0)
+
+                # Metro bias (manual rule)
+                if selected_city.lower() in ["delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad"]:
+                    risk_score *= 1.3
+                    if predicted_cases >= 200:
+                        risk_score += 1.5
+
+                # Thresholds (manual)
+                if risk_score >= 4.0:
+                    risk_level, risk_color = "High Risk", "#ff4d4d"
+                elif risk_score >= 2.0:
+                    risk_level, risk_color = "Medium Risk", "#ffcc00"
+                else:
+                    risk_level, risk_color = "Low Risk", "#00ff88"
+
+                # Safe defaults for CV numbers
+                mean_cv_r2 = 0.0 if np.isnan(mean_cv_r2) else mean_cv_r2
+                std_cv_r2 = 0.0 if np.isnan(std_cv_r2) else std_cv_r2
+
+                # Train R² (informational)
+                try:
+                    y_train_pred = best_model.predict(X)
+                    train_r2 = r2_score(y_smoothed, y_train_pred)
+                except Exception:
+                    train_r2 = 0.0
+
+                # Human-friendly confidence label
+                if train_r2 >= 0.85:
+                    confidence = "Very High"
+                elif train_r2 >= 0.65:
+                    confidence = "High"
+                elif train_r2 >= 0.4:
+                    confidence = "Moderate"
+                else:
+                    confidence = "Low"
+
+                model_accuracy = f"Model confidence: {confidence} (based on {round(train_r2*100,1)}% fit to past data)"
+
+                # Human-readable result
+                label = selected_city if selected_city.lower() != "all" else "India (All Cities)"
+                result = (
+                    f"📈 Predicted total incidents for {label} in {next_year}: "
+                    f"{predicted_cases} reported cases — categorized as *{risk_level}*.\n"
+                    f"📊 {model_accuracy}"
+                )
+
+                # Plot chart
+                plt.figure(figsize=(8, 4))
+                plt.plot(year_counts["year"], year_counts["count"], marker='o', linewidth=2, label="Observed")
+                plt.plot(year_counts["year"], y_smoothed, marker='o', linestyle='--', label="Smoothed")
+                plt.scatter([next_year], [predicted_cases], color='red', s=80, label=f"Pred {next_year}")
+                plt.title(f"Crime Trend - {label}")
+                plt.xlabel("Year")
+                plt.ylabel("Number of Crimes")
+                plt.legend()
+                plt.grid(alpha=0.4, linestyle='--')
+                plt.tight_layout()
+
+                graph_dir = os.path.join(settings.BASE_DIR, "static", "graphs")
+                os.makedirs(graph_dir, exist_ok=True)
+                graph_path = os.path.join(graph_dir, "future_trend.png")
+                plt.savefig(graph_path, dpi=150)
+                plt.close()
+                line_plot = "/static/graphs/future_trend.png"
+
     return render(
         request,
         "future.html",
@@ -444,4 +502,3 @@ def future_prediction(request):
             "risk_color": risk_color,
         },
     )
-

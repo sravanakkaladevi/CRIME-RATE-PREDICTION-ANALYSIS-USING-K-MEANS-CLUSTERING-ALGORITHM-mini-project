@@ -1,149 +1,89 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
-
 <style>
 body {
-  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  background-color: #0e1117;
   color: #fff;
+  font-family: 'Segoe UI', sans-serif;
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(7px);
-  z-index: -1;
-}
-
-/* Main Container */
 .future-box {
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(0, 255, 255, 0.25);
-  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 14px;
   padding: 35px;
   margin: 40px auto;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
   max-width: 900px;
-  animation: fadeIn 0.8s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
 }
-
-/* Animated heading */
 .future-box h2 {
-  font-weight: 700;
-  font-size: 2.2rem;
-  background: linear-gradient(90deg, #00eaff, #ffb347, #a569bd);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  border-right: 4px solid #fff;
-  overflow: hidden;
-  white-space: nowrap;
+  font-weight: 600;
   text-align: center;
-  animation: shine 3s linear infinite, typing 2s steps(30) 1s forwards, pulse 2.5s infinite alternate ease-in-out;
+  color: #00eaff;
+  margin-bottom: 25px;
 }
-.underline-glow {
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg, #00eaff, transparent);
-  margin: 8px auto 25px auto;
-  border-radius: 10px;
-}
-
-/* Input & Button Styles */
-.form-select,
-.form-control {
-  background: #f9f9f9;
-  color: #111;
-  border: 1px solid #00bde0;
+.form-select {
+  background: #fff;
+  color: #000;
   border-radius: 8px;
+  border: 1px solid #00cfff;
+  padding: 8px;
   font-weight: 500;
-  transition: box-shadow 0.3s ease;
 }
-.form-select:hover,
-.form-control:hover { box-shadow: 0 0 6px rgba(0, 255, 255, 0.4); }
-
 .btn-info {
   background-color: #00d5ff;
   color: #000;
   font-weight: 600;
   border: none;
-  transition: all 0.3s ease-in-out;
-}
-.btn-info:hover {
-  background-color: #00b3db;
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #00eaff;
-}
-
-/* Prediction Result */
-.prediction-result {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #00eaff;
-  text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
-  margin-top: 20px;
-}
-
-/* Risk assessment box */
-.risk-box {
-  background-color: rgba(0, 0, 0, 0.6);
-  border-left: 6px solid var(--risk-color, #00eaff);
-  padding: 15px;
   border-radius: 8px;
+  padding: 8px 15px;
+}
+.btn-info:hover { background-color: #00b3db; }
+.risk-box {
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 6px solid var(--risk-color, #00eaff);
+  border-radius: 8px;
+  padding: 15px;
   margin-top: 20px;
-  animation: glowFade 1.5s ease-in-out infinite alternate;
+  color: var(--risk-color, #00eaff);
 }
-.risk-box h5 { color: var(--risk-color, #00eaff); font-weight: 600; }
-
-/* Trend plot */
-.img-fluid {
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
-  cursor: zoom-in;
-  transition: transform 0.3s ease;
-}
-.img-fluid:hover { transform: scale(1.02); }
-
-/* Animations */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes shine { to { background-position: 200% center; } }
-@keyframes typing { from { width: 0; } to { width: 100%; } }
-@keyframes pulse { 0% { text-shadow: 0 0 5px #00eaff; } 100% { text-shadow: 0 0 20px #00eaff; } }
-@keyframes glowFade { from { box-shadow: 0 0 10px var(--risk-color, #00eaff); } to { box-shadow: 0 0 20px var(--risk-color, #00eaff); } }
+.risk-box[data-risk="High Risk"] { --risk-color: #ff4d4d; }
+.risk-box[data-risk="Medium Risk"] { --risk-color: #ffcc00; }
+.risk-box[data-risk="Low Risk"] { --risk-color: #00ff88; }
 </style>
 
-<div class="future-box text-center">
-  <h2>🔮 Future Crime Trend Prediction</h2>
-  <div class="underline-glow"></div>
+<div class="future-box">
+  <h2>🔮 Future Crime Risk Prediction (By City)</h2>
 
   <form method="POST" action="/future/">
     {% csrf_token %}
     <div class="row justify-content-center mb-3">
-      <div class="col-md-5">
+      <div class="col-md-6 mb-2">
         <select name="city" class="form-select" required>
-          <option value="">-- Select City --</option>
+          <option value="">-- Select City/State --</option>
           {% for c in cities %}
-          <option value="{{ c }}">{{ c }}</option>
+          <option value="{{ c }}" {% if selected_city == c %}selected{% endif %}>{{ c }}</option>
           {% endfor %}
         </select>
       </div>
-      <div class="col-md-2">
+
+      <div class="col-md-2 mb-2">
         <button type="submit" class="btn btn-info w-100">Predict</button>
       </div>
     </div>
   </form>
 
   {% if result %}
-  <div class="alert alert-info mt-4 text-center"><b>{{ result }}</b></div>
+  <div class="alert alert-info text-center mt-3"><b>{{ result }}</b></div>
 
   {% if risk_level %}
-  <div class="risk-box" style="--risk-color: {{ risk_color|default:'#00eaff' }}">
-    <h5>⚠️ Risk Assessment: <b>{{ risk_level }}</b></h5>
-    <p style="color: #ccc; margin-bottom: 0;">
-      Based on historical data trends, this area shows a <b>{{ risk_level }}</b> likelihood for crime incidents next year.
+  <div class="risk-box mt-3" data-risk="{{ risk_level }}">
+    <h5>
+      {% if risk_level == "High Risk" %} 🔴 {% elif risk_level == "Medium Risk" %} 🟡 {% else %} 🟢 {% endif %}
+      Overall Risk Assessment: <b>{{ risk_level }}</b>
+    </h5>
+    <p>
+      Based on historical data, <b>{{ selected_city }}</b> shows a
+      <b>{{ risk_level }}</b> likelihood of overall crime activity in the coming year.
     </p>
   </div>
   {% endif %}
@@ -151,41 +91,9 @@ body::before {
 
   {% if line_plot %}
   <div class="text-center mt-4">
-    <h5 class="text-light">📊 Trend Visualization</h5>
-    <img src="{{ line_plot }}" class="img-fluid rounded shadow mt-2" onclick="openFullscreen(this)" style="max-height: 400px;">
+    <h5>📊 City Trend Visualization</h5>
+    <img src="{{ line_plot }}" alt="Trend Chart" class="img-fluid" style="max-height: 400px; border-radius: 10px;">
   </div>
   {% endif %}
 </div>
-
-<script>
-function openFullscreen(img) {
-  const overlay = document.createElement('div');
-  overlay.style = `
-    position:fixed; top:0; left:0; width:100vw; height:100vh;
-    background:rgba(0,0,0,0.95); display:flex; align-items:center;
-    justify-content:center; z-index:9999; cursor:zoom-out;
-  `;
-  const fullImg = document.createElement('img');
-  fullImg.src = img.src;
-  fullImg.style = `
-    max-width:90vw; max-height:90vh; border-radius:12px;
-    box-shadow:0 0 35px rgba(0,255,255,0.8); cursor:default;
-    transition: transform 0.3s ease;
-  `;
-  overlay.appendChild(fullImg);
-  overlay.addEventListener('click', (e) => { if(e.target !== fullImg) overlay.remove(); });
-
-  const closeBtn = document.createElement('span');
-  closeBtn.innerHTML = '&times;';
-  closeBtn.style = `
-    position:absolute; top:20px; right:30px; font-size:3rem;
-    color:#00eaff; cursor:pointer; z-index:10000;
-  `;
-  closeBtn.onclick = () => overlay.remove();
-  overlay.appendChild(closeBtn);
-
-  document.body.appendChild(overlay);
-}
-</script>
-
 {% endblock %}
