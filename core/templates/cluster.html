@@ -93,7 +93,7 @@
   margin-bottom: 30px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #00eaff;
+  transition: color 0.4s ease;
 }
 
 /* Responsive tweaks */
@@ -118,7 +118,13 @@
 </div>
 
 {% if result %}
-<div class="result-box">{{ result }}</div>
+<!-- 🔹 Use result_color dynamically from backend -->
+<div class="result-box" id="resultBox">
+  {{ result }}
+</div>
+<script>
+  document.getElementById('resultBox').style.color = '{{ result_color }}';
+</script>
 {% endif %}
 
 <div class="plot-container">
@@ -128,6 +134,7 @@
     <img src="{{ elbow_graph }}" alt="Elbow Method" onclick="openFullscreen(this)">
   </div>
   {% endif %}
+
   {% if cluster_plot %}
   <div class="plot-box">
     <h4>Crime Clusters</h4>
@@ -135,6 +142,22 @@
   </div>
   {% endif %}
 </div>
+
+{% if india_map %}
+<hr>
+<h4 style="text-align:center; color:#00eaff;">🗺️ India Crime Cluster Map</h4>
+<!-- 🔹 Responsive iframe box -->
+<div style="display:flex; justify-content:center; margin-bottom:40px;">
+  <iframe 
+    src="{{ india_map }}" 
+    width="95%" 
+    height="550" 
+    style="border:none; border-radius:12px; box-shadow:0 0 25px rgba(0,255,255,0.2);"
+    allowfullscreen
+    loading="lazy">
+  </iframe>
+</div>
+{% endif %}
 
 <script>
 function openFullscreen(img) {
@@ -154,10 +177,8 @@ function openFullscreen(img) {
   `;
   overlay.appendChild(fullImg);
 
-  // Click outside image closes
   overlay.addEventListener('click', (e) => { if(e.target !== fullImg) overlay.remove(); });
 
-  // Optional close button
   const closeBtn = document.createElement('span');
   closeBtn.innerHTML = '&times;';
   closeBtn.style = `

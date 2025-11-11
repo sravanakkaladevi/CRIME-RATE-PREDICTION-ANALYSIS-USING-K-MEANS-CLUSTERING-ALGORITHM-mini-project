@@ -184,29 +184,38 @@ def analyze_data(request):
         },
     }
     return render(request, "analysis.html", context)
-
-# ---------------- CLUSTER PREDICTION (with Elbow Method) ----------------
+# ---------------- CLUSTER PREDICTION (with Elbow Method + India Map) ----------------
 @login_required(login_url='/')
 def cluster_prediction(request):
+    """
+    Performs K-Means clustering on the uploaded NCRB dataset.
+    - Uses Elbow Method to estimate the number of clusters
+    - Generates visual 2D cluster plot
+    - Creates interactive India map showing crime zones by city
+    """
+
     result, cluster_plot = None, None
+
+    # --- File setup ---
     csv_path = os.path.join(settings.BASE_DIR, "data", "NCRB_Table_1A.1.csv")
     elbow_path = os.path.join(settings.BASE_DIR, "static", "graphs", "elbow_method.png")
     os.makedirs(os.path.dirname(elbow_path), exist_ok=True)
 
+    # --- Dataset check ---
     if not os.path.exists(csv_path):
         messages.warning(request, "⚠️ Please upload the dataset first.")
         return redirect("/upload/")
 
-    # Safe CSV load
+    # --- Step 1: Load dataset safely ---
     try:
         df = pd.read_csv(csv_path, encoding="utf-8", on_bad_lines="skip", dtype=str)
         df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-        df = df.dropna(subset=["City", "Crime Description"])
+        df = df.dropna(subset=["City", "Crime Description"])  # must have city & crime
     except Exception as e:
         messages.error(request, f"❌ Error reading dataset: {e}")
         return redirect("/upload/")
 
-    # Combine columns for clustering
+    # --- Step 2: Combine text columns for NLP-style clustering ---
     df["combined"] = (
         df["City"].astype(str)
         + " " + df["Crime Description"].astype(str)
@@ -214,10 +223,10 @@ def cluster_prediction(request):
         + " " + df["Victim Gender"].astype(str)
     )
 
-    # Group text by city
+    # Group by city (combine all crime text entries per city)
     grouped = df.groupby("City")["combined"].apply(lambda x: " ".join(x)).reset_index()
 
-    # Vectorize
+    # --- Step 3: Convert text data into numerical form using CountVectorizer ---
     from sklearn.feature_extraction.text import CountVectorizer
     from sklearn.decomposition import TruncatedSVD
     from sklearn.cluster import KMeans
@@ -225,13 +234,13 @@ def cluster_prediction(request):
     vec = CountVectorizer(max_features=2000, stop_words="english")
     X = vec.fit_transform(grouped["combined"])
 
-    # --- Elbow Method ---
+    # --- Step 4: Find best number of clusters using Elbow Method ---
     distortions = []
     K = range(1, 8)
     for k in K:
         km = KMeans(n_clusters=k, random_state=42, n_init=10)
         km.fit(X)
-        distortions.append(km.inertia_)
+        distortions.append(km.inertia_)  # total within-cluster variance
 
     import matplotlib.pyplot as plt
     try:
@@ -240,6 +249,7 @@ def cluster_prediction(request):
     except ImportError:
         SEABORN_AVAILABLE = False
 
+    # Plot the Elbow curve
     plt.figure(figsize=(6, 4))
     if SEABORN_AVAILABLE:
         sns.lineplot(x=list(K), y=distortions, marker='o', color='#00eaff')
@@ -253,14 +263,12 @@ def cluster_prediction(request):
     plt.savefig(elbow_path)
     plt.close()
 
-    # K-Means Clustering
+    # --- Step 5: Perform K-Means Clustering (3 clusters chosen manually) ---
     km = KMeans(n_clusters=3, random_state=42, n_init=10)
     grouped["cluster"] = km.fit_predict(X)
 
-    # --- FIXED: Cluster labeling based on crime volume ---
-    # Count number of crimes per cluster
+    # --- Step 6: Label clusters based on size (Low, Medium, High) ---
     cluster_counts = grouped.groupby("cluster")["combined"].apply(lambda x: len(x))
-    # Sort clusters by count: smallest → largest
     ordered_clusters = cluster_counts.sort_values().index.tolist()
     label_map = {
         ordered_clusters[0]: "Low Crime Zone",
@@ -268,15 +276,100 @@ def cluster_prediction(request):
         ordered_clusters[2]: "High Crime Zone",
     }
 
+    # --- Step 7: 🗺️ Create Interactive India Map using Folium ---
+    try:
+        import folium
+
+        # Base map centered on India
+        m = folium.Map(
+            location=[22.9734, 78.6569],
+            zoom_start=5,
+            min_zoom=4,
+            max_zoom=7,
+            max_bounds=True  # keeps the map locked to India area
+        )
+
+        # India boundary box (prevents world panning)
+        m.fit_bounds([[6.5, 68.0], [37.1, 97.5]])
+
+        # Predefined city coordinates
+        city_coords = {
+            "Delhi": [28.6139, 77.2090],
+            "Mumbai": [19.0760, 72.8777],
+            "Kolkata": [22.5726, 88.3639],
+            "Chennai": [13.0827, 80.2707],
+            "Hyderabad": [17.3850, 78.4867],
+            "Bengaluru": [12.9716, 77.5946],
+            "Pune": [18.5204, 73.8567],
+            "Ahmedabad": [23.0225, 72.5714],
+            "Jaipur": [26.9124, 75.7873],
+            "Lucknow": [26.8467, 80.9462],
+            "Patna": [25.5941, 85.1376],
+            "Bhopal": [23.2599, 77.4126],
+            "Visakhapatnam": [17.6868, 83.2185],
+            "Vijayawada": [16.5062, 80.6480],
+            "Surat": [21.1702, 72.8311],
+            "Nagpur": [21.1458, 79.0882],
+            "Coimbatore": [11.0168, 76.9558],
+            "Indore": [22.7196, 75.8577],
+            "Thiruvananthapuram": [8.5241, 76.9366],
+            "Chandigarh": [30.7333, 76.7794],
+            "Mysuru": [12.2958, 76.6394],
+            "Varanasi": [25.3176, 82.9739],
+            "Guwahati": [26.1445, 91.7362]
+        }
+
+        cluster_colors = {
+            "Low Crime Zone": "green",
+            "Medium Crime Zone": "orange",
+            "High Crime Zone": "red",
+        }
+
+        merged = grouped.copy()
+        merged["label"] = merged["cluster"].map(label_map)
+
+        for _, row in merged.iterrows():
+            city = row["City"]
+            if city in city_coords:
+                lat, lon = city_coords[city]
+                folium.CircleMarker(
+                    location=[lat, lon],
+                    radius=6,
+                    popup=f"{city} → {row['label']}",
+                    color=cluster_colors.get(row["label"], "blue"),
+                    fill=True,
+                    fill_opacity=0.7
+                ).add_to(m)
+
+        map_path = os.path.join(settings.BASE_DIR, "static", "graphs", "india_cluster_map.html")
+        m.save(map_path)
+
+    except Exception as e:
+        print("Map generation skipped:", e)
+
+    # --- Step 8: Handle POST request (user selects city) ---
+    result_color = "#ffffff"  # Default color
+    result = None  # initialize so it exists for GET requests too
+
     if request.method == "POST":
         city = request.POST.get("city")
         if city not in grouped["City"].values:
             result = f"⚠️ City '{city}' not found in dataset."
+            result_color = "#ffffff"
         else:
             cl = int(grouped.loc[grouped["City"] == city, "cluster"].values[0])
             result = f"{city} is categorized as: {label_map.get(cl, 'Cluster')}"
 
-            # Plot clusters
+            # --- Color logic (case-insensitive and fixed colors) ---
+            lower_result = result.lower()
+            if "low crime" in lower_result:
+                result_color = "#00ff88"   # 🟢 Green
+            elif "medium crime" in lower_result:
+                result_color = "#ffcc00"   # 🟡 Yellow
+            elif "high crime" in lower_result:
+                result_color = "#ff4d4d"   # 🔴 Red
+
+            # --- 2D cluster visualization ---
             svd = TruncatedSVD(n_components=2, random_state=42)
             coords = svd.fit_transform(X)
             plt.figure(figsize=(6, 4))
@@ -296,6 +389,7 @@ def cluster_prediction(request):
             plt.close()
             cluster_plot = "/static/graphs/cluster_cities.png"
 
+    # --- Step 9: Always render template (for both GET and POST) ---
     cities = sorted(df["City"].dropna().unique().tolist())
     crimes = sorted(df["Crime Description"].dropna().unique().tolist()[:200])
     weapons = sorted(df["Weapon Used"].dropna().unique().tolist()[:50]) if "Weapon Used" in df.columns else []
@@ -306,15 +400,19 @@ def cluster_prediction(request):
         "cluster.html",
         {
             "result": result,
+            "result_color": result_color,
             "cluster_plot": cluster_plot,
             "elbow_graph": "/static/graphs/elbow_method.png",
+            "india_map": "/static/graphs/india_cluster_map.html",
             "cities": cities,
             "crimes": crimes,
             "weapons": weapons,
             "genders": genders,
         },
     )
-# ---------------- FUTURE PREDICTION PAGE (FIXED) ----------------
+
+
+# ---------------- FUTURE PREDICTION PAGE ----------------
 @login_required(login_url='/')
 def future_prediction(request):
     import numpy as np
