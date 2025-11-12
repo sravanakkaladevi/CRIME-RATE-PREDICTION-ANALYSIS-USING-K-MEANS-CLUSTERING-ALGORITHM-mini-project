@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e69296409540e7949b7d4745c11684ce {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_e69296409540e7949b7d4745c11684ce" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e69296409540e7949b7d4745c11684ce = L.map(
+                "map_e69296409540e7949b7d4745c11684ce",
+                {
+                    center: [22.9734, 78.6569],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c0e3880722e66b12f50e9e96f94b5b04 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c0e3880722e66b12f50e9e96f94b5b04.addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+            var circle_marker_158fcc7b2e7bf7257acf62e15e47073d = L.circleMarker(
+                [28.6139, 77.209],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_4f395d891e5b2caa0d1844ec1c43d5a3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1e4cc69609718791190952c906deb93f = $(`<div id="html_1e4cc69609718791190952c906deb93f" style="width: 100.0%; height: 100.0%;">Delhi → Low Risk (408 est.)</div>`)[0];
+                popup_4f395d891e5b2caa0d1844ec1c43d5a3.setContent(html_1e4cc69609718791190952c906deb93f);
+            
+        
+
+        circle_marker_158fcc7b2e7bf7257acf62e15e47073d.bindPopup(popup_4f395d891e5b2caa0d1844ec1c43d5a3)
+        ;
+
+        
+    
+    
+            var circle_marker_6d7f4ec631c0fc43a16bd63508b0bf50 = L.circleMarker(
+                [19.076, 72.8777],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_97971856f803ab4140f67dbfa6c87d0c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4852396463a1a07e7ec4369d55abdf13 = $(`<div id="html_4852396463a1a07e7ec4369d55abdf13" style="width: 100.0%; height: 100.0%;">Mumbai → Low Risk (340 est.)</div>`)[0];
+                popup_97971856f803ab4140f67dbfa6c87d0c.setContent(html_4852396463a1a07e7ec4369d55abdf13);
+            
+        
+
+        circle_marker_6d7f4ec631c0fc43a16bd63508b0bf50.bindPopup(popup_97971856f803ab4140f67dbfa6c87d0c)
+        ;
+
+        
+    
+    
+            var circle_marker_5ceff7a51934bad95845626034a38d42 = L.circleMarker(
+                [17.385, 78.4867],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_fdf9fe294acc431e8f5921df01b26407 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_990411855c627088a6b57f5b3071601f = $(`<div id="html_990411855c627088a6b57f5b3071601f" style="width: 100.0%; height: 100.0%;">Hyderabad → Low Risk (246 est.)</div>`)[0];
+                popup_fdf9fe294acc431e8f5921df01b26407.setContent(html_990411855c627088a6b57f5b3071601f);
+            
+        
+
+        circle_marker_5ceff7a51934bad95845626034a38d42.bindPopup(popup_fdf9fe294acc431e8f5921df01b26407)
+        ;
+
+        
+    
+    
+            var circle_marker_1dda9fadbfeeaa4891e6254f2b67caee = L.circleMarker(
+                [22.5726, 88.3639],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_bcf467dfbf15257883e58ab50e11ef2e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bdf43de96a605a2228ed92c52f06e62f = $(`<div id="html_bdf43de96a605a2228ed92c52f06e62f" style="width: 100.0%; height: 100.0%;">Kolkata → Low Risk (207 est.)</div>`)[0];
+                popup_bcf467dfbf15257883e58ab50e11ef2e.setContent(html_bdf43de96a605a2228ed92c52f06e62f);
+            
+        
+
+        circle_marker_1dda9fadbfeeaa4891e6254f2b67caee.bindPopup(popup_bcf467dfbf15257883e58ab50e11ef2e)
+        ;
+
+        
+    
+    
+            var circle_marker_cc081ca348e65fd4a230eececbd44cb6 = L.circleMarker(
+                [13.0827, 80.2707],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_5f6e89bb6013b6e998731f7e5728b72d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_61896ff4987b467b139dcb9fdf1ca4d6 = $(`<div id="html_61896ff4987b467b139dcb9fdf1ca4d6" style="width: 100.0%; height: 100.0%;">Chennai → Low Risk (202 est.)</div>`)[0];
+                popup_5f6e89bb6013b6e998731f7e5728b72d.setContent(html_61896ff4987b467b139dcb9fdf1ca4d6);
+            
+        
+
+        circle_marker_cc081ca348e65fd4a230eececbd44cb6.bindPopup(popup_5f6e89bb6013b6e998731f7e5728b72d)
+        ;
+
+        
+    
+    
+            var circle_marker_2bde86bab94343631e9454414556ab92 = L.circleMarker(
+                [18.5204, 73.8567],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_a4a7a741a2bcfd335419362dfdeb371f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c4b8b26a4081c782ab3157eca16938c1 = $(`<div id="html_c4b8b26a4081c782ab3157eca16938c1" style="width: 100.0%; height: 100.0%;">Pune → Low Risk (183 est.)</div>`)[0];
+                popup_a4a7a741a2bcfd335419362dfdeb371f.setContent(html_c4b8b26a4081c782ab3157eca16938c1);
+            
+        
+
+        circle_marker_2bde86bab94343631e9454414556ab92.bindPopup(popup_a4a7a741a2bcfd335419362dfdeb371f)
+        ;
+
+        
+    
+    
+            var circle_marker_0b8383c1b255891617114059d1fc039c = L.circleMarker(
+                [26.9124, 75.7873],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_98b39271b37652da08f9be6ae543beef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4e5fb309ed39934a7128b76e9672ae96 = $(`<div id="html_4e5fb309ed39934a7128b76e9672ae96" style="width: 100.0%; height: 100.0%;">Jaipur → Low Risk (108 est.)</div>`)[0];
+                popup_98b39271b37652da08f9be6ae543beef.setContent(html_4e5fb309ed39934a7128b76e9672ae96);
+            
+        
+
+        circle_marker_0b8383c1b255891617114059d1fc039c.bindPopup(popup_98b39271b37652da08f9be6ae543beef)
+        ;
+
+        
+    
+    
+            var circle_marker_87d20e6ae138df519742dc67e04b8acc = L.circleMarker(
+                [17.6868, 83.2185],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_468162a4ff6797f653caddae39ad7976 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_782806e5429a30a19d5a4b303f76c54e = $(`<div id="html_782806e5429a30a19d5a4b303f76c54e" style="width: 100.0%; height: 100.0%;">Visakhapatnam → Low Risk (61 est.)</div>`)[0];
+                popup_468162a4ff6797f653caddae39ad7976.setContent(html_782806e5429a30a19d5a4b303f76c54e);
+            
+        
+
+        circle_marker_87d20e6ae138df519742dc67e04b8acc.bindPopup(popup_468162a4ff6797f653caddae39ad7976)
+        ;
+
+        
+    
+    
+            var circle_marker_19c164c45024380422f700b48d5d48d2 = L.circleMarker(
+                [23.0225, 72.5714],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_d862aa3657ff8eec1a907d9e6196c36b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4e500e779d478be780c5b67dca6b0fe8 = $(`<div id="html_4e500e779d478be780c5b67dca6b0fe8" style="width: 100.0%; height: 100.0%;">Ahmedabad → Low Risk (145 est.)</div>`)[0];
+                popup_d862aa3657ff8eec1a907d9e6196c36b.setContent(html_4e500e779d478be780c5b67dca6b0fe8);
+            
+        
+
+        circle_marker_19c164c45024380422f700b48d5d48d2.bindPopup(popup_d862aa3657ff8eec1a907d9e6196c36b)
+        ;
+
+        
+    
+    
+            var circle_marker_12e8f7c5ab777f9bb0e901b735968358 = L.circleMarker(
+                [26.8467, 80.9462],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_c0ff734f65e7e8d670d09f78c09b4d67 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3cb63e273a819dd480fcdaf69031771f = $(`<div id="html_3cb63e273a819dd480fcdaf69031771f" style="width: 100.0%; height: 100.0%;">Lucknow → Low Risk (115 est.)</div>`)[0];
+                popup_c0ff734f65e7e8d670d09f78c09b4d67.setContent(html_3cb63e273a819dd480fcdaf69031771f);
+            
+        
+
+        circle_marker_12e8f7c5ab777f9bb0e901b735968358.bindPopup(popup_c0ff734f65e7e8d670d09f78c09b4d67)
+        ;
+
+        
+    
+    
+            var circle_marker_ff20a6227ce1896fdc90477c09f22c43 = L.circleMarker(
+                [23.2599, 77.4126],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_2e8cf3a157ca03b5fd4641fe55443ef8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f5cf2236d024b19dff545cf039e8043e = $(`<div id="html_f5cf2236d024b19dff545cf039e8043e" style="width: 100.0%; height: 100.0%;">Bhopal → Low Risk (61 est.)</div>`)[0];
+                popup_2e8cf3a157ca03b5fd4641fe55443ef8.setContent(html_f5cf2236d024b19dff545cf039e8043e);
+            
+        
+
+        circle_marker_ff20a6227ce1896fdc90477c09f22c43.bindPopup(popup_2e8cf3a157ca03b5fd4641fe55443ef8)
+        ;
+
+        
+    
+    
+            var circle_marker_0fb4d1c5a3e10de06baea28ce54ddeae = L.circleMarker(
+                [25.5941, 85.1376],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_f37934065bc2959deee7fc06d50abff4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b6299f432ccbc223577483d166ccf85c = $(`<div id="html_b6299f432ccbc223577483d166ccf85c" style="width: 100.0%; height: 100.0%;">Patna → Low Risk (57 est.)</div>`)[0];
+                popup_f37934065bc2959deee7fc06d50abff4.setContent(html_b6299f432ccbc223577483d166ccf85c);
+            
+        
+
+        circle_marker_0fb4d1c5a3e10de06baea28ce54ddeae.bindPopup(popup_f37934065bc2959deee7fc06d50abff4)
+        ;
+
+        
+    
+    
+            var circle_marker_821fb6a886d528ff2560a9dade256bff = L.circleMarker(
+                [21.1458, 79.0882],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_f9c45638fdcff2e210167cb08a0951af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_70eb20bb9ad80859b8e592e4e1f2db98 = $(`<div id="html_70eb20bb9ad80859b8e592e4e1f2db98" style="width: 100.0%; height: 100.0%;">Nagpur → Low Risk (87 est.)</div>`)[0];
+                popup_f9c45638fdcff2e210167cb08a0951af.setContent(html_70eb20bb9ad80859b8e592e4e1f2db98);
+            
+        
+
+        circle_marker_821fb6a886d528ff2560a9dade256bff.bindPopup(popup_f9c45638fdcff2e210167cb08a0951af)
+        ;
+
+        
+    
+    
+            var circle_marker_30df47072c74de4f4ed0ee1fe4c6ece6 = L.circleMarker(
+                [25.3176, 82.9739],
+                {"bubblingMouseEvents": true, "color": "#00ff88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ff88", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_e69296409540e7949b7d4745c11684ce);
+        
+    
+        var popup_8fbe5f9da9f5fd1e18966ad7715c32fb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_956b10f4182c607ebc56a83bd12dc41e = $(`<div id="html_956b10f4182c607ebc56a83bd12dc41e" style="width: 100.0%; height: 100.0%;">Varanasi → Low Risk (29 est.)</div>`)[0];
+                popup_8fbe5f9da9f5fd1e18966ad7715c32fb.setContent(html_956b10f4182c607ebc56a83bd12dc41e);
+            
+        
+
+        circle_marker_30df47072c74de4f4ed0ee1fe4c6ece6.bindPopup(popup_8fbe5f9da9f5fd1e18966ad7715c32fb)
+        ;
+
+        
+    
+</script>
+</html>

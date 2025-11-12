@@ -114,16 +114,19 @@ body::before {
   {% if rows %}
   <h5 class="mt-5 text-cyan">🔍 Filter Dataset</h5>
   <form method="GET" class="row g-2 mb-3">
-    <div class="col-md-2">
-      <select name="report" class="form-select">
-        <option value="">Report No.</option>
-        {% for r in reports %}
-        <option value="{{ r }}" {% if request.GET.report == r %}selected{% endif %}>{{ r }}</option>
+
+    <!-- Crime Domain -->
+    <div class="col-md-3">
+      <select name="crime" class="form-select">
+        <option value="">Crime Domain</option>
+        {% for cr in crimes %}
+        <option value="{{ cr }}" {% if request.GET.crime == cr %}selected{% endif %}>{{ cr }}</option>
         {% endfor %}
       </select>
     </div>
 
-    <div class="col-md-2">
+    <!-- City -->
+    <div class="col-md-3">
       <select name="city" class="form-select">
         <option value="">City</option>
         {% for c in cities %}
@@ -132,16 +135,8 @@ body::before {
       </select>
     </div>
 
+    <!-- Gender -->
     <div class="col-md-3">
-      <select name="crime" class="form-select">
-        <option value="">Crime Type</option>
-        {% for cr in crimes %}
-        <option value="{{ cr }}" {% if request.GET.crime == cr %}selected{% endif %}>{{ cr }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <div class="col-md-2">
       <select name="gender" class="form-select">
         <option value="">Gender</option>
         {% for g in genders %}
@@ -150,6 +145,7 @@ body::before {
       </select>
     </div>
 
+    <!-- Weapon -->
     <div class="col-md-2">
       <select name="weapon" class="form-select">
         <option value="">Weapon Used</option>
@@ -159,6 +155,7 @@ body::before {
       </select>
     </div>
 
+    <!-- Go button -->
     <div class="col-md-1">
       <button type="submit" class="btn btn-cyan w-100">Go</button>
     </div>

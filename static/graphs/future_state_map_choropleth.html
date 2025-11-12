@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_345f91badf1450acf6002e53d86d500d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_345f91badf1450acf6002e53d86d500d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_345f91badf1450acf6002e53d86d500d = L.map(
+                "map_345f91badf1450acf6002e53d86d500d",
+                {
+                    center: [22.9734, 78.6569],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_60b75d010c2f2796f34425e21b7f3570 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_60b75d010c2f2796f34425e21b7f3570.addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+            var circle_marker_971739cca6584bbf7e34bbd312abed18 = L.circleMarker(
+                [15.9129, 79.74],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_76a4f76e57cad9fea6d2015186ddd3d7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6fcc30b42ca7e301a77811d60e390714 = $(`<div id="html_6fcc30b42ca7e301a77811d60e390714" style="width: 100.0%; height: 100.0%;"><b>Andhra Pradesh</b><br>Low Risk<br>📊 224 crimes per 100,000</div>`)[0];
+                popup_76a4f76e57cad9fea6d2015186ddd3d7.setContent(html_6fcc30b42ca7e301a77811d60e390714);
+            
+        
+
+        circle_marker_971739cca6584bbf7e34bbd312abed18.bindPopup(popup_76a4f76e57cad9fea6d2015186ddd3d7)
+        ;
+
+        
+    
+    
+            var circle_marker_0220643e3ded7c8e7c118ef977c9f5ac = L.circleMarker(
+                [28.218, 94.7278],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_d26c8921e049ac6bf823e906a57d4b72 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9ada52e943cf5e893155a4c7d59329c4 = $(`<div id="html_9ada52e943cf5e893155a4c7d59329c4" style="width: 100.0%; height: 100.0%;"><b>Arunachal Pradesh</b><br>Low Risk<br>📊 67 crimes per 100,000</div>`)[0];
+                popup_d26c8921e049ac6bf823e906a57d4b72.setContent(html_9ada52e943cf5e893155a4c7d59329c4);
+            
+        
+
+        circle_marker_0220643e3ded7c8e7c118ef977c9f5ac.bindPopup(popup_d26c8921e049ac6bf823e906a57d4b72)
+        ;
+
+        
+    
+    
+            var circle_marker_473e1b556f24efcdaad149c3b3fe3207 = L.circleMarker(
+                [26.2006, 92.9376],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_5d91b5fb324db4a5eac05bdea46e53e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_39805233fd1c58bd38b6723f3566f754 = $(`<div id="html_39805233fd1c58bd38b6723f3566f754" style="width: 100.0%; height: 100.0%;"><b>Assam</b><br>Medium Risk<br>📊 340 crimes per 100,000</div>`)[0];
+                popup_5d91b5fb324db4a5eac05bdea46e53e4.setContent(html_39805233fd1c58bd38b6723f3566f754);
+            
+        
+
+        circle_marker_473e1b556f24efcdaad149c3b3fe3207.bindPopup(popup_5d91b5fb324db4a5eac05bdea46e53e4)
+        ;
+
+        
+    
+    
+            var circle_marker_991406ee5add7c894ea8002de89d1b57 = L.circleMarker(
+                [25.0961, 85.3131],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_8c8e657102863c13769ab57f60c76493 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_79b43a027ff803c9bcabb1ac52b5da85 = $(`<div id="html_79b43a027ff803c9bcabb1ac52b5da85" style="width: 100.0%; height: 100.0%;"><b>Bihar</b><br>Low Risk<br>📊 410 crimes per 100,000</div>`)[0];
+                popup_8c8e657102863c13769ab57f60c76493.setContent(html_79b43a027ff803c9bcabb1ac52b5da85);
+            
+        
+
+        circle_marker_991406ee5add7c894ea8002de89d1b57.bindPopup(popup_8c8e657102863c13769ab57f60c76493)
+        ;
+
+        
+    
+    
+            var circle_marker_79e5d658cdb8909311b0b27b5709d61a = L.circleMarker(
+                [21.2787, 81.8661],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_1edd50e0e24c3f2bd27093fda41dfb30 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d84bbece802550d93eac0e172fd1a020 = $(`<div id="html_d84bbece802550d93eac0e172fd1a020" style="width: 100.0%; height: 100.0%;"><b>Chhattisgarh</b><br>Low Risk<br>📊 275 crimes per 100,000</div>`)[0];
+                popup_1edd50e0e24c3f2bd27093fda41dfb30.setContent(html_d84bbece802550d93eac0e172fd1a020);
+            
+        
+
+        circle_marker_79e5d658cdb8909311b0b27b5709d61a.bindPopup(popup_1edd50e0e24c3f2bd27093fda41dfb30)
+        ;
+
+        
+    
+    
+            var circle_marker_862b102a033c5551f2b9fa2ebb24f176 = L.circleMarker(
+                [15.2993, 74.124],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_d18492cbfa115f18407d38172445782e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f3cbc55b44e6c66311d92de9b798c298 = $(`<div id="html_f3cbc55b44e6c66311d92de9b798c298" style="width: 100.0%; height: 100.0%;"><b>Goa</b><br>Low Risk<br>📊 189 crimes per 100,000</div>`)[0];
+                popup_d18492cbfa115f18407d38172445782e.setContent(html_f3cbc55b44e6c66311d92de9b798c298);
+            
+        
+
+        circle_marker_862b102a033c5551f2b9fa2ebb24f176.bindPopup(popup_d18492cbfa115f18407d38172445782e)
+        ;
+
+        
+    
+    
+            var circle_marker_48173167c52e62f25403234def8853e2 = L.circleMarker(
+                [22.2587, 71.1924],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_9978b085dd2181480ccf0aba95ce0a1e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0a0e4c992d765b438a0f9c216e497fac = $(`<div id="html_0a0e4c992d765b438a0f9c216e497fac" style="width: 100.0%; height: 100.0%;"><b>Gujarat</b><br>Low Risk<br>📊 290 crimes per 100,000</div>`)[0];
+                popup_9978b085dd2181480ccf0aba95ce0a1e.setContent(html_0a0e4c992d765b438a0f9c216e497fac);
+            
+        
+
+        circle_marker_48173167c52e62f25403234def8853e2.bindPopup(popup_9978b085dd2181480ccf0aba95ce0a1e)
+        ;
+
+        
+    
+    
+            var circle_marker_5c7b4920d87556641fdaae8da831d0d6 = L.circleMarker(
+                [29.0588, 76.0856],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_085950a6b5dba36da57bb6281bd75259 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_84a28d27627e45983c615560119a806e = $(`<div id="html_84a28d27627e45983c615560119a806e" style="width: 100.0%; height: 100.0%;"><b>Haryana</b><br>Medium Risk<br>📊 365 crimes per 100,000</div>`)[0];
+                popup_085950a6b5dba36da57bb6281bd75259.setContent(html_84a28d27627e45983c615560119a806e);
+            
+        
+
+        circle_marker_5c7b4920d87556641fdaae8da831d0d6.bindPopup(popup_085950a6b5dba36da57bb6281bd75259)
+        ;
+
+        
+    
+    
+            var circle_marker_d9442debc70c57424f508eeea5d525f4 = L.circleMarker(
+                [31.1048, 77.1734],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_7d11b91870ebc447cb32362d32c5d628 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f6052013defbe4cdef779d4abfbb5637 = $(`<div id="html_f6052013defbe4cdef779d4abfbb5637" style="width: 100.0%; height: 100.0%;"><b>Himachal Pradesh</b><br>Low Risk<br>📊 210 crimes per 100,000</div>`)[0];
+                popup_7d11b91870ebc447cb32362d32c5d628.setContent(html_f6052013defbe4cdef779d4abfbb5637);
+            
+        
+
+        circle_marker_d9442debc70c57424f508eeea5d525f4.bindPopup(popup_7d11b91870ebc447cb32362d32c5d628)
+        ;
+
+        
+    
+    
+            var circle_marker_460ee67576bf5be759f0ba822a057e0d = L.circleMarker(
+                [23.6102, 85.2799],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_a0c7e7e6172bfa0b20f4c4dad963c423 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d9019debee1f34a674031b5c8e91c592 = $(`<div id="html_d9019debee1f34a674031b5c8e91c592" style="width: 100.0%; height: 100.0%;"><b>Jharkhand</b><br>Medium Risk<br>📊 330 crimes per 100,000</div>`)[0];
+                popup_a0c7e7e6172bfa0b20f4c4dad963c423.setContent(html_d9019debee1f34a674031b5c8e91c592);
+            
+        
+
+        circle_marker_460ee67576bf5be759f0ba822a057e0d.bindPopup(popup_a0c7e7e6172bfa0b20f4c4dad963c423)
+        ;
+
+        
+    
+    
+            var circle_marker_7e1ae090b2190aa6cb206dcea4f7fc01 = L.circleMarker(
+                [15.3173, 75.7139],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_f0a74610410abf9aadf002944b634452 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c8a52e3cb5a9b044209a5cedfd52af11 = $(`<div id="html_c8a52e3cb5a9b044209a5cedfd52af11" style="width: 100.0%; height: 100.0%;"><b>Karnataka</b><br>Medium Risk<br>📊 318 crimes per 100,000</div>`)[0];
+                popup_f0a74610410abf9aadf002944b634452.setContent(html_c8a52e3cb5a9b044209a5cedfd52af11);
+            
+        
+
+        circle_marker_7e1ae090b2190aa6cb206dcea4f7fc01.bindPopup(popup_f0a74610410abf9aadf002944b634452)
+        ;
+
+        
+    
+    
+            var circle_marker_91ed3f1e31665f066fc9b1bf0ee59a73 = L.circleMarker(
+                [10.8505, 76.2711],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_6f6f0de29ba7c40b34df4eea17653820 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6a03a04d7a94f1fc0825497c694f05fa = $(`<div id="html_6a03a04d7a94f1fc0825497c694f05fa" style="width: 100.0%; height: 100.0%;"><b>Kerala</b><br>Low Risk<br>📊 260 crimes per 100,000</div>`)[0];
+                popup_6f6f0de29ba7c40b34df4eea17653820.setContent(html_6a03a04d7a94f1fc0825497c694f05fa);
+            
+        
+
+        circle_marker_91ed3f1e31665f066fc9b1bf0ee59a73.bindPopup(popup_6f6f0de29ba7c40b34df4eea17653820)
+        ;
+
+        
+    
+    
+            var circle_marker_5805297b1dd436f81e2e78bc9a5bed91 = L.circleMarker(
+                [22.9734, 78.6569],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_a132a56a94513d2c62d8855258e18d91 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0aec1f4117b12e52b0d15652aeb4f59d = $(`<div id="html_0aec1f4117b12e52b0d15652aeb4f59d" style="width: 100.0%; height: 100.0%;"><b>Madhya Pradesh</b><br>Low Risk<br>📊 430 crimes per 100,000</div>`)[0];
+                popup_a132a56a94513d2c62d8855258e18d91.setContent(html_0aec1f4117b12e52b0d15652aeb4f59d);
+            
+        
+
+        circle_marker_5805297b1dd436f81e2e78bc9a5bed91.bindPopup(popup_a132a56a94513d2c62d8855258e18d91)
+        ;
+
+        
+    
+    
+            var circle_marker_8ea4a4c9c28a3be081f6bc4ecb6e2ed8 = L.circleMarker(
+                [19.7515, 75.7139],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_b751cf4a7766783e40fbf4d60f5ae9e3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f6b64c8ce1f04d81264fd039d3f1c081 = $(`<div id="html_f6b64c8ce1f04d81264fd039d3f1c081" style="width: 100.0%; height: 100.0%;"><b>Maharashtra</b><br>Low Risk<br>📊 465 crimes per 100,000</div>`)[0];
+                popup_b751cf4a7766783e40fbf4d60f5ae9e3.setContent(html_f6b64c8ce1f04d81264fd039d3f1c081);
+            
+        
+
+        circle_marker_8ea4a4c9c28a3be081f6bc4ecb6e2ed8.bindPopup(popup_b751cf4a7766783e40fbf4d60f5ae9e3)
+        ;
+
+        
+    
+    
+            var circle_marker_9480fa3606a4f2de57f75a9444b53764 = L.circleMarker(
+                [24.6637, 93.9063],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_aa33b4d8e63e41d4269b8a3e5ee0d39e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_91a699b6704fc5a6cbae27d90d07a080 = $(`<div id="html_91a699b6704fc5a6cbae27d90d07a080" style="width: 100.0%; height: 100.0%;"><b>Manipur</b><br>Low Risk<br>📊 188 crimes per 100,000</div>`)[0];
+                popup_aa33b4d8e63e41d4269b8a3e5ee0d39e.setContent(html_91a699b6704fc5a6cbae27d90d07a080);
+            
+        
+
+        circle_marker_9480fa3606a4f2de57f75a9444b53764.bindPopup(popup_aa33b4d8e63e41d4269b8a3e5ee0d39e)
+        ;
+
+        
+    
+    
+            var circle_marker_337cf9f92232aa1b04f9288dc901dc6a = L.circleMarker(
+                [25.467, 91.3662],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_48a016a86b96c6281c9f58afb9ef13fc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fb07ebcca399ff97c63927d1e0d5d483 = $(`<div id="html_fb07ebcca399ff97c63927d1e0d5d483" style="width: 100.0%; height: 100.0%;"><b>Meghalaya</b><br>Low Risk<br>📊 250 crimes per 100,000</div>`)[0];
+                popup_48a016a86b96c6281c9f58afb9ef13fc.setContent(html_fb07ebcca399ff97c63927d1e0d5d483);
+            
+        
+
+        circle_marker_337cf9f92232aa1b04f9288dc901dc6a.bindPopup(popup_48a016a86b96c6281c9f58afb9ef13fc)
+        ;
+
+        
+    
+    
+            var circle_marker_07d23c9f991bdcfd4c7aba7514d18265 = L.circleMarker(
+                [23.1645, 92.9376],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_63b9d752bd67f6dbf2c9afce90e2974c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf6d7a34e98b1522d6e829ca60f6f2ca = $(`<div id="html_bf6d7a34e98b1522d6e829ca60f6f2ca" style="width: 100.0%; height: 100.0%;"><b>Mizoram</b><br>Low Risk<br>📊 230 crimes per 100,000</div>`)[0];
+                popup_63b9d752bd67f6dbf2c9afce90e2974c.setContent(html_bf6d7a34e98b1522d6e829ca60f6f2ca);
+            
+        
+
+        circle_marker_07d23c9f991bdcfd4c7aba7514d18265.bindPopup(popup_63b9d752bd67f6dbf2c9afce90e2974c)
+        ;
+
+        
+    
+    
+            var circle_marker_1d99a2963a15a7f394c64610e53a9dba = L.circleMarker(
+                [26.1584, 94.5624],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_619882b1cbede90311033a88aa6aedf8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5e8dc1ff5a2c36e7e4723f805b03aa91 = $(`<div id="html_5e8dc1ff5a2c36e7e4723f805b03aa91" style="width: 100.0%; height: 100.0%;"><b>Nagaland</b><br>Low Risk<br>📊 195 crimes per 100,000</div>`)[0];
+                popup_619882b1cbede90311033a88aa6aedf8.setContent(html_5e8dc1ff5a2c36e7e4723f805b03aa91);
+            
+        
+
+        circle_marker_1d99a2963a15a7f394c64610e53a9dba.bindPopup(popup_619882b1cbede90311033a88aa6aedf8)
+        ;
+
+        
+    
+    
+            var circle_marker_ca16f36b16c2f7ae8f3a00a0617d3fde = L.circleMarker(
+                [20.9517, 85.0985],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_5a064e4be39794f3b3a5e62bc2e18152 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_89186244469d36a57673a8b2f00f4729 = $(`<div id="html_89186244469d36a57673a8b2f00f4729" style="width: 100.0%; height: 100.0%;"><b>Odisha</b><br>Medium Risk<br>📊 340 crimes per 100,000</div>`)[0];
+                popup_5a064e4be39794f3b3a5e62bc2e18152.setContent(html_89186244469d36a57673a8b2f00f4729);
+            
+        
+
+        circle_marker_ca16f36b16c2f7ae8f3a00a0617d3fde.bindPopup(popup_5a064e4be39794f3b3a5e62bc2e18152)
+        ;
+
+        
+    
+    
+            var circle_marker_5385a4c9da615750d7836f8092300e27 = L.circleMarker(
+                [31.1471, 75.3412],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_c5643e5059759cf432ad64e576a81e78 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d809f8a709fba88292806a9d4825705d = $(`<div id="html_d809f8a709fba88292806a9d4825705d" style="width: 100.0%; height: 100.0%;"><b>Punjab</b><br>Low Risk<br>📊 295 crimes per 100,000</div>`)[0];
+                popup_c5643e5059759cf432ad64e576a81e78.setContent(html_d809f8a709fba88292806a9d4825705d);
+            
+        
+
+        circle_marker_5385a4c9da615750d7836f8092300e27.bindPopup(popup_c5643e5059759cf432ad64e576a81e78)
+        ;
+
+        
+    
+    
+            var circle_marker_46c8d12791b529352a7d57d7a84377d0 = L.circleMarker(
+                [27.0238, 74.2179],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_154e3249253e18b2afb09d6d63086063 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8e5107f0c6d0309fe6e9e9aa8ac33356 = $(`<div id="html_8e5107f0c6d0309fe6e9e9aa8ac33356" style="width: 100.0%; height: 100.0%;"><b>Rajasthan</b><br>Low Risk<br>📊 412 crimes per 100,000</div>`)[0];
+                popup_154e3249253e18b2afb09d6d63086063.setContent(html_8e5107f0c6d0309fe6e9e9aa8ac33356);
+            
+        
+
+        circle_marker_46c8d12791b529352a7d57d7a84377d0.bindPopup(popup_154e3249253e18b2afb09d6d63086063)
+        ;
+
+        
+    
+    
+            var circle_marker_51d9f8daf5dc0692bb86383f18f57de6 = L.circleMarker(
+                [27.533, 88.5122],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_fb9357990c635746b66ea931cb8b5ea1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2ac78347396394b23afe51f62090a6d6 = $(`<div id="html_2ac78347396394b23afe51f62090a6d6" style="width: 100.0%; height: 100.0%;"><b>Sikkim</b><br>Low Risk<br>📊 198 crimes per 100,000</div>`)[0];
+                popup_fb9357990c635746b66ea931cb8b5ea1.setContent(html_2ac78347396394b23afe51f62090a6d6);
+            
+        
+
+        circle_marker_51d9f8daf5dc0692bb86383f18f57de6.bindPopup(popup_fb9357990c635746b66ea931cb8b5ea1)
+        ;
+
+        
+    
+    
+            var circle_marker_794d808f76a3854951b4e51a60753d46 = L.circleMarker(
+                [11.1271, 78.6569],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_02d9ec83b0cbef8014737a839365d246 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4ea866d4e6a2a286cb68f0485e699506 = $(`<div id="html_4ea866d4e6a2a286cb68f0485e699506" style="width: 100.0%; height: 100.0%;"><b>Tamil Nadu</b><br>Low Risk<br>📊 355 crimes per 100,000</div>`)[0];
+                popup_02d9ec83b0cbef8014737a839365d246.setContent(html_4ea866d4e6a2a286cb68f0485e699506);
+            
+        
+
+        circle_marker_794d808f76a3854951b4e51a60753d46.bindPopup(popup_02d9ec83b0cbef8014737a839365d246)
+        ;
+
+        
+    
+    
+            var circle_marker_6ee9e18dd63c50f36d0800463971b4e3 = L.circleMarker(
+                [17.1232, 79.2088],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_3b080c2b97705aedf2b0e63cdffe9ab7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e85b1547075b70340ea657b9a6e04ad1 = $(`<div id="html_e85b1547075b70340ea657b9a6e04ad1" style="width: 100.0%; height: 100.0%;"><b>Telangana</b><br>Low Risk<br>📊 378 crimes per 100,000</div>`)[0];
+                popup_3b080c2b97705aedf2b0e63cdffe9ab7.setContent(html_e85b1547075b70340ea657b9a6e04ad1);
+            
+        
+
+        circle_marker_6ee9e18dd63c50f36d0800463971b4e3.bindPopup(popup_3b080c2b97705aedf2b0e63cdffe9ab7)
+        ;
+
+        
+    
+    
+            var circle_marker_bf816894f94d2ef4e9b59f2e8d3389dd = L.circleMarker(
+                [23.9408, 91.9882],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_377fe32320ad62fd6d60f82a94fceb66 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ba8965ccd97d41e834a28045489b1033 = $(`<div id="html_ba8965ccd97d41e834a28045489b1033" style="width: 100.0%; height: 100.0%;"><b>Tripura</b><br>Low Risk<br>📊 276 crimes per 100,000</div>`)[0];
+                popup_377fe32320ad62fd6d60f82a94fceb66.setContent(html_ba8965ccd97d41e834a28045489b1033);
+            
+        
+
+        circle_marker_bf816894f94d2ef4e9b59f2e8d3389dd.bindPopup(popup_377fe32320ad62fd6d60f82a94fceb66)
+        ;
+
+        
+    
+    
+            var circle_marker_27d04749381875fdbf3181b4578bd761 = L.circleMarker(
+                [26.8467, 80.9462],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_b8c48464c4344adab9b4d9a65a09807c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f25aab559560c701aa623ddc14817e04 = $(`<div id="html_f25aab559560c701aa623ddc14817e04" style="width: 100.0%; height: 100.0%;"><b>Uttar Pradesh</b><br>Low Risk<br>📊 512 crimes per 100,000</div>`)[0];
+                popup_b8c48464c4344adab9b4d9a65a09807c.setContent(html_f25aab559560c701aa623ddc14817e04);
+            
+        
+
+        circle_marker_27d04749381875fdbf3181b4578bd761.bindPopup(popup_b8c48464c4344adab9b4d9a65a09807c)
+        ;
+
+        
+    
+    
+            var circle_marker_6febf5d8c9ccb2916210a42f59d39094 = L.circleMarker(
+                [30.0668, 79.0193],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_e53a33ad68a767be76692e0955900ed7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_35aac66cee7394f3a2784fb7d81fdb46 = $(`<div id="html_35aac66cee7394f3a2784fb7d81fdb46" style="width: 100.0%; height: 100.0%;"><b>Uttarakhand</b><br>Low Risk<br>📊 245 crimes per 100,000</div>`)[0];
+                popup_e53a33ad68a767be76692e0955900ed7.setContent(html_35aac66cee7394f3a2784fb7d81fdb46);
+            
+        
+
+        circle_marker_6febf5d8c9ccb2916210a42f59d39094.bindPopup(popup_e53a33ad68a767be76692e0955900ed7)
+        ;
+
+        
+    
+    
+            var circle_marker_4da9ae25d51ac900c9ac8dd4b0343b14 = L.circleMarker(
+                [22.9868, 87.855],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_a995a1cbedb3d1720e915467e4f7a835 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ea4bae6189172fe16039d640dd045753 = $(`<div id="html_ea4bae6189172fe16039d640dd045753" style="width: 100.0%; height: 100.0%;"><b>West Bengal</b><br>Low Risk<br>📊 398 crimes per 100,000</div>`)[0];
+                popup_a995a1cbedb3d1720e915467e4f7a835.setContent(html_ea4bae6189172fe16039d640dd045753);
+            
+        
+
+        circle_marker_4da9ae25d51ac900c9ac8dd4b0343b14.bindPopup(popup_a995a1cbedb3d1720e915467e4f7a835)
+        ;
+
+        
+    
+    
+            var circle_marker_bae8bf16f3801d65a84e3b2cc7b83040 = L.circleMarker(
+                [28.6139, 77.209],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24, "stroke": true, "weight": 3}
+            ).addTo(map_345f91badf1450acf6002e53d86d500d);
+        
+    
+        var popup_a9769d713d78278c76bad2970fc54dc2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0d917933454adebcc01ccdeefdb6a0e0 = $(`<div id="html_0d917933454adebcc01ccdeefdb6a0e0" style="width: 100.0%; height: 100.0%;"><b>Delhi</b><br>Medium Risk<br>📊 620 crimes per 100,000</div>`)[0];
+                popup_a9769d713d78278c76bad2970fc54dc2.setContent(html_0d917933454adebcc01ccdeefdb6a0e0);
+            
+        
+
+        circle_marker_bae8bf16f3801d65a84e3b2cc7b83040.bindPopup(popup_a9769d713d78278c76bad2970fc54dc2)
+        ;
+
+        
+    
+</script>
+</html>

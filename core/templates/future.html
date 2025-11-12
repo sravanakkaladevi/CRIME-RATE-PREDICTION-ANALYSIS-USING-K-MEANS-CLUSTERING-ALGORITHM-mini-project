@@ -12,13 +12,13 @@ body {
   border-radius: 14px;
   padding: 35px;
   margin: 40px auto;
-  max-width: 900px;
+  max-width: 950px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
 }
 .future-box h2 {
-  font-weight: 600;
   text-align: center;
   color: #00eaff;
+  font-weight: 600;
   margin-bottom: 25px;
 }
 .form-select {
@@ -38,60 +38,95 @@ body {
   padding: 8px 15px;
 }
 .btn-info:hover { background-color: #00b3db; }
-.risk-box {
-  background: rgba(0, 0, 0, 0.7);
-  border-left: 6px solid var(--risk-color, #00eaff);
-  border-radius: 8px;
-  padding: 15px;
-  margin-top: 20px;
-  color: var(--risk-color, #00eaff);
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
 }
-.risk-box[data-risk="High Risk"] { --risk-color: #ff4d4d; }
-.risk-box[data-risk="Medium Risk"] { --risk-color: #ffcc00; }
-.risk-box[data-risk="Low Risk"] { --risk-color: #00ff88; }
+.legend span {
+  display: inline-block;
+  margin: 0 10px;
+  font-weight: 600;
+}
+.legend .low { color: #91cf60; }
+.legend .med { color: #fc8d59; }
+.legend .high { color: #d73027; }
+
+/* ---------------- Result Styling ---------------- */
+.risk-result-box {
+  background: rgba(0, 255, 255, 0.05);
+  border-left: 6px solid var(--risk-color, #00eaff);
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 25px;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+}
+.risk-result-box[data-risk="High Risk"] {
+  --risk-color: #ff4d4d;
+  color: #ff8080;
+  animation: glowRed 1.5s ease-in-out infinite alternate;
+}
+.risk-result-box[data-risk="Medium Risk"] {
+  --risk-color: #ffcc00;
+  color: #ffd84d;
+}
+.risk-result-box[data-risk="Low Risk"] {
+  --risk-color: #00ff88;
+  color: #66ffb2;
+}
+@keyframes glowRed {
+  from { text-shadow: 0 0 5px #ff4d4d; }
+  to { text-shadow: 0 0 20px #ff0000; }
+}
+.result-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
 </style>
 
 <div class="future-box">
-  <h2>🔮 Future Crime Risk Prediction (By City)</h2>
+  <h2>🔮 Future Crime Risk Prediction (By State)</h2>
 
   <form method="POST" action="/future/">
     {% csrf_token %}
     <div class="row justify-content-center mb-3">
       <div class="col-md-6 mb-2">
-        <select name="city" class="form-select" required>
-          <option value="">-- Select City/State --</option>
-          {% for c in cities %}
-          <option value="{{ c }}" {% if selected_city == c %}selected{% endif %}>{{ c }}</option>
+        <!-- Changed variable from cities -> states for clarity -->
+        <select name="state" class="form-select" required>
+          <option value="">-- Select State --</option>
+          {% for s in cities %}
+          <option value="{{ s }}" {% if selected_city == s %}selected{% endif %}>{{ s }}</option>
           {% endfor %}
         </select>
       </div>
-
       <div class="col-md-2 mb-2">
         <button type="submit" class="btn btn-info w-100">Predict</button>
       </div>
     </div>
   </form>
 
-  {% if result %}
-  <div class="alert alert-info text-center mt-3"><b>{{ result }}</b></div>
-
-  {% if risk_level %}
-  <div class="risk-box mt-3" data-risk="{{ risk_level }}">
-    <h5>
-      {% if risk_level == "High Risk" %} 🔴 {% elif risk_level == "Medium Risk" %} 🟡 {% else %} 🟢 {% endif %}
-      Overall Risk Assessment: <b>{{ risk_level }}</b>
-    </h5>
-    <p>
-      Based on historical data, <b>{{ selected_city }}</b> shows a
-      <b>{{ risk_level }}</b> likelihood of overall crime activity in the coming year.
-    </p>
+  {% if map_url %}
+  <h4 class="text-center mt-4">🗺️ India Crime Risk Zones</h4>
+  <div class="legend">
+    <span class="low">🟢 Low Risk</span>
+    <span class="med">🟡 Medium Risk</span>
+    <span class="high">🔴 High Risk</span>
   </div>
+  <iframe src="{{ map_url }}" width="100%" height="600px" style="border:none; border-radius:12px;"></iframe>
   {% endif %}
+
+  {% if result %}
+  <div class="risk-result-box text-center mt-4" data-risk="{{ risk_level }}">
+    <p class="result-text">{{ result|linebreaks }}</p>
+  </div>
   {% endif %}
 
   {% if line_plot %}
   <div class="text-center mt-4">
-    <h5>📊 City Trend Visualization</h5>
+    <h5>📊 State Trend Visualization</h5>
     <img src="{{ line_plot }}" alt="Trend Chart" class="img-fluid" style="max-height: 400px; border-radius: 10px;">
   </div>
   {% endif %}

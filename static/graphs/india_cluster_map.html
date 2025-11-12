@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_b2564dcc709dfbc2f4f88bdd821a0691 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_b2564dcc709dfbc2f4f88bdd821a0691" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b2564dcc709dfbc2f4f88bdd821a0691 = L.map(
+                "map_b2564dcc709dfbc2f4f88bdd821a0691",
+                {
+                    center: [22.9734, 78.6569],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_2f058c190018206fd31bcf790bae77d4 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 4,
+  "maxZoom": 7,
+  "maxNativeZoom": 7,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_2f058c190018206fd31bcf790bae77d4.addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+            map_b2564dcc709dfbc2f4f88bdd821a0691.fitBounds(
+                [[6.5, 68.0], [37.1, 97.5]],
+                {}
+            );
+        
+    
+            var circle_marker_0bda7a376ce61568e7b9777cd9abb2ba = L.circleMarker(
+                [19.6665, 78.5326],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_6a200ab64f141c1552a8a475a3411057 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_484e781f28861b656a1846a005f745cf = $(`<div id="html_484e781f28861b656a1846a005f745cf" style="width: 100.0%; height: 100.0%;">Adilabad → High Crime Zone</div>`)[0];
+                popup_6a200ab64f141c1552a8a475a3411057.setContent(html_484e781f28861b656a1846a005f745cf);
+            
+        
+
+        circle_marker_0bda7a376ce61568e7b9777cd9abb2ba.bindPopup(popup_6a200ab64f141c1552a8a475a3411057)
+        ;
+
+        
+    
+    
+            var circle_marker_60695fc4c4e642f8fce14ffe242c5292 = L.circleMarker(
+                [23.0225, 72.5714],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_958cbf78babc84ff95517586b23826cd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9d5013de0e02c6fa0e3c937c50d81dc3 = $(`<div id="html_9d5013de0e02c6fa0e3c937c50d81dc3" style="width: 100.0%; height: 100.0%;">Ahmedabad → High Crime Zone</div>`)[0];
+                popup_958cbf78babc84ff95517586b23826cd.setContent(html_9d5013de0e02c6fa0e3c937c50d81dc3);
+            
+        
+
+        circle_marker_60695fc4c4e642f8fce14ffe242c5292.bindPopup(popup_958cbf78babc84ff95517586b23826cd)
+        ;
+
+        
+    
+    
+            var circle_marker_8beeac20a9b1cb1d0eb6b6d1c17b023a = L.circleMarker(
+                [12.9716, 77.5946],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_6c104f8aba6237ff94b9c44b3bdc017f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_30d1f99ee5380c1fc334d7b70376f120 = $(`<div id="html_30d1f99ee5380c1fc334d7b70376f120" style="width: 100.0%; height: 100.0%;">Bengaluru → High Crime Zone</div>`)[0];
+                popup_6c104f8aba6237ff94b9c44b3bdc017f.setContent(html_30d1f99ee5380c1fc334d7b70376f120);
+            
+        
+
+        circle_marker_8beeac20a9b1cb1d0eb6b6d1c17b023a.bindPopup(popup_6c104f8aba6237ff94b9c44b3bdc017f)
+        ;
+
+        
+    
+    
+            var circle_marker_b10cdeede40347037d1abe823b0e22c9 = L.circleMarker(
+                [23.2599, 77.4126],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_03b44dd44d99fa4c4fd99680036bf952 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c0f213bf3d63fae6eb1b2afa889197e1 = $(`<div id="html_c0f213bf3d63fae6eb1b2afa889197e1" style="width: 100.0%; height: 100.0%;">Bhopal → High Crime Zone</div>`)[0];
+                popup_03b44dd44d99fa4c4fd99680036bf952.setContent(html_c0f213bf3d63fae6eb1b2afa889197e1);
+            
+        
+
+        circle_marker_b10cdeede40347037d1abe823b0e22c9.bindPopup(popup_03b44dd44d99fa4c4fd99680036bf952)
+        ;
+
+        
+    
+    
+            var circle_marker_5641108545df1d4f93fcdcc80ae6f6a1 = L.circleMarker(
+                [30.7333, 76.7794],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_df001ed2e7958af6b2b13231caa06f03 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_32942365088d945a6107a4a1e7be1c48 = $(`<div id="html_32942365088d945a6107a4a1e7be1c48" style="width: 100.0%; height: 100.0%;">Chandigarh → High Crime Zone</div>`)[0];
+                popup_df001ed2e7958af6b2b13231caa06f03.setContent(html_32942365088d945a6107a4a1e7be1c48);
+            
+        
+
+        circle_marker_5641108545df1d4f93fcdcc80ae6f6a1.bindPopup(popup_df001ed2e7958af6b2b13231caa06f03)
+        ;
+
+        
+    
+    
+            var circle_marker_8abe3f3c512434c3e67f0bb965c512af = L.circleMarker(
+                [13.0827, 80.2707],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_7a85ad73002cccde7bd9ff666a459cdc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_748564544b654a32a0fbc79903b18f40 = $(`<div id="html_748564544b654a32a0fbc79903b18f40" style="width: 100.0%; height: 100.0%;">Chennai → High Crime Zone</div>`)[0];
+                popup_7a85ad73002cccde7bd9ff666a459cdc.setContent(html_748564544b654a32a0fbc79903b18f40);
+            
+        
+
+        circle_marker_8abe3f3c512434c3e67f0bb965c512af.bindPopup(popup_7a85ad73002cccde7bd9ff666a459cdc)
+        ;
+
+        
+    
+    
+            var circle_marker_ea460e06381087a8410af787d61eaa9a = L.circleMarker(
+                [11.0168, 76.9558],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_1b80ac87b595f7c94daa5c57e3ff2c63 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c21723232e7ce34a993ad6dc9bd784ee = $(`<div id="html_c21723232e7ce34a993ad6dc9bd784ee" style="width: 100.0%; height: 100.0%;">Coimbatore → High Crime Zone</div>`)[0];
+                popup_1b80ac87b595f7c94daa5c57e3ff2c63.setContent(html_c21723232e7ce34a993ad6dc9bd784ee);
+            
+        
+
+        circle_marker_ea460e06381087a8410af787d61eaa9a.bindPopup(popup_1b80ac87b595f7c94daa5c57e3ff2c63)
+        ;
+
+        
+    
+    
+            var circle_marker_ebbcbe0a17a9b25f2d835ce66e214dfb = L.circleMarker(
+                [28.6139, 77.209],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_96ba5efaa05f6183a7b2d6bf1fd9b494 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3b4f5e355356f1a2216b91f505f5f8f5 = $(`<div id="html_3b4f5e355356f1a2216b91f505f5f8f5" style="width: 100.0%; height: 100.0%;">Delhi → Low Crime Zone</div>`)[0];
+                popup_96ba5efaa05f6183a7b2d6bf1fd9b494.setContent(html_3b4f5e355356f1a2216b91f505f5f8f5);
+            
+        
+
+        circle_marker_ebbcbe0a17a9b25f2d835ce66e214dfb.bindPopup(popup_96ba5efaa05f6183a7b2d6bf1fd9b494)
+        ;
+
+        
+    
+    
+            var circle_marker_572854fd1932e234d6a0e010c3def8b4 = L.circleMarker(
+                [26.1445, 91.7362],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_01be3c23442c04d99fc735d7ea252467 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3b7faf47780083544cb47fa5ad21f937 = $(`<div id="html_3b7faf47780083544cb47fa5ad21f937" style="width: 100.0%; height: 100.0%;">Guwahati → High Crime Zone</div>`)[0];
+                popup_01be3c23442c04d99fc735d7ea252467.setContent(html_3b7faf47780083544cb47fa5ad21f937);
+            
+        
+
+        circle_marker_572854fd1932e234d6a0e010c3def8b4.bindPopup(popup_01be3c23442c04d99fc735d7ea252467)
+        ;
+
+        
+    
+    
+            var circle_marker_377ee51099e9eae9491bc67fca0e32ec = L.circleMarker(
+                [17.385, 78.4867],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_5b12613bbd8fa4161c0fad9188d032f5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ecac42270c5d34dbf9b51c6de570ad9c = $(`<div id="html_ecac42270c5d34dbf9b51c6de570ad9c" style="width: 100.0%; height: 100.0%;">Hyderabad → High Crime Zone</div>`)[0];
+                popup_5b12613bbd8fa4161c0fad9188d032f5.setContent(html_ecac42270c5d34dbf9b51c6de570ad9c);
+            
+        
+
+        circle_marker_377ee51099e9eae9491bc67fca0e32ec.bindPopup(popup_5b12613bbd8fa4161c0fad9188d032f5)
+        ;
+
+        
+    
+    
+            var circle_marker_8ade2df8e7b3e3e2902925ceb561f5e2 = L.circleMarker(
+                [26.9124, 75.7873],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_44be71da18bfeda694aa177c7aacfe1e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1050b7edbf03ab60bce488a7ba0ade8a = $(`<div id="html_1050b7edbf03ab60bce488a7ba0ade8a" style="width: 100.0%; height: 100.0%;">Jaipur → High Crime Zone</div>`)[0];
+                popup_44be71da18bfeda694aa177c7aacfe1e.setContent(html_1050b7edbf03ab60bce488a7ba0ade8a);
+            
+        
+
+        circle_marker_8ade2df8e7b3e3e2902925ceb561f5e2.bindPopup(popup_44be71da18bfeda694aa177c7aacfe1e)
+        ;
+
+        
+    
+    
+            var circle_marker_77f391fc9a0157894a0cbd43f73ebb9a = L.circleMarker(
+                [22.5726, 88.3639],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_fdf21353f016218e7c23dd0c2adff6bf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d81b2f46e18eeaf90fe41fdac98995f1 = $(`<div id="html_d81b2f46e18eeaf90fe41fdac98995f1" style="width: 100.0%; height: 100.0%;">Kolkata → High Crime Zone</div>`)[0];
+                popup_fdf21353f016218e7c23dd0c2adff6bf.setContent(html_d81b2f46e18eeaf90fe41fdac98995f1);
+            
+        
+
+        circle_marker_77f391fc9a0157894a0cbd43f73ebb9a.bindPopup(popup_fdf21353f016218e7c23dd0c2adff6bf)
+        ;
+
+        
+    
+    
+            var circle_marker_0f3a6a8d74c1e79468fd7429a8831a8f = L.circleMarker(
+                [26.8467, 80.9462],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_05ec31d2067929c46f28df7f8765aff2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4495ae94f34bd981be82ae8e3f088609 = $(`<div id="html_4495ae94f34bd981be82ae8e3f088609" style="width: 100.0%; height: 100.0%;">Lucknow → High Crime Zone</div>`)[0];
+                popup_05ec31d2067929c46f28df7f8765aff2.setContent(html_4495ae94f34bd981be82ae8e3f088609);
+            
+        
+
+        circle_marker_0f3a6a8d74c1e79468fd7429a8831a8f.bindPopup(popup_05ec31d2067929c46f28df7f8765aff2)
+        ;
+
+        
+    
+    
+            var circle_marker_1ca6a758cdae2959957f585562693162 = L.circleMarker(
+                [19.076, 72.8777],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_8fc47cf35fbf683fd5a38677834d6b20 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_49e9d1862960634bc987a1fc3db1f84a = $(`<div id="html_49e9d1862960634bc987a1fc3db1f84a" style="width: 100.0%; height: 100.0%;">Mumbai → Medium Crime Zone</div>`)[0];
+                popup_8fc47cf35fbf683fd5a38677834d6b20.setContent(html_49e9d1862960634bc987a1fc3db1f84a);
+            
+        
+
+        circle_marker_1ca6a758cdae2959957f585562693162.bindPopup(popup_8fc47cf35fbf683fd5a38677834d6b20)
+        ;
+
+        
+    
+    
+            var circle_marker_9f8ac0cfad6ca74c4bba8a54b3d8a37e = L.circleMarker(
+                [12.2958, 76.6394],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_886e5f0b7558cd247f7a46534f9451bf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d4130cfdced60e5f3b70eafa02b2437d = $(`<div id="html_d4130cfdced60e5f3b70eafa02b2437d" style="width: 100.0%; height: 100.0%;">Mysuru → High Crime Zone</div>`)[0];
+                popup_886e5f0b7558cd247f7a46534f9451bf.setContent(html_d4130cfdced60e5f3b70eafa02b2437d);
+            
+        
+
+        circle_marker_9f8ac0cfad6ca74c4bba8a54b3d8a37e.bindPopup(popup_886e5f0b7558cd247f7a46534f9451bf)
+        ;
+
+        
+    
+    
+            var circle_marker_2af9cffa0a4f5e7ef3cab0177dae58b7 = L.circleMarker(
+                [21.1458, 79.0882],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_e686e40a2677be0d19cd841444334b25 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_16c56d4f05ee09c3743d6a365e647f39 = $(`<div id="html_16c56d4f05ee09c3743d6a365e647f39" style="width: 100.0%; height: 100.0%;">Nagpur → High Crime Zone</div>`)[0];
+                popup_e686e40a2677be0d19cd841444334b25.setContent(html_16c56d4f05ee09c3743d6a365e647f39);
+            
+        
+
+        circle_marker_2af9cffa0a4f5e7ef3cab0177dae58b7.bindPopup(popup_e686e40a2677be0d19cd841444334b25)
+        ;
+
+        
+    
+    
+            var circle_marker_584d249a22348b2d05f3f0637f734966 = L.circleMarker(
+                [25.5941, 85.1376],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_665df975eeca237b85007136ba7f2d51 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_973f11ca0e43ac6783586869a842bfdc = $(`<div id="html_973f11ca0e43ac6783586869a842bfdc" style="width: 100.0%; height: 100.0%;">Patna → High Crime Zone</div>`)[0];
+                popup_665df975eeca237b85007136ba7f2d51.setContent(html_973f11ca0e43ac6783586869a842bfdc);
+            
+        
+
+        circle_marker_584d249a22348b2d05f3f0637f734966.bindPopup(popup_665df975eeca237b85007136ba7f2d51)
+        ;
+
+        
+    
+    
+            var circle_marker_caa14a186ef631fb9b1a55f43716a8cb = L.circleMarker(
+                [18.5204, 73.8567],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_4e8832d80bde43800e04a34a8f319779 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_329eb20d2fddbce3e85c8df081be16f8 = $(`<div id="html_329eb20d2fddbce3e85c8df081be16f8" style="width: 100.0%; height: 100.0%;">Pune → High Crime Zone</div>`)[0];
+                popup_4e8832d80bde43800e04a34a8f319779.setContent(html_329eb20d2fddbce3e85c8df081be16f8);
+            
+        
+
+        circle_marker_caa14a186ef631fb9b1a55f43716a8cb.bindPopup(popup_4e8832d80bde43800e04a34a8f319779)
+        ;
+
+        
+    
+    
+            var circle_marker_c3929dab164046ed33ff8f883de59309 = L.circleMarker(
+                [25.3176, 82.9739],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_7657d5c0c593cc06196f66de86d7653e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28895a12af2402fa7794ce0762f2a44d = $(`<div id="html_28895a12af2402fa7794ce0762f2a44d" style="width: 100.0%; height: 100.0%;">Varanasi → High Crime Zone</div>`)[0];
+                popup_7657d5c0c593cc06196f66de86d7653e.setContent(html_28895a12af2402fa7794ce0762f2a44d);
+            
+        
+
+        circle_marker_c3929dab164046ed33ff8f883de59309.bindPopup(popup_7657d5c0c593cc06196f66de86d7653e)
+        ;
+
+        
+    
+    
+            var circle_marker_54f24b0a469cd6f3cad70630caf765f7 = L.circleMarker(
+                [16.5062, 80.648],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_0f9d9bd6b62d5bbdc98d0d110a09cf08 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_40034b0cb5dda9d5d780a7390cce9778 = $(`<div id="html_40034b0cb5dda9d5d780a7390cce9778" style="width: 100.0%; height: 100.0%;">Vijayawada → High Crime Zone</div>`)[0];
+                popup_0f9d9bd6b62d5bbdc98d0d110a09cf08.setContent(html_40034b0cb5dda9d5d780a7390cce9778);
+            
+        
+
+        circle_marker_54f24b0a469cd6f3cad70630caf765f7.bindPopup(popup_0f9d9bd6b62d5bbdc98d0d110a09cf08)
+        ;
+
+        
+    
+    
+            var circle_marker_bc0287aa85ba75da9ec35d08f84f0031 = L.circleMarker(
+                [17.6868, 83.2185],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_b2564dcc709dfbc2f4f88bdd821a0691);
+        
+    
+        var popup_29010381ceae5d82c1bc63631eede5b7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_04449a905967e4e2298712434c710053 = $(`<div id="html_04449a905967e4e2298712434c710053" style="width: 100.0%; height: 100.0%;">Visakhapatnam → High Crime Zone</div>`)[0];
+                popup_29010381ceae5d82c1bc63631eede5b7.setContent(html_04449a905967e4e2298712434c710053);
+            
+        
+
+        circle_marker_bc0287aa85ba75da9ec35d08f84f0031.bindPopup(popup_29010381ceae5d82c1bc63631eede5b7)
+        ;
+
+        
+    
+</script>
+</html>

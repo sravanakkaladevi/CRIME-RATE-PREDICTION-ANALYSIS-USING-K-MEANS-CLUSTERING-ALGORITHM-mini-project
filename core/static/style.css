@@ -1,38 +1,52 @@
-/* Remove image section styling */
-.analysis-images {
-  display: none;
-  padding: 0;
+/* ===================== GLOBAL STYLES ===================== */
+body {
+  background-color: #0e1117;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
-  background: none;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-.analysis-images img {
-  display: none;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #00eaff;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0e1117;
 }
 
-/* Navbar styling */
+/* ===================== NAVBAR ===================== */
 .navbar {
-  background: linear-gradient(90deg, #000000, #1a1a1a);
+  background: linear-gradient(90deg, #000000, #121212);
   border-bottom: 2px solid #00ffff33;
   padding: 12px 40px;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.1);
 }
 
 .navbar-brand {
   color: #00e0ff !important;
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.6px;
+  text-shadow: 0 0 8px rgba(0, 224, 255, 0.6);
 }
 
 .navbar .btn {
   border-radius: 8px;
-  padding: 5px 15px;
-  transition: all 0.2s ease;
+  padding: 6px 16px;
+  transition: all 0.25s ease-in-out;
 }
 
 .btn-outline-light:hover {
   background-color: #00e0ff;
   color: #000;
   border-color: #00e0ff;
+  box-shadow: 0 0 10px #00e0ff;
 }
 
 .btn-outline-danger {
@@ -43,14 +57,21 @@
 .btn-outline-danger:hover {
   background-color: #ff4d4d;
   color: #fff;
+  box-shadow: 0 0 10px #ff4d4d;
 }
 
 .btn-primary {
   background-color: #00e0ff;
   border-color: #00e0ff;
+  color: #000;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background-color: #00b8d4;
+  box-shadow: 0 0 10px #00e0ff;
 }
 
-/* Welcome animation */
+/* ===================== HEADER / ANIMATIONS ===================== */
 .welcome-container {
   animation: fadeSlide 1.5s ease forwards;
   transform: translateY(20px);
@@ -74,6 +95,7 @@
   letter-spacing: 1px;
   font-size: 1.8rem;
   animation: pulse 2.5s infinite alternate ease-in-out;
+  text-align: center;
 }
 
 @keyframes pulse {
@@ -81,17 +103,31 @@
   100% { text-shadow: 0 0 20px #00e0ff; }
 }
 
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 1s;
+/* Typing Header */
+.animated-header {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00eaff, #ffb347, #a569bd);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 3s linear infinite, typing 2s steps(30) 1s forwards;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 4px solid #fff;
+  margin-bottom: 10px;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
-/* Upload container cleanup */
+/* ===================== UPLOAD / CONTAINER ===================== */
 .upload-container {
   background: none;
   padding: 0;
@@ -101,7 +137,6 @@
   box-shadow: none;
 }
 
-/* Full-width table styling */
 .table-container {
   width: 100%;
   max-width: none;
@@ -111,54 +146,131 @@
   box-shadow: none;
 }
 
+/* ===================== TABLES ===================== */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-family: Arial, sans-serif;
+  margin: 25px 0;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 table th, table td {
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 255, 255, 0.15);
   text-align: left;
 }
 
 table th {
-  background-color: #f2f2f2;
+  background-color: rgba(0, 255, 255, 0.1);
   font-weight: bold;
+  color: #00e0ff;
+  text-shadow: 0 0 6px rgba(0, 224, 255, 0.3);
 }
 
-/* Responsive table */
+table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+table tr:hover {
+  background-color: rgba(0, 255, 255, 0.08);
+  transition: 0.3s;
+}
+
+/* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
   table th, table td {
     font-size: 14px;
     padding: 8px;
   }
 }
-/* Typing effect */
-.animated-header {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #00eaff, #ffb347, #a569bd);
-  background-size: 200% auto;
-  color: #fff;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: shine 3s linear infinite, typing 2s steps(30) 1s forwards;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 4px solid #fff;
+
+/* ===================== FUTURE PREDICTION PAGE ===================== */
+.future-box {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 14px;
+  padding: 35px;
+  margin: 40px auto;
+  max-width: 950px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
 }
 
-/* Gradient shine animation */
-@keyframes shine {
-  to { background-position: 200% center; }
+.future-box h2 {
+  text-align: center;
+  color: #00eaff;
+  font-weight: 600;
+  margin-bottom: 25px;
 }
 
-/* Typing effect */
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+.legend {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+.legend span {
+  display: inline-block;
+  margin: 0 10px;
+  font-weight: 600;
+}
+.legend .low { color: #91cf60; }
+.legend .med { color: #fc8d59; }
+.legend .high { color: #d73027; }
+
+.risk-result-box {
+  background: rgba(0, 255, 255, 0.05);
+  border-left: 6px solid var(--risk-color, #00eaff);
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 25px;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+}
+
+.risk-result-box[data-risk="High Risk"] {
+  --risk-color: #ff4d4d;
+  color: #ff7b7b;
+  animation: glowRed 1.5s ease-in-out infinite alternate;
+}
+.risk-result-box[data-risk="Medium Risk"] {
+  --risk-color: #ffcc00;
+  color: #ffd84d;
+}
+.risk-result-box[data-risk="Low Risk"] {
+  --risk-color: #00ff88;
+  color: #66ffb2;
+}
+
+@keyframes glowRed {
+  from { text-shadow: 0 0 5px #ff4d4d; }
+  to { text-shadow: 0 0 20px #ff0000; }
+}
+
+.result-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #0a0d12;
+  border-top: 1px solid rgba(0, 255, 255, 0.15);
+  color: #00eaff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  margin-top: 50px;
+  box-shadow: 0 -2px 15px rgba(0, 255, 255, 0.1);
+  letter-spacing: 0.3px;
+}
+footer a {
+  color: #00eaff;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+footer a:hover {
+  color: #ffcc00;
+  text-shadow: 0 0 10px #ffcc00;
 }
