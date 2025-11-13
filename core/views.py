@@ -143,20 +143,14 @@ def upload_dataset(request):
     response["Pragma"] = "no-cache"
     response["Expires"] = "0"
     return response
-
-# ------------------- Analysis -------------------
+# ------------------- Data Analysis / Graphs -------------------
 @login_required(login_url='/')
 def analyze_data(request):
-    """
-    Always regenerates fresh analysis graphs from the latest uploaded dataset.
-    Automatically detects flexible column names and clears old plots.
-    """
     data_path = os.path.join(settings.BASE_DIR, "data", "NCRB_Table_1A.1.csv")
     if not os.path.exists(data_path):
         messages.warning(request, "Please upload the dataset first.")
         return redirect("/upload/")
 
-    # Load dataset safely
     df, err = load_dataset(data_path)
     if err:
         messages.error(request, f"Error reading dataset: {err}")
@@ -164,7 +158,7 @@ def analyze_data(request):
 
     gdir = ensure_graphs_dir()
 
-    # 🔄 Clear old graphs before regenerating
+    # Clean old graphs
     for f in os.listdir(gdir):
         if f.startswith(("top10_cities", "gender_pie", "weapons", "time_distribution")):
             try:
@@ -172,81 +166,111 @@ def analyze_data(request):
             except:
                 pass
 
-    # Flexible column name detection
-    def find_col(df, key):
-        for c in df.columns:
-            if key in c.lower():
-                return c
+    # --------- Smarter column detection ---------
+    def find_col(keywords):
+        for col in df.columns:
+            lc = col.lower()
+            if any(k in lc for k in keywords):
+                return col
         return None
 
-    city_col = find_col(df, "city") or find_col(df, "place") or find_col(df, "district") or find_col(df, "state")
-    gender_col = find_col(df, "gender") or find_col(df, "sex")
-    weapon_col = find_col(df, "weapon") or find_col(df, "tool") or find_col(df, "means")
-    time_col = find_col(df, "time") or find_col(df, "hour") or find_col(df, "period")
-    crime_col = find_col(df, "crime domain") or find_col(df, "domain") or find_col(df, "crime") or find_col(df, "offence")
+    city_col   = find_col(["city", "district", "place", "state"])
+    gender_col = find_col(["gender", "sex"])
+    weapon_col = find_col(["weapon", "tool", "means"])
+    time_col   = find_col(["time", "occurrence", "hour"])
+    crime_col  = find_col(["crime domain", "crime", "offence", "category"])
 
+    # Sample for speed
     sample_df = df.sample(min(len(df), 20000), random_state=42)
 
-    # ---------- Top Cities ----------
-    top_cities_path = os.path.join(gdir, "top10_cities.png")
+    # --------- 1. Top Cities Graph ---------
     if city_col:
-        plt.figure(figsize=(8, 4))
-        sample_df[city_col].fillna("Unknown").value_counts().head(10).plot(kind="bar", color="#00eaff")
-        plt.title("Top 10 Cities by Reported Crimes")
-        plt.xlabel("City")
-        plt.ylabel("Number of Crimes")
-        plt.tight_layout()
-        plt.savefig(top_cities_path, dpi=150)
-        plt.close()
+        try:
+            plt.figure(figsize=(10, 4))
+            sample_df[city_col].fillna("Unknown").value_counts().head(10).plot(
+                kind="bar", color="#00eaff"
+            )
+            plt.title("Top 10 Cities by Reported Crimes")
+            plt.xlabel("City")
+            plt.ylabel("Number of Crimes")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "top10_cities.png"), dpi=150)
+            plt.close()
+        except:
+            pass
 
-    # ---------- Gender Pie ----------
-    gender_path = os.path.join(gdir, "gender_pie.png")
+    # --------- 2. Gender Pie Chart ---------
     if gender_col:
-        plt.figure(figsize=(4, 4))
-        sample_df[gender_col].fillna("Unknown").value_counts().plot(
-            kind="pie", autopct="%1.1f%%", colors=["#00eaff", "#ffb347", "#a569bd"]
-        )
-        plt.title("Crimes by Victim Gender")
-        plt.ylabel("")
-        plt.tight_layout()
-        plt.savefig(gender_path, dpi=150)
-        plt.close()
+        try:
+            plt.figure(figsize=(5, 5))
+            sample_df[gender_col].fillna("Unknown").value_counts().plot(
+                kind="pie",
+                autopct="%1.1f%%",
+                colors=["#00eaff", "#ffb347", "#a569bd"]
+            )
+            plt.title("Crimes by Victim Gender")
+            plt.ylabel("")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "gender_pie.png"), dpi=150)
+            plt.close()
+        except:
+            pass
 
-    # ---------- Weapon Used ----------
-    weapons_path = os.path.join(gdir, "weapons.png")
+    # --------- 3. Top Weapons Used ---------
     if weapon_col:
-        plt.figure(figsize=(6, 4))
-        sample_df[weapon_col].fillna("Unknown").value_counts().head(10).plot(kind="barh", color="#ffb347")
-        plt.title("Top 10 Weapons Used")
-        plt.tight_layout()
-        plt.savefig(weapons_path, dpi=150)
-        plt.close()
+        try:
+            plt.figure(figsize=(7, 5))
+            sample_df[weapon_col].fillna("Unknown").value_counts().head(10).plot(
+                kind="barh",
+                color="#ffb347"
+            )
+            plt.title("Top 10 Weapons Used")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "weapons.png"), dpi=150)
+            plt.close()
+        except:
+            pass
 
-    # ---------- Time Distribution ----------
-    time_path = os.path.join(gdir, "time_distribution.png")
+    # --------- 4. Time of Day Distribution (FIXED) ---------
     if time_col:
-        plt.figure(figsize=(8, 4))
-        sample_df[time_col].astype(str).fillna("Unknown").value_counts().head(15).plot(kind="bar", color="#a569bd")
-        plt.title("Crimes by Time of Day")
-        plt.xlabel("Time Range")
-        plt.ylabel("Incident Count")
-        plt.tight_layout()
-        plt.savefig(time_path, dpi=150)
-        plt.close()
+        try:
+            # Convert time safely
+            sample_df["parsed_time"] = pd.to_datetime(
+                sample_df[time_col],
+                errors="coerce"
+            )
 
-    # ---------- Dataset Preview ----------
-    table_html = df.head(200).to_html(classes="table table-striped table-sm", index=False, border=0)
+            # Extract hour only
+            sample_df["hour"] = sample_df["parsed_time"].dt.hour
+
+            # Drop invalid items
+            hour_counts = sample_df["hour"].dropna().astype(int).value_counts().sort_index()
+
+            plt.figure(figsize=(12, 4))
+            hour_counts.plot(kind="bar", color="#a569bd")
+            plt.title("Crime Distribution by Hour of the Day")
+            plt.xlabel("Hour (0-23)")
+            plt.ylabel("Number of Crimes")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "time_distribution.png"), dpi=150)
+            plt.close()
+        except Exception as e:
+            print("Time graph error:", e)
+
+    # Table preview
+    table_html = df.head(200).to_html(
+        classes="table table-striped table-sm", index=False, border=0
+    )
 
     context = {
         "table": table_html,
         "graphs": {
-            "Top Cities": "/static/graphs/top10_cities.png" if os.path.exists(top_cities_path) else None,
-            "Gender Distribution": "/static/graphs/gender_pie.png" if os.path.exists(gender_path) else None,
-            "Weapon Usage": "/static/graphs/weapons.png" if os.path.exists(weapons_path) else None,
-            "Time Distribution": "/static/graphs/time_distribution.png" if os.path.exists(time_path) else None,
+            "Top Cities": "/static/graphs/top10_cities.png",
+            "Gender Distribution": "/static/graphs/gender_pie.png",
+            "Weapon Usage": "/static/graphs/weapons.png",
+            "Time Distribution": "/static/graphs/time_distribution.png",
         }
     }
-
     return render(request, "analysis.html", context)
 
 # ------------------- Cluster Prediction -------------------
