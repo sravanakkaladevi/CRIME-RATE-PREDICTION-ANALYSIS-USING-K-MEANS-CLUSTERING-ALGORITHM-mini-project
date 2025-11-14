@@ -1,111 +1,109 @@
-🚔 Crime Rate Prediction & Analysis using K-Means Clustering Algorithm
-🧾 Project Overview
+# Crime Rate Prediction & Analysis using K-Means Clustering
 
-This Django-based web application lets users upload crime datasets (like those from the NCRB), perform exploratory data analysis, visualize results, and group cities or states using K-Means Clustering.
-It also includes a trend prediction module that estimates future crime patterns using Polynomial Regression.
-Goal: Identify high, medium, and low crime zones and forecast possible future trends.
+This Django web application analyzes crime datasets (such as NCRB data), groups states into crime zones using K-Means clustering, and predicts future crime trends using Polynomial Regression. It includes dataset upload, interactive analysis, map visualizations, and a modern UI.
 
-🎯 Features
+---
 
-Secure user login (only authenticated users can access analytics)
+## Features
 
-Upload any structured CSV dataset
+- Secure login (authenticated dashboard)
+- Upload structured CSV datasets
+- Data cleaning and validation
+- Interactive dataset preview (DataTables)
+- Crime clustering using K-Means
+- Risk categorization (Low, Medium, High)
+- Zoomable India crime map (Folium)
+- Future crime trend prediction (2025–2026)
+- Auto-generated graphs stored in `/static/graphs`
+- Modern responsive UI (dark theme)
 
-Data cleaning and preprocessing (handles missing or malformed entries)
+---
 
-Visualization dashboards:
+## Technology Stack
 
-📊 Crime counts by city/state
+- **Backend:** Django (Python)  
+- **Frontend:** HTML, CSS, Bootstrap 5  
+- **Data Science:** Pandas, NumPy, Scikit-learn, Matplotlib, Folium  
+- **Version Control:** Git + GitHub  
 
-🧩 K-Means clustering by crime, weapon, and gender
+---
 
-🔮 Future crime trend prediction (Polynomial Regression)
+## Folder Structure
 
-Modern responsive UI with dark theme and interactive graph previews
-
-🛠 Technology Stack
-
-Backend: Django (Python)
-
-Frontend: HTML, CSS, Bootstrap 5
-
-Data Science: Pandas, NumPy, Scikit-learn, Matplotlib
-
-Version Control: Git + GitHub
-
-Dataset Source: NCRB / Public crime datasets
-
-📁 Repository Structure
-crime_project/
+```
+project/
 ├── manage.py
 ├── crime_project/          # Django settings
-├── core/                   # Main app (views, urls, templates, static)
-├── data/                   # Uploaded CSV datasets
-├── static/                 # CSS, JS, images, graphs
+├── core/                   # Views, URLs, templates, static, logic
+├── data/                   # Uploaded datasets
+├── static/                 # CSS, JS, images, generated graphs
 └── templates/
     ├── login.html
     ├── index.html
     ├── upload.html
-    ├── analysis.html
     ├── cluster.html
     └── future.html
+```
 
-🚀 Setup & Run Locally
-# Clone repository
-git clone https://github.com/sravanakkaladevi/CRIME-RATE-PREDICTION-ANALYSIS-USING-K-MEANS-CLUSTERING-ALGORITHM.git
-cd CRIME-RATE-PREDICTION-ANALYSIS-USING-K-MEANS-CLUSTERING-ALGORITHM
+---
+
+## Setup Instructions
+
+```bash
+# Clone the repository
+git clone https://github.com/sravanakkaladevi/CRIME-RATE-PREDICTION-ANALYSIS-USING-K-MEANS-CLUSTERING-ALGORITHM-mini-project.git
+cd CRIME-RATE-PREDICTION-ANALYSIS-USING-K-MEANS-CLUSTERING-ALGORITHM-mini-project
 
 # (Optional) Create virtual environment
 python -m venv venv
-venv\Scripts\activate        # On Windows
-# source venv/bin/activate   # On Linux/Mac
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Linux / Mac
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Apply migrations & collect static files
+# Apply migrations
 python manage.py migrate
-python manage.py collectstatic
 
-# Create a superuser for login
+# Create superuser
 python manage.py createsuperuser
 
 # Run server
 python manage.py runserver
+```
 
+Visit: **http://127.0.0.1:8000/**
 
-Then visit: http://127.0.0.1:8000/
+---
 
-📄 Usage
+## Usage
 
-Log in using your superuser credentials
+1. Log in with your superuser credentials  
+2. Upload your CSV dataset  
+3. View dataset preview  
+4. Analyze crime charts and patterns  
+5. Run K-Means clustering and view crime zones  
+6. Predict future crime trends for any state  
+7. Explore interactive map zoom (Folium)
 
-Upload the dataset via Upload tab
+---
 
-View graphs in Analysis
+## Academic Notes
 
-Check crime grouping via Cluster (K-Means)
+This project is built for academic use in Machine Learning and Data Analysis.  
+Key focus: **Unsupervised Learning (K-Means)** and **Polynomial Regression**.
 
-Predict next-year trends in Future
+---
 
-Log out when done
+## Future Enhancements
 
-🎓 Academic Context
+- Add LSTM / Prophet time-series models  
+- Add user registration with roles  
+- Improve map visuals with Plotly  
+- Deploy on Heroku or AWS  
 
-This project was developed as part of an academic course on Machine Learning & Data Analysis.
-Main focus: Unsupervised Learning (K-Means Clustering) for pattern identification.
-The Polynomial Regression module provides supplementary predictive insight.
+---
 
-🧬 Future Enhancements
+## License
 
-Integrate deep-learning time series models (Prophet/LSTM)
-
-Add user registration & role-based access
-
-Include real-time map visualizations (Leaflet / Plotly)
-
-Deploy using Heroku or AWS
-
-📜 License
-
-Distributed under the MIT License — free to use, modify, and share with attribution.
+MIT License — free to use, modify and distribute.
