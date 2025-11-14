@@ -28,7 +28,7 @@ body::before {
   margin: 40px auto;
 }
 
-/* Animated Header */
+/* Header animation */
 .upload-box h3 {
   font-weight: 700;
   font-size: 1.8rem;
@@ -56,7 +56,7 @@ body::before {
   to { width: 100%; }
 }
 
-/* Buttons & Inputs */
+/* Inputs & Buttons */
 .form-control,
 .form-select {
   background: rgba(255, 255, 255, 0.95);
@@ -97,8 +97,9 @@ body::before {
 
 <div class="upload-box text-center">
   <h3>📂 Upload & Explore Dataset</h3>
-  <p class="lead text-light">Easily upload your dataset and preview the records below.</p>
+  <p class="lead text-light">Upload your dataset and instantly browse the records.</p>
 
+  <!-- Upload form -->
   <form method="POST" enctype="multipart/form-data" action="/upload/">
     {% csrf_token %}
     <div class="mb-3">
@@ -112,53 +113,45 @@ body::before {
   {% endif %}
 
   {% if rows %}
+  <!-- Filter Section -->
   <h5 class="mt-5 text-cyan">🔍 Filter Dataset</h5>
   <form method="GET" class="row g-2 mb-3">
 
-    <!-- Crime Domain -->
+    <!-- State Filter -->
+    <div class="col-md-4">
+      <select name="state" class="form-select">
+        <option value="">Select State</option>
+        {% for s in states %}
+        <option value="{{ s }}" {% if request.GET.state == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Year Filter -->
     <div class="col-md-3">
+      <select name="year" class="form-select">
+        <option value="">Select Year</option>
+        {% for y in years %}
+        <option value="{{ y }}" {% if request.GET.year == y|stringformat:"s" %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Crime Column Filter -->
+    <div class="col-md-4">
       <select name="crime" class="form-select">
-        <option value="">Crime Domain</option>
-        {% for cr in crimes %}
-        <option value="{{ cr }}" {% if request.GET.crime == cr %}selected{% endif %}>{{ cr }}</option>
+        <option value="">Sort by Crime Type</option>
+        {% for c in crime_columns %}
+        <option value="{{ c }}" {% if request.GET.crime == c %}selected{% endif %}>{{ c }}</option>
         {% endfor %}
       </select>
     </div>
 
-    <!-- City -->
-    <div class="col-md-3">
-      <select name="city" class="form-select">
-        <option value="">City</option>
-        {% for c in cities %}
-        <option value="{{ c }}" {% if request.GET.city == c %}selected{% endif %}>{{ c }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <!-- Gender -->
-    <div class="col-md-3">
-      <select name="gender" class="form-select">
-        <option value="">Gender</option>
-        {% for g in genders %}
-        <option value="{{ g }}" {% if request.GET.gender == g %}selected{% endif %}>{{ g }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <!-- Weapon -->
-    <div class="col-md-2">
-      <select name="weapon" class="form-select">
-        <option value="">Weapon Used</option>
-        {% for w in weapons %}
-        <option value="{{ w }}" {% if request.GET.weapon == w %}selected{% endif %}>{{ w }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <!-- Go button -->
+    <!-- Go Button -->
     <div class="col-md-1">
       <button type="submit" class="btn btn-cyan w-100">Go</button>
     </div>
+
   </form>
 
   <div class="table-container">
@@ -167,6 +160,7 @@ body::before {
   {% endif %}
 </div>
 
+<!-- DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">

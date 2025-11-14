@@ -94,11 +94,11 @@ body {
     {% csrf_token %}
     <div class="row justify-content-center mb-3">
       <div class="col-md-6 mb-2">
-        <!-- Changed variable from cities -> states for clarity -->
+        <!-- Fixed: use states and selected_state (backend must provide these) -->
         <select name="state" class="form-select" required>
           <option value="">-- Select State --</option>
-          {% for s in cities %}
-          <option value="{{ s }}" {% if selected_city == s %}selected{% endif %}>{{ s }}</option>
+          {% for s in states %}
+          <option value="{{ s }}" {% if selected_state == s %}selected{% endif %}>{{ s }}</option>
           {% endfor %}
         </select>
       </div>
@@ -109,7 +109,7 @@ body {
   </form>
 
   {% if map_url %}
-  <h4 class="text-center mt-4">🗺️ India Crime Risk Zones</h4>
+  <h4 class="text-center mt-4">🗺 India Crime Risk Zones</h4>
   <div class="legend">
     <span class="low">🟢 Low Risk</span>
     <span class="med">🟡 Medium Risk</span>
@@ -119,6 +119,7 @@ body {
   {% endif %}
 
   {% if result %}
+  <!-- Display the simple string result and set the data-risk attribute for styling -->
   <div class="risk-result-box text-center mt-4" data-risk="{{ risk_level }}">
     <p class="result-text">{{ result|linebreaks }}</p>
   </div>

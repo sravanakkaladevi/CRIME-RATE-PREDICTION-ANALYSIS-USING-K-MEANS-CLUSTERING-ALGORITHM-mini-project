@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Django database
+db.sqlite3
+
+# Dataset files
+data/*.csv
+
+# Auto-generated graphs
+static/graphs/*.png
+static/graphs/*.html
+
+# IDE
+.vscode/
+.idea/
+
+# Environments
+env/
+venv/
