@@ -3,7 +3,6 @@
 {% block content %}
 
 <style>
-/* Background + overlay */
 body {
   background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
   color: #fff;
@@ -17,163 +16,158 @@ body::before {
   z-index: -1;
 }
 
-/* Main container */
 .analysis-box {
   background: rgba(0,0,0,0.7);
   border: 1px solid rgba(0,255,255,0.25);
   border-radius: 18px;
   padding: 35px;
   margin: 50px auto;
-  max-width: 1250px;
+  max-width: 1300px;
   text-align: center;
   box-shadow: 0 0 25px rgba(0,255,255,0.25);
-  animation: fadeIn 0.8s ease;
 }
 
-/* Title animation */
-.analysis-box h2 {
-  font-weight: 700;
-  font-size: 2.2rem;
-  background: linear-gradient(90deg, #00eaff, #ffb347, #a569bd);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  border-right: 4px solid #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  animation: 
-    shine 3s linear infinite,
-    typing 2s steps(30) 1s forwards,
-    pulse 2.5s infinite alternate ease-in-out;
-}
-@keyframes shine { to { background-position: 200% center; } }
-@keyframes typing { from { width: 0; } to { width: 100%; } }
-@keyframes pulse { 0% { text-shadow: 0 0 5px #00eaff; } 100% { text-shadow: 0 0 20px #00eaff; } }
-
-.underline-glow {
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg,#00eaff,transparent);
-  margin: 8px auto 25px auto;
-  border-radius: 10px;
-}
-
-/* Graph images */
-.img-fluid {
-  border-radius: 16px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: zoom-in;
-}
-.img-fluid:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(0,255,255,0.5);
-}
-
-/* Table styling */
-.table-container {
-  background: rgba(255,255,255,0.97);
-  color: #000;
-  border-radius: 14px;
-  padding: 20px;
-  margin-top: 25px;
-  overflow-x: auto;
-  box-shadow: 0 0 25px rgba(0,255,255,0.3);
-  animation: fadeUp 1s ease;
-}
-.table-container table {
+.graph-img {
   width: 100%;
-  border-collapse: collapse;
-  text-align: center;
+  height: 280px !important;
+  object-fit: cover;
+  border-radius: 16px;
+  cursor: zoom-in;
+  transition: .3s ease;
 }
-.table-container th {
-  background: linear-gradient(90deg,#00eaff,#0099cc);
-  color: #000;
-  font-weight: 700;
-  padding: 10px;
-  border-bottom: 3px solid rgba(0,0,0,0.15);
-  position: sticky;
-  top: 0;
-  cursor: pointer;
+.graph-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px cyan;
 }
-.table-container td {
-  padding: 8px;
-  border-bottom: 1px solid #ccc;
-}
-.table-container tr:hover {
-  background-color: rgba(0,238,255,0.07);
-}
-
-@keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
-@keyframes fadeUp { from { opacity:0; transform:translateY(30px);} to { opacity:1; transform:translateY(0);} }
 </style>
 
 <div class="analysis-box">
+
   <h2>📊 Crime Analysis Dashboard</h2>
   <div class="underline-glow"></div>
 
-  <div class="row justify-content-center">
-    {% if graphs %}
-      {% for name, path in graphs.items %}
-      {% if path %}
-      <div class="col-md-5 mb-4">
-        <img src="{{ path }}" class="img-fluid shadow-lg" alt="{{ name }}" onclick="openFullscreen(this)">
-        <p class="text-light mt-2">{{ name }}</p>
-      </div>
-      {% endif %}
-      {% endfor %}
-    {% else %}
-      <p class="text-light mt-4">⚠ No analysis graphs available for this dataset.</p>
-    {% endif %}
+  <!-- ====== 3 GRAPHS ====== -->
+  <div class="row justify-content-center mt-4">
+    {% for name, path in graphs.items %}
+    <div class="col-md-4 mb-4">
+      <img src="{{ path }}" class="graph-img" alt="{{ name }}" onclick="openFullscreen(this)">
+      <p class="text-light mt-2">{{ name }}</p>
+    </div>
+    {% endfor %}
   </div>
 
+  <!-- ====== STATIC HEATMAP ====== -->
+  {% if heatmap %}
+  <div class="text-center mt-5">
+      <h4 class="text-light">🔥 Crime Density Heatmap (Static)</h4>
+
+      <img src="{{ heatmap }}" class="img-fluid rounded shadow-lg"
+           style="max-height:450px; object-fit:contain; cursor:zoom-in;"
+           onclick="openFullscreen(this)">
+  </div>
+  {% endif %}
+
+  <!-- ====== STATE ZOOM FORM ====== -->
+  <form method="POST" class="mb-4 mt-5" style="max-width:400px; margin:auto;">
+      {% csrf_token %}
+      <label class="text-light mb-2" style="font-size:1.1rem;">🎯 Select State to Zoom</label>
+
+      <select name="state" class="form-select mb-2" style="border-radius:10px;">
+          <option value="ALL" selected>ALL (Show Full Map)</option>
+
+          {% for s in crime_levels.high %}
+            <option>{{ s }}</option>
+          {% endfor %}
+          {% for s in crime_levels.medium %}
+            <option>{{ s }}</option>
+          {% endfor %}
+          {% for s in crime_levels.low %}
+            <option>{{ s }}</option>
+          {% endfor %}
+      </select>
+
+      <button type="submit" class="btn btn-primary mt-2" style="border-radius:10px;">🔍 Zoom</button>
+  </form>
+
+  <!-- ====== INTERACTIVE MAP ====== -->
+  {% if choropleth %}
+  <div id="mapSection" class="text-center mt-5">
+      <h4 class="text-light">🗺️ India Crime Heatmap (Interactive)</h4>
+
+      <iframe src="{{ choropleth }}" width="100%" height="850px"
+              style="border:none; border-radius:16px;
+              box-shadow:0 0 25px rgba(0,255,255,0.4);"></iframe>
+  </div>
+  {% endif %}
+
+  <!-- ====== CRIME LEVEL LIST ====== -->
+  <div class="text-start mt-5 p-4 rounded"
+       style="background:rgba(255,255,255,0.05);
+              border:1px solid rgba(0,255,255,0.25);">
+
+    <h3 class="text-light mb-3">📌 Crime Category by State</h3>
+
+    <h4 style="color:#ff4d4d;">🔴 High Crime States</h4>
+    <ul class="text-light">
+        {% for s in crime_levels.high %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4 style="color:#ffcc00;">🟠 Medium Crime States</h4>
+    <ul class="text-light">
+        {% for s in crime_levels.medium %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4 style="color:#00ff88;">🟢 Low Crime States</h4>
+    <ul class="text-light">
+        {% for s in crime_levels.low %}
+        <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+  </div>
+
+  <!-- ====== TABLE ====== -->
   <h4 class="text-light mt-5">🧾 Dataset Preview</h4>
   <div class="table-container" id="tableContainer">
     {{ table|safe }}
   </div>
+
 </div>
 
-<!-- jQuery + DataTables -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
+<!-- FULLSCREEN IMAGE -->
 <script>
-/* Fullscreen image viewer */
 function openFullscreen(img) {
-  const overlay = document.createElement("div");
+  let overlay = document.createElement("div");
   overlay.style = `
-    position:fixed; top:0; left:0; width:100vw; height:100vh;
-    background:rgba(0,0,0,0.95); display:flex; align-items:center; 
-    justify-content:center; z-index:9999; cursor:zoom-out;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,0.9);
+      display:flex; justify-content:center; align-items:center;
+      z-index:9999; cursor:zoom-out;
   `;
-
-  const fullImg = document.createElement("img");
+  let fullImg = document.createElement("img");
   fullImg.src = img.src;
   fullImg.style = `
-    max-width:95vw; max-height:95vh;
-    border-radius:12px; box-shadow:0 0 25px rgba(0,255,255,0.6);
+      max-width:95%; max-height:95%;
+      border-radius:12px; box-shadow:0 0 30px cyan;
   `;
-
   overlay.appendChild(fullImg);
   overlay.onclick = () => overlay.remove();
   document.body.appendChild(overlay);
 }
-
-/* Datatable initialization */
-$(document).ready(function () {
-  const table = $('#tableContainer table');
-  table.addClass('table table-bordered table-hover table-sm');
-  table.DataTable({
-    pageLength: 20,
-    lengthChange: true,
-    ordering: true,
-    order: [],
-    scrollX: true,
-    language: { search: "🔍 Search:" },
-    columnDefs: [{ targets: "_all", className: "text-center align-middle" }]
-  });
-});
 </script>
+
+<!-- AUTO SCROLL ON POST -->
+{% if request.method == "POST" %}
+<script>
+setTimeout(() => {
+  const section = document.getElementById("mapSection");
+  if (section) section.scrollIntoView({ behavior: "smooth" });
+}, 400);
+</script>
+{% endif %}
 
 {% endblock %}

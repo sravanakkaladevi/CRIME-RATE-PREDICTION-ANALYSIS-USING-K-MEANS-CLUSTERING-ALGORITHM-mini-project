@@ -1,4 +1,5 @@
 # core/views.py
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -75,6 +76,26 @@ def upload_dataset(request):
     os.makedirs(data_dir, exist_ok=True)
 
     data_path = os.path.join(data_dir, "crime_dataset.csv")
+        # ------------------ REFRESH PREVIEW ------------------
+    if request.GET.get("refresh") == "1":
+        if os.path.exists(data_path):
+            df = pd.read_csv(data_path)
+            context["rows"] = df.head(100).to_html(
+                classes="table table-striped table-sm",
+                index=False,
+                border=0
+            )
+            context["msg"] = "🔄 Dataset preview refreshed."
+        return render(request, "upload.html", context)
+
+# ------------------ SHOW SAVED DATASET ------------------
+@login_required(login_url='/')
+def upload_dataset(request):
+    context = {}
+    data_dir = os.path.join(settings.BASE_DIR, "data")
+    os.makedirs(data_dir, exist_ok=True)
+
+    data_path = os.path.join(data_dir, "crime_dataset.csv")
 
     # ------------------ FILE UPLOAD ------------------
     if request.method == "POST" and request.FILES.get("file"):
@@ -93,17 +114,31 @@ def upload_dataset(request):
             if missing:
                 context["msg"] = f"❌ Missing required columns: {missing}"
             else:
-                df.to_csv(data_path, index=False)
+                df.to_csv(data_path, index=False, encoding="utf-8")
                 context["msg"] = f"✅ Uploaded {file.name} successfully ({len(df)} rows)."
 
         except Exception as e:
             context["msg"] = f"❌ Error reading file: {e}"
 
+    # ------------------ REFRESH PREVIEW ------------------
+    if request.GET.get("refresh") == "1":
+        if os.path.exists(data_path):
+            df = pd.read_csv(data_path)
+            context["rows"] = df.head(100).to_html(
+                classes="table table-striped table-sm",
+                index=False,
+                border=0
+            )
+            context["msg"] = "🔄 Dataset preview refreshed."
+        else:
+            context["msg"] = "⚠️ No dataset to refresh."
+            context["rows"] = None
+        return render(request, "upload.html", context)
+
     # ------------------ SHOW SAVED DATASET ------------------
     if os.path.exists(data_path):
         df = pd.read_csv(data_path)
 
-        # Build filter options
         states = sorted(df["State"].unique())
         years = sorted(df["Year"].unique())
         crime_columns = [
@@ -111,7 +146,6 @@ def upload_dataset(request):
             "Robbery","Theft","House_Breaking","Cyber_Crime"
         ]
 
-        # Apply filters
         state = request.GET.get("state")
         year = request.GET.get("year")
         crime = request.GET.get("crime")
@@ -122,13 +156,14 @@ def upload_dataset(request):
             filtered_df = filtered_df[filtered_df["State"] == state]
 
         if year:
-            filtered_df = filtered_df[filtered_df["Year"] == int(year)]
+            try:
+                filtered_df = filtered_df[filtered_df["Year"] == int(year)]
+            except:
+                pass
 
-        # crime filter: sort descending by selected crime column
         if crime and crime in crime_columns:
             filtered_df = filtered_df.sort_values(crime, ascending=False)
 
-        # Only show first 100 rows
         context["rows"] = filtered_df.head(100).to_html(
             classes="table table-striped table-sm",
             index=False,
@@ -142,96 +177,234 @@ def upload_dataset(request):
 
     else:
         context["msg"] = "⚠️ No dataset uploaded yet."
+        context["rows"] = None
 
-    # Disable caching
+    # ------------------ FINAL RETURN ------------------
     response = render(request, "upload.html", context)
     response["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response["Pragma"] = "no-cache"
     response["Expires"] = "0"
     return response
-
-## ------------------- Data Analysis / Graphs -------------------
+# ------------------- Data Analysis -------------------
 @login_required(login_url='/')
 def analyze_data(request):
-    data_path = os.path.join(settings.BASE_DIR, "data", "crime_dataset.csv")
-    if not os.path.exists(data_path):
-        messages.warning(request, "Please upload the dataset first.")
-        return redirect("/upload/")
+    import traceback
+    import folium, json
 
     try:
+        # Load dataset
+        data_path = os.path.join(settings.BASE_DIR, "data", "crime_dataset.csv")
+        if not os.path.exists(data_path):
+            messages.warning(request, "Please upload the dataset first.")
+            return redirect("/upload/")
+
         df = pd.read_csv(data_path)
-    except Exception as e:
-        messages.error(request, f"Error reading dataset: {e}")
-        return redirect("/upload/")
 
-    gdir = ensure_graphs_dir()
+        # Graph directory
+        gdir = ensure_graphs_dir()
 
-    # Clear old graphs
-    for f in os.listdir(gdir):
-        if f.startswith(("crime_rate_by_state", "total_crimes_year", "cyber_crime_state")):
-            try:
-                os.remove(os.path.join(gdir, f))
-            except:
-                pass
+        # Remove old graphs if exist
+        for f in os.listdir(gdir):
+            if f.startswith(("crime_rate_by_state",
+                             "total_crimes_year",
+                             "cyber_crime_state",
+                             "crime_heatmap",
+                             "choropleth_map")):
+                try:
+                    os.remove(os.path.join(gdir, f))
+                except:
+                    pass
 
-    # Convert types
-    df["Year"] = df["Year"].astype(int)
-    df["State"] = df["State"].astype(str)
+        # ----------------------------------------------------------
+        # CLEAN & NORMALIZE STATE NAMES (MATCH WITH GEOJSON EXACTLY)
+        # ----------------------------------------------------------
+        df["Year"] = df["Year"].astype(int)
+        df["State"] = df["State"].astype(str).str.strip()
 
-    # --------------------------- 1. Crime Rate by State ---------------------------
-    try:
+        # Full correct mapping (DF → GeoJSON)
+        state_fix = {
+            "Andaman & Nicobar Islands": "Andaman and Nicobar",
+
+            "Jammu & Kashmir": "Jammu and Kashmir",
+            "Jammu And Kashmir": "Jammu and Kashmir",
+            "Ladakh": "Jammu and Kashmir",  # Not present in your GeoJSON
+
+            "NCT of Delhi": "Delhi",
+
+            "Odisha": "Orissa",
+
+            "Uttarakhand": "Uttaranchal",
+
+            "Pondicherry": "Puducherry",
+
+            "Dadra & Nagar Haveli": "Dadra and Nagar Haveli",
+            "Daman & Diu": "Daman and Diu",
+
+            "Chattisgarh": "Chhattisgarh",
+        }
+
+        df["State"] = df["State"].replace(state_fix)
+
+        # ----------------------------------------------------------
+        # CRIME LEVEL CATEGORIES
+        # ----------------------------------------------------------
+        df_state_total = df.groupby("State")["Total_Crimes"].sum().reset_index()
+        df_state_total = df_state_total.sort_values("Total_Crimes", ascending=False)
+        n = len(df_state_total)
+
+        crime_levels = {
+            "high": df_state_total.head(n // 3)["State"].tolist(),
+            "medium": df_state_total.iloc[n // 3: 2 * n // 3]["State"].tolist(),
+            "low": df_state_total.tail(n // 3)["State"].tolist(),
+        }
+
+        # ----------------------------------------------------------
+        # GRAPH 1 — Crime Rate by State
+        # ----------------------------------------------------------
         plt.figure(figsize=(12, 5))
         df.groupby("State")["Crime_Rate"].mean().sort_values().plot(kind="bar")
-        plt.title("Average Crime Rate by State (2020–2024)")
-        plt.ylabel("Crime Rate (per 100,000)")
         plt.tight_layout()
+        plt.title("Average Crime Rate by State")
         plt.savefig(os.path.join(gdir, "crime_rate_by_state.png"))
         plt.close()
-    except Exception as e:
-        print("Error in crime rate graph:", e)
 
-    # --------------------------- 2. Total Crimes by Year ---------------------------
-    try:
+        # ----------------------------------------------------------
+        # GRAPH 2 — Total Crimes per Year
+        # ----------------------------------------------------------
         plt.figure(figsize=(8, 5))
         df.groupby("Year")["Total_Crimes"].sum().plot(marker="o")
         plt.title("India Total Crimes (2020–2024)")
-        plt.xlabel("Year")
-        plt.ylabel("Total Crimes")
-        plt.grid(True)
         plt.tight_layout()
         plt.savefig(os.path.join(gdir, "total_crimes_year.png"))
         plt.close()
-    except Exception as e:
-        print("Error in total crimes graph:", e)
 
-    # --------------------------- 3. Cyber Crime by State ---------------------------
-    try:
+        # ----------------------------------------------------------
+        # GRAPH 3 — Cyber Crime by State
+        # ----------------------------------------------------------
         plt.figure(figsize=(12, 5))
-        df.groupby("State")["Cyber_Crime"].mean().sort_values().plot(kind="bar", color="#ff6600")
-        plt.title("Cyber Crime Hotspots (2020–2024)")
-        plt.ylabel("Average Cyber Crime Cases")
+        df.groupby("State")["Cyber_Crime"].mean().sort_values().plot(
+            kind="bar",
+            color="orange"
+        )
+        plt.title("Cyber Crime Hotspots")
         plt.tight_layout()
         plt.savefig(os.path.join(gdir, "cyber_crime_state.png"))
         plt.close()
-    except Exception as e:
-        print("Error in cyber crime graph:", e)
 
-    # --------------------------- Preview Table ---------------------------
-    table_html = df.head(200).to_html(
-        classes="table table-striped table-sm",
-        index=False,
-        border=0
-    )
+        # ----------------------------------------------------------
+        # STATIC HEATMAP (PNG)
+        # ----------------------------------------------------------
+        heatmap_url = None
+        try:
+            heatmap_path = os.path.join(gdir, "crime_heatmap.png")
+            pivot = df.groupby("State")["Total_Crimes"].sum().sort_values()
 
-    context = {
-        "table": table_html,
-        "graphs": {
-            "Crime Rate by State": "/static/graphs/crime_rate_by_state.png",
-            "Total Crimes by Year": "/static/graphs/total_crimes_year.png",
-            "Cyber Crime by State": "/static/graphs/cyber_crime_state.png",
+            plt.figure(figsize=(12, 10))
+            plt.barh(pivot.index, pivot.values, color=plt.cm.hot(pivot.values / pivot.max()))
+            plt.tight_layout()
+            plt.title("Crime Density Heatmap")
+            plt.savefig(heatmap_path, dpi=150)
+            plt.close()
+
+            heatmap_url = "/static/graphs/crime_heatmap.png"
+        except:
+            print("Heatmap error")
+
+        # ----------------------------------------------------------
+        # INTERACTIVE MAP (FOLIUM CHOROPLETH)
+        # ----------------------------------------------------------
+        choropleth_url = None
+        try:
+            geojson_path = os.path.join(settings.BASE_DIR, "static", "geojson", "india_states.geojson")
+
+            with open(geojson_path, "r", encoding="utf-8") as f:
+                india_geojson = json.load(f)
+
+            crime_data = df.groupby("State")["Total_Crimes"].sum().reset_index()
+            crime_dict = dict(zip(crime_data["State"], crime_data["Total_Crimes"]))
+
+            # Add crime data inside GeoJSON
+            for feature in india_geojson["features"]:
+                nm = feature["properties"]["NAME_1"]
+                feature["properties"]["TOTAL_CRIME"] = int(crime_dict.get(nm, 0))
+
+            m = folium.Map(location=[22.97, 78.65], zoom_start=5)
+
+            # Choropleth layer
+            folium.Choropleth(
+                geo_data=geojson_path,
+                name="choropleth",
+                data=crime_data,
+                columns=["State", "Total_Crimes"],
+                key_on="feature.properties.NAME_1",
+                fill_color="YlOrRd",
+                fill_opacity=0.9,
+                legend_name="Crime Rate by State"
+            ).add_to(m)
+
+            # Tooltip Layer
+            folium.GeoJson(
+                india_geojson,
+                tooltip=folium.features.GeoJsonTooltip(
+                    fields=["NAME_1", "TOTAL_CRIME"],
+                    aliases=["State:", "Total Crimes:"],
+                ),
+                style_function=lambda x: {"color": "transparent", "weight": 0},
+                highlight_function=lambda x: {"weight": 3, "color": "black"},
+            ).add_to(m)
+
+            # ----------------------------------------------------------
+            # FIXED ZOOM FUNCTION — WORKS FOR DELHI + ALL UTs
+            # ----------------------------------------------------------
+            if request.method == "POST":
+                sel = request.POST.get("state")
+                if sel:
+                    for feat in india_geojson["features"]:
+                        if feat["properties"]["NAME_1"] == sel:
+                            gj = folium.GeoJson(feat)
+                            gj.add_to(m)
+                            m.fit_bounds(gj.get_bounds())
+                            break
+
+            # Save map
+            choropleth_path = os.path.join(gdir, "choropleth_map.html")
+            m.save(choropleth_path)
+            choropleth_url = "/static/graphs/choropleth_map.html"
+
+        except Exception as e:
+            print("Map error:", e)
+            traceback.print_exc()
+
+        # ----------------------------------------------------------
+        # DATA TABLE
+        # ----------------------------------------------------------
+        table_html = df.head(200).to_html(
+            classes="table table-striped table-sm",
+            index=False
+        )
+
+        # ----------------------------------------------------------
+        # SEND TO TEMPLATE
+        # ----------------------------------------------------------
+        context = {
+            "table": table_html,
+            "graphs": {
+                "Crime Rate by State": "/static/graphs/crime_rate_by_state.png",
+                "Total Crimes by Year": "/static/graphs/total_crimes_year.png",
+                "Cyber Crime by State": "/static/graphs/cyber_crime_state.png",
+            },
+            "crime_levels": crime_levels,
+            "heatmap": heatmap_url,
+            "choropleth": choropleth_url,
         }
-    }
-    return render(request, "analysis.html", context)
+
+        return render(request, "analysis.html", context)
+
+    except Exception as e:
+        print("FATAL ERROR:", e)
+        traceback.print_exc()
+        return HttpResponse("Analysis failed", status=500)
+
 
 # ------------------- Cluster Prediction -------------------
 @login_required(login_url='/')
