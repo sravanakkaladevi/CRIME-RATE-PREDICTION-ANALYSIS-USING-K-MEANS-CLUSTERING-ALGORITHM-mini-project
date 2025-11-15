@@ -1,21 +1,48 @@
-# Python cache
+# --------------------
+# Python Cache
+# --------------------
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# Django database
+# --------------------
+# Django Database Files (local only)
+# --------------------
 db.sqlite3
+db.sqlite3-journal
 
-# Dataset files
-data/*.csv
-
-# Auto-generated graphs
+# --------------------
+# Auto-Generated Graphs / Reports
+# These should not be in git
+# --------------------
 static/graphs/*.png
 static/graphs/*.html
+static/graphs/*.json
+static/graphs/*.svg
 
-# IDE
+# --------------------
+# Local Dataset Files (optional)
+# Ignore only temporary CSVs, not project-critical ones
+# --------------------
+data/temp_*.csv
+data/generated_*.csv
+
+# --------------------
+# Environment / Virtualenv
+# --------------------
+env/
+venv/
+ENV/
+venv.bak/
+
+# --------------------
+# Editor / IDE
+# --------------------
 .vscode/
 .idea/
 
-# Environments
-env/
-venv/
+# --------------------
+# System files
+# --------------------
+.DS_Store
+Thumbs.db
