@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e19525ff42235c1b706cee9ebd5a429c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_e19525ff42235c1b706cee9ebd5a429c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e19525ff42235c1b706cee9ebd5a429c = L.map(
+                "map_e19525ff42235c1b706cee9ebd5a429c",
+                {
+                    center: [22.97, 78.65],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0423f81a4827f3f00c6e0971064a283e = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0423f81a4827f3f00c6e0971064a283e.addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            var circle_marker_a52449a9cbec23dabacc5c697f4e2231 = L.circleMarker(
+                [22.97, 78.65],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_a52449a9cbec23dabacc5c697f4e2231.bindTooltip(
+                `<div>
+                     Madhya Pradesh - Crimes: 34160
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_814179db97896bf49ac5ec7f6e59b7aa = L.circleMarker(
+                [29.05, 76.08],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_814179db97896bf49ac5ec7f6e59b7aa.bindTooltip(
+                `<div>
+                     Haryana - Crimes: 188802
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_040fd88e0f9083a657db682a33aefe7e = L.circleMarker(
+                [26.2, 92.9],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_040fd88e0f9083a657db682a33aefe7e.bindTooltip(
+                `<div>
+                     Assam - Crimes: 133242
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9d97356f76ff962ec8cad8a5fa6adef3 = L.circleMarker(
+                [15.31, 75.71],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_9d97356f76ff962ec8cad8a5fa6adef3.bindTooltip(
+                `<div>
+                     Karnataka - Crimes: 65744
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_32bc468e720f01f1e2303d6f21c40ed6 = L.circleMarker(
+                [10.85, 76.27],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_32bc468e720f01f1e2303d6f21c40ed6.bindTooltip(
+                `<div>
+                     Kerala - Crimes: 61022
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cb280a143a13df95a7d3aabeec9222ef = L.circleMarker(
+                [28.61, 77.2],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_cb280a143a13df95a7d3aabeec9222ef.bindTooltip(
+                `<div>
+                     Delhi - Crimes: 411605
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_15204871e8f0cb2abff934fc4d4dda31 = L.circleMarker(
+                [20.95, 85.09],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_15204871e8f0cb2abff934fc4d4dda31.bindTooltip(
+                `<div>
+                     Odisha - Crimes: 299376
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9e1a9bfe4e8d725ea19535c35ec16b46 = L.circleMarker(
+                [27.02, 74.21],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_9e1a9bfe4e8d725ea19535c35ec16b46.bindTooltip(
+                `<div>
+                     Rajasthan - Crimes: 246275
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f78099b37da24ba94121ae3e943420b6 = L.circleMarker(
+                [17.12, 79.2],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_f78099b37da24ba94121ae3e943420b6.bindTooltip(
+                `<div>
+                     Telangana - Crimes: 154498
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_84e2317bfaf0c7d723119df17fb5ef22 = L.circleMarker(
+                [26.15, 94.56],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_84e2317bfaf0c7d723119df17fb5ef22.bindTooltip(
+                `<div>
+                     Nagaland - Crimes: 13423
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9eede589e38a6d2e5da7b7df07c24d5d = L.circleMarker(
+                [23.61, 85.27],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_9eede589e38a6d2e5da7b7df07c24d5d.bindTooltip(
+                `<div>
+                     Jharkhand - Crimes: 3740
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_676a4bf18dfa2437f38e26256727277e = L.circleMarker(
+                [24.66, 93.9],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_676a4bf18dfa2437f38e26256727277e.bindTooltip(
+                `<div>
+                     Manipur - Crimes: 7974
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_476ca4abc4ce808d015fc4b5b6010e5b = L.circleMarker(
+                [28.2, 94.7],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_476ca4abc4ce808d015fc4b5b6010e5b.bindTooltip(
+                `<div>
+                     Arunachal Pradesh - Crimes: 23225
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0acd7cd3c84bb4d809303dacd853d992 = L.circleMarker(
+                [31.14, 75.34],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_0acd7cd3c84bb4d809303dacd853d992.bindTooltip(
+                `<div>
+                     Punjab - Crimes: 85582
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_878331407c8d6ca37f14867d9c4086a5 = L.circleMarker(
+                [26.84, 80.94],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_878331407c8d6ca37f14867d9c4086a5.bindTooltip(
+                `<div>
+                     Uttar Pradesh - Crimes: 104386
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8759dc34456324e94644a0a8812320c1 = L.circleMarker(
+                [25.09, 85.31],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_8759dc34456324e94644a0a8812320c1.bindTooltip(
+                `<div>
+                     Bihar - Crimes: 29677
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9af34b0d0aa9543baea555e04d2cca04 = L.circleMarker(
+                [11.12, 78.65],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_9af34b0d0aa9543baea555e04d2cca04.bindTooltip(
+                `<div>
+                     Tamil Nadu - Crimes: 92938
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_82e2722aba6fee8f8452b41dbc17a1ac = L.circleMarker(
+                [27.53, 88.51],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_82e2722aba6fee8f8452b41dbc17a1ac.bindTooltip(
+                `<div>
+                     Sikkim - Crimes: 57334
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c7c9e04a6a6d49aa7ffa8fa72a7ade66 = L.circleMarker(
+                [23.16, 92.93],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_c7c9e04a6a6d49aa7ffa8fa72a7ade66.bindTooltip(
+                `<div>
+                     Mizoram - Crimes: 158060
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0be58deaaadd1ad1442cb1981e164a15 = L.circleMarker(
+                [25.46, 91.36],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_0be58deaaadd1ad1442cb1981e164a15.bindTooltip(
+                `<div>
+                     Meghalaya - Crimes: 89305
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_10bb1cda26909d057a63108e0c01ab0d = L.circleMarker(
+                [31.1, 77.17],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_10bb1cda26909d057a63108e0c01ab0d.bindTooltip(
+                `<div>
+                     Himachal Pradesh - Crimes: 89269
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ababcf42822520b2bffeafc3c3219376 = L.circleMarker(
+                [22.25, 71.19],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_ababcf42822520b2bffeafc3c3219376.bindTooltip(
+                `<div>
+                     Gujarat - Crimes: 58364
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_53d0a5ab1addfa46001360f6214850c5 = L.circleMarker(
+                [21.27, 81.86],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_53d0a5ab1addfa46001360f6214850c5.bindTooltip(
+                `<div>
+                     Chhattisgarh - Crimes: 34827
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7c95981d820ce9f40b1471f469e5682b = L.circleMarker(
+                [15.29, 74.12],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_7c95981d820ce9f40b1471f469e5682b.bindTooltip(
+                `<div>
+                     Goa - Crimes: 108521
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_170cb824c34823bd004065cf51d8fe63 = L.circleMarker(
+                [15.9, 79.7],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_170cb824c34823bd004065cf51d8fe63.bindTooltip(
+                `<div>
+                     Andhra Pradesh - Crimes: 68397
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ded5d84a5f1c5014d6de7bd6f687c1b2 = L.circleMarker(
+                [19.75, 75.71],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_ded5d84a5f1c5014d6de7bd6f687c1b2.bindTooltip(
+                `<div>
+                     Maharashtra - Crimes: 96751
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f31ee7b015bdbbf0797a828d6030ac08 = L.circleMarker(
+                [30.06, 79.01],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_f31ee7b015bdbbf0797a828d6030ac08.bindTooltip(
+                `<div>
+                     Uttarakhand - Crimes: 8309
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9d67cd11be4ae673619455a40d452007 = L.circleMarker(
+                [23.94, 91.98],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_9d67cd11be4ae673619455a40d452007.bindTooltip(
+                `<div>
+                     Tripura - Crimes: 85662
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_66b2da0682ab9a4e18557422cff35611 = L.circleMarker(
+                [22.98, 87.85],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_66b2da0682ab9a4e18557422cff35611.bindTooltip(
+                `<div>
+                     West Bengal - Crimes: 60782
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4183d4ed91a071176bb1f12c0de63cd9 = L.circleMarker(
+                [11.7401, 92.6586],
+                {"bubblingMouseEvents": true, "color": "yellow", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "yellow", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_e19525ff42235c1b706cee9ebd5a429c);
+        
+    
+            circle_marker_4183d4ed91a071176bb1f12c0de63cd9.bindTooltip(
+                `<div>
+                     Andaman & Nicobar Islands - Crimes: 155966
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

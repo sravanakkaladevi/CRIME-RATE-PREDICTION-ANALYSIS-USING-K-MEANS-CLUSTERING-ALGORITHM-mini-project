@@ -9,4 +9,5 @@ urlpatterns = [
     path('analyze/', views.analyze_data, name='analyze'), # data analysis page
     path('cluster/', views.cluster_prediction, name='cluster'), # clustering page
     path('future/', views.future_prediction, name='future'), # future prediction page
+    path('advanced/', views.advanced_analysis, name='advanced'), # advanced analysis (pending & solved cases)
 ]

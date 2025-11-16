@@ -12,6 +12,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 from sklearn.cluster import KMeans
 from sklearn.decomposition import TruncatedSVD
@@ -423,7 +424,14 @@ def cluster_prediction(request):
         return redirect("/upload/")
 
     df = pd.read_csv(data_path)
-    df["State"] = df["State"].astype(str)
+    df["State"] = df["State"].astype(str).str.strip()
+    
+    # Convert numeric columns
+    numeric_cols = ["Crime_Rate", "Murder", "Rape", "Kidnapping", "Assault", "Hurt", 
+                   "Robbery", "Theft", "House_Breaking", "Cyber_Crime", "Total_Crimes"]
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
 
     gdir = ensure_graphs_dir()
     elbow_path = os.path.join(gdir, "elbow_method.png")
@@ -431,8 +439,8 @@ def cluster_prediction(request):
     map_path = os.path.join(gdir, "india_cluster_map.html")
 
     # ---------------- Prepare Data ----------------
-    grouped = df.groupby("State").mean().reset_index()
-    X = grouped[["Crime_Rate", "Murder", "Theft", "Cyber_Crime"]]
+    grouped = df.groupby("State")[numeric_cols].mean().reset_index()
+    X = grouped[["Crime_Rate", "Murder", "Theft", "Cyber_Crime"]].fillna(0)
 
     # ---------------- Elbow Plot ----------------
     distortions = []
@@ -668,3 +676,200 @@ def future_prediction(request):
         "line_plot": line_plot,
         "map_url": "/static/graphs/future_india_map.html",
     })
+
+
+# ------------------- Advanced Analysis (Pending & Solved Cases) -------------------
+@login_required(login_url='/')
+def advanced_analysis(request):
+    import traceback
+    import json
+    
+    try:
+        # Load dataset
+        data_path = os.path.join(settings.BASE_DIR, "data", "crime_dataset.csv")
+        if not os.path.exists(data_path):
+            messages.warning(request, "Please upload the dataset first.")
+            return redirect("/upload/")
+
+        df = pd.read_csv(data_path)
+        df["Year"] = df["Year"].astype(int)
+        df["State"] = df["State"].astype(str).str.strip()
+        
+        # Parse Pending_Percentage and Crime_Solved if needed
+        if "Pending_Percentage" in df.columns:
+            df["Pending_Percentage"] = df["Pending_Percentage"].astype(str).str.replace("%", "").astype(float)
+        
+        if "Crime_Solved" in df.columns:
+            df["Crime_Solved"] = pd.to_numeric(df["Crime_Solved"], errors='coerce')
+
+        gdir = ensure_graphs_dir()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 1: Crime Solved Rate by State
+        # ----------------------------------------------------------
+        plt.figure(figsize=(12, 6))
+        if "Crime_Solved" in df.columns and "Total_Crimes" in df.columns:
+            df_analysis = df.groupby("State").agg({
+                "Crime_Solved": "sum",
+                "Total_Crimes": "sum"
+            }).reset_index()
+            df_analysis["Solved_Rate"] = (df_analysis["Crime_Solved"] / df_analysis["Total_Crimes"] * 100).round(2)
+            df_analysis = df_analysis.sort_values("Solved_Rate", ascending=True)
+            
+            plt.barh(df_analysis["State"], df_analysis["Solved_Rate"], color="steelblue")
+            plt.xlabel("Crime Solved Rate (%)")
+            plt.title("Crime Resolution Rate by State (2020-2024)")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "crime_solved_rate.png"), dpi=100)
+            plt.close()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 2: Pending Cases Analysis
+        # ----------------------------------------------------------
+        plt.figure(figsize=(12, 6))
+        if "Pending_Percentage" in df.columns:
+            pending_by_state = df.groupby("State")["Pending_Percentage"].mean().sort_values(ascending=False).head(15)
+            
+            colors = plt.cm.Reds(np.linspace(0.4, 0.9, len(pending_by_state)))
+            plt.barh(pending_by_state.index, pending_by_state.values, color=colors)
+            plt.xlabel("Average Pending Percentage (%)")
+            plt.title("Top 15 States with Highest Pending Cases")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "pending_cases.png"), dpi=100)
+            plt.close()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 3: Trend Over Years (Solved vs Pending)
+        # ----------------------------------------------------------
+        plt.figure(figsize=(10, 6))
+        if "Crime_Solved" in df.columns and "Pending_Percentage" in df.columns:
+            yearly_stats = df.groupby("Year").agg({
+                "Crime_Solved": "sum",
+                "Total_Crimes": "sum",
+                "Pending_Percentage": "mean"
+            }).reset_index()
+            yearly_stats["Solved_Rate"] = (yearly_stats["Crime_Solved"] / yearly_stats["Total_Crimes"] * 100).round(2)
+            
+            ax1 = plt.subplot(111)
+            ax1.plot(yearly_stats["Year"], yearly_stats["Solved_Rate"], marker="o", label="Solved Rate (%)", color="green", linewidth=2)
+            ax1.set_ylabel("Crime Solved Rate (%)", color="green")
+            ax1.tick_params(axis="y", labelcolor="green")
+            
+            ax2 = ax1.twinx()
+            ax2.plot(yearly_stats["Year"], yearly_stats["Pending_Percentage"], marker="s", label="Avg Pending (%)", color="red", linewidth=2)
+            ax2.set_ylabel("Average Pending Percentage (%)", color="red")
+            ax2.tick_params(axis="y", labelcolor="red")
+            
+            plt.title("Crime Solved vs Pending Cases Trend (2020-2024)")
+            ax1.set_xlabel("Year")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "solved_vs_pending_trend.png"), dpi=100)
+            plt.close()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 4: Correlation Matrix
+        # ----------------------------------------------------------
+        plt.figure(figsize=(8, 6))
+        numeric_cols = ["Crime_Rate", "Murder", "Rape", "Theft", "Cyber_Crime"]
+        if "Pending_Percentage" in df.columns:
+            numeric_cols.append("Pending_Percentage")
+        if "Crime_Solved" in df.columns:
+            numeric_cols.append("Crime_Solved")
+        
+        available_cols = [col for col in numeric_cols if col in df.columns]
+        if len(available_cols) > 1:
+            corr_matrix = df[available_cols].corr()
+            import seaborn as sns
+            sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", center=0)
+            plt.title("Correlation Matrix: Crime Variables")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "correlation_matrix.png"), dpi=100)
+            plt.close()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 5: Top Performers (Highest Crime Solved Rate)
+        # ----------------------------------------------------------
+        if "Crime_Solved" in df.columns:
+            top_performers = df_analysis.nlargest(10, "Solved_Rate")[["State", "Solved_Rate"]]
+            
+            plt.figure(figsize=(10, 6))
+            plt.barh(top_performers["State"], top_performers["Solved_Rate"], color="green", alpha=0.7)
+            plt.xlabel("Crime Solved Rate (%)")
+            plt.title("Top 10 Performers: Highest Crime Resolution Rate")
+            plt.tight_layout()
+            plt.savefig(os.path.join(gdir, "top_performers.png"), dpi=100)
+            plt.close()
+
+        # ----------------------------------------------------------
+        # ANALYSIS 6: Statistics Summary
+        # ----------------------------------------------------------
+        stats_data = {
+            "Total States": df["State"].nunique(),
+            "Years Covered": f"{df['Year'].min()}-{df['Year'].max()}",
+            "Total Crimes Recorded": int(df["Total_Crimes"].sum()),
+        }
+        
+        if "Crime_Solved" in df.columns:
+            stats_data["Total Crimes Solved"] = int(df["Crime_Solved"].sum())
+            stats_data["Overall Solved Rate %"] = round(
+                (df["Crime_Solved"].sum() / df["Total_Crimes"].sum() * 100), 2
+            )
+        
+        if "Pending_Percentage" in df.columns:
+            stats_data["Avg Pending %"] = round(df["Pending_Percentage"].mean(), 2)
+            stats_data["Max Pending %"] = round(df["Pending_Percentage"].max(), 2)
+            stats_data["Min Pending %"] = round(df["Pending_Percentage"].min(), 2)
+
+        # ----------------------------------------------------------
+        # ANALYSIS 7: State-wise Summary Table
+        # ----------------------------------------------------------
+        if "Crime_Solved" in df.columns and "Pending_Percentage" in df.columns:
+            summary_table = df.groupby("State").agg({
+                "Total_Crimes": "sum",
+                "Crime_Solved": "sum",
+                "Pending_Percentage": "mean",
+                "Crime_Rate": "mean"
+            }).reset_index()
+            
+            summary_table["Solved_Rate %"] = (
+                summary_table["Crime_Solved"] / summary_table["Total_Crimes"] * 100
+            ).round(2)
+            
+            summary_table = summary_table.rename(columns={
+                "Total_Crimes": "Total_Crimes",
+                "Crime_Solved": "Crimes_Solved",
+                "Pending_Percentage": "Avg_Pending_%",
+                "Crime_Rate": "Avg_Crime_Rate"
+            })
+            
+            summary_table = summary_table.sort_values("Solved_Rate %", ascending=False)
+            table_html = summary_table.to_html(
+                classes="table table-striped table-sm",
+                index=False,
+                float_format=lambda x: f'{x:.2f}' if isinstance(x, float) else x
+            )
+        else:
+            table_html = None
+
+        # ----------------------------------------------------------
+        # SEND TO TEMPLATE
+        # ----------------------------------------------------------
+        context = {
+            "stats": stats_data,
+            "graphs": {
+                "Crime Solved Rate by State": "/static/graphs/crime_solved_rate.png",
+                "Top 15 States with Pending Cases": "/static/graphs/pending_cases.png",
+                "Solved vs Pending Trend": "/static/graphs/solved_vs_pending_trend.png",
+                "Correlation Matrix": "/static/graphs/correlation_matrix.png",
+                "Top Performers": "/static/graphs/top_performers.png",
+            },
+            "summary_table": table_html,
+        }
+
+        return render(request, "advanced_analysis.html", context)
+
+    except Exception as e:
+        print("ADVANCED ANALYSIS ERROR:", e)
+        traceback.print_exc()
+        messages.error(request, f"Analysis failed: {str(e)}")
+        return redirect("/upload/")

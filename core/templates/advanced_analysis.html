@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+body {
+  background: url("{% static 'images/pexels-cottonbro-8369520.jpg' %}") center/cover fixed no-repeat;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(7px);
+  z-index: -1;
+}
+
+.analysis-box {
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,255,255,0.25);
+  border-radius: 18px;
+  padding: 35px;
+  margin: 50px auto;
+  max-width: 1400px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,255,255,0.25);
+}
+
+.graph-img {
+  width: 100%;
+  height: 280px !important;
+  object-fit: cover;
+  border-radius: 16px;
+  cursor: zoom-in;
+  transition: .3s ease;
+}
+.graph-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px cyan;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.stat-card {
+  background: rgba(0,255,255,0.1);
+  border: 1px solid rgba(0,255,255,0.3);
+  padding: 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(0,255,255,0.2);
+  box-shadow: 0 0 15px rgba(0,255,255,0.4);
+  transform: translateY(-5px);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00ff88;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: rgba(0,0,0,0.5);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.table-container table {
+  width: 100%;
+  color: #ddd;
+  border-collapse: collapse;
+}
+
+.table-container th {
+  background: rgba(0,255,255,0.2);
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid rgba(0,255,255,0.3);
+}
+
+.table-container td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.insights-box {
+  background: rgba(255,200,0,0.1);
+  border-left: 4px solid #ffc800;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.insights-box h5 {
+  color: #ffc800;
+  margin-bottom: 15px;
+}
+
+.insights-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.insights-box li {
+  padding: 8px 0;
+  color: #ddd;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.insights-box li:before {
+  content: "✓ ";
+  color: #00ff88;
+  font-weight: bold;
+  margin-right: 10px;
+}
+</style>
+
+<div class="analysis-box">
+  <h2>📊 Advanced Analysis Dashboard</h2>
+  <h4 style="color:#00ff88; margin-bottom:20px;">Pending Cases & Crime Resolution Analysis</h4>
+  <div class="underline-glow"></div>
+
+  <!-- ====== STATISTICS GRID ====== -->
+  <div class="stats-grid">
+    {% for key, value in stats.items %}
+    <div class="stat-card">
+      <div class="stat-label">{{ key }}</div>
+      <div class="stat-value">{{ value }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ====== 5 GRAPHS ====== -->
+  <div class="row justify-content-center mt-5">
+    {% for name, path in graphs.items %}
+    <div class="col-md-6 mb-4">
+      <h5 style="color:#00ff88; margin-bottom:15px;">{{ name }}</h5>
+      <img src="{{ path }}" class="graph-img" alt="{{ name }}" onclick="openFullscreen(this)">
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ====== STATE-WISE SUMMARY TABLE ====== -->
+  {% if summary_table %}
+  <div class="mt-5">
+    <h4 class="text-light mb-3">🧾 State-wise Performance Summary</h4>
+    <div class="table-container">
+      {{ summary_table|safe }}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ====== KEY INSIGHTS ====== -->
+  <div class="insights-box">
+    <h5>💡 Key Insights</h5>
+    <ul>
+      <li><strong>Crime Resolution Efficiency:</strong> States with higher crime solved rates demonstrate better law enforcement capacity.</li>
+      <li><strong>Pending Cases Impact:</strong> High pending percentage indicates backlogs affecting justice delivery speed.</li>
+      <li><strong>Trend Analysis:</strong> Year-over-year trends help identify if case resolution is improving or deteriorating.</li>
+      <li><strong>Correlation Insights:</strong> The correlation matrix reveals which crime types are most correlated with each other.</li>
+      <li><strong>Top Performers:</strong> States with highest solved rates can serve as benchmarks for best practices.</li>
+      <li><strong>Resource Allocation:</strong> States with high pending percentages may require additional resources and support.</li>
+    </ul>
+  </div>
+
+  <!-- ====== NAVIGATION ====== -->
+  <div class="mt-5" style="text-align:center;">
+    <a href="{% url 'analyze' %}" class="btn btn-primary" style="border-radius:10px; margin-right:10px;">← Back to Analysis</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary" style="border-radius:10px;">Go to Home</a>
+  </div>
+
+</div>
+
+<!-- FULLSCREEN IMAGE -->
+<script>
+function openFullscreen(img) {
+  let overlay = document.createElement("div");
+  overlay.style = `
+      position:fixed; inset:0;
+      background:rgba(0,0,0,0.95);
+      display:flex; justify-content:center; align-items:center;
+      z-index:9999; cursor:zoom-out;
+  `;
+  let fullImg = document.createElement("img");
+  fullImg.src = img.src;
+  fullImg.style = `
+      max-width:95%; max-height:95%;
+      border-radius:12px; box-shadow:0 0 30px cyan;
+  `;
+  overlay.appendChild(fullImg);
+  overlay.onclick = () => overlay.remove();
+  document.body.appendChild(overlay);
+}
+</script>
+
+{% endblock %}
