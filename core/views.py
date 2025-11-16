@@ -424,25 +424,33 @@ def cluster_prediction(request):
         return redirect("/upload/")
 
     df = pd.read_csv(data_path)
+
+    # Clean state names
     df["State"] = df["State"].astype(str).str.strip()
-    
-    # Convert numeric columns
-    numeric_cols = ["Crime_Rate", "Murder", "Rape", "Kidnapping", "Assault", "Hurt", 
-                   "Robbery", "Theft", "House_Breaking", "Cyber_Crime", "Total_Crimes"]
+
+    # Numeric columns from the new dataset (2020–2024)
+    numeric_cols = [
+        "Total_Crimes", "Crime_Rate", "Murder", "Rape", "Kidnapping", "Assault",
+        "Hurt", "Robbery", "Theft", "House_Breaking", "Cyber_Crime"
+    ]
+
     for col in numeric_cols:
         if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
+            df[col] = pd.to_numeric(df[col], errors="coerce")
 
+    # Directory
     gdir = ensure_graphs_dir()
     elbow_path = os.path.join(gdir, "elbow_method.png")
     cluster_plot_path = os.path.join(gdir, "cluster_states.png")
     map_path = os.path.join(gdir, "india_cluster_map.html")
 
-    # ---------------- Prepare Data ----------------
+    # ---------------- Prepare GROUPED Data (2020–2024 AVG) ----------------
     grouped = df.groupby("State")[numeric_cols].mean().reset_index()
+
+    # Selecting the most important variables for clustering
     X = grouped[["Crime_Rate", "Murder", "Theft", "Cyber_Crime"]].fillna(0)
 
-    # ---------------- Elbow Plot ----------------
+    # ---------------- Elbow Method ----------------
     distortions = []
     for k in range(1, 7):
         km = KMeans(n_clusters=k, random_state=42, n_init=10)
@@ -452,6 +460,8 @@ def cluster_prediction(request):
     plt.figure(figsize=(6, 4))
     plt.plot(range(1, 7), distortions, marker="o")
     plt.title("Elbow Method - Choose k")
+    plt.xlabel("Number of Clusters")
+    plt.ylabel("Inertia")
     plt.savefig(elbow_path)
     plt.close()
 
@@ -459,15 +469,18 @@ def cluster_prediction(request):
     km = KMeans(n_clusters=3, random_state=42, n_init=10)
     grouped["cluster"] = km.fit_predict(X)
 
+    # Automatically map cluster → crime zone by avg crime rate
     avg_rate = grouped.groupby("cluster")["Crime_Rate"].mean().sort_values()
+
     label_map = {
         avg_rate.index[0]: "Low Crime Zone",
         avg_rate.index[1]: "Medium Crime Zone",
         avg_rate.index[2]: "High Crime Zone",
     }
+
     grouped["label"] = grouped["cluster"].map(label_map)
 
-    # ---------------- Scatter Plot (SVD Dimensionality) ----------------
+    # ---------------- Scatter Plot (Dimensionality Reduction) ----------------
     svd = TruncatedSVD(n_components=2)
     coords2d = svd.fit_transform(X)
 
@@ -476,10 +489,11 @@ def cluster_prediction(request):
         mask = grouped["cluster"] == cl
         plt.scatter(coords2d[mask, 0], coords2d[mask, 1], label=label_map[cl])
     plt.legend()
+    plt.title("Cluster Visualization (SVD 2D)")
     plt.savefig(cluster_plot_path)
     plt.close()
 
-    # ---------------- Coordinates ----------------
+    # ---------------- Coordinates for Map ----------------
     coords = {
         "Andhra Pradesh": [15.9, 79.7], "Arunachal Pradesh": [28.2, 94.7],
         "Assam": [26.2, 92.9], "Bihar": [25.09, 85.31], "Chhattisgarh": [21.27, 81.86],
@@ -492,12 +506,18 @@ def cluster_prediction(request):
         "Tamil Nadu": [11.12, 78.65], "Telangana": [17.12, 79.20], "Tripura": [23.94, 91.98],
         "Uttar Pradesh": [26.84, 80.94], "Uttarakhand": [30.06, 79.01],
         "West Bengal": [22.98, 87.85], "Delhi": [28.61, 77.20],
-        "Andaman & Nicobar Islands": [11.7401, 92.6586]
+        "Andaman & Nicobar Islands": [11.7401, 92.6586],
+        "Ladakh": [34.1526, 77.5770],
+        "Jammu & Kashmir": [33.7782, 76.5762],
+        "Puducherry": [11.9416, 79.8083],
+        "Chandigarh": [30.7333, 76.7794],
+        "Dadra & Nagar Haveli": [20.1809, 73.0169],
+        "Daman & Diu": [20.4283, 72.8397],
     }
 
     # ---------------- Zoom Logic ----------------
     selected_state = request.POST.get("state")
-    map_center = [22.97, 78.65]
+    map_center = [22.97, 78.65]   # India center
     map_zoom = 5
 
     if selected_state and selected_state in coords:
@@ -526,11 +546,24 @@ def cluster_prediction(request):
     # ---------------- Response ----------------
     result = None
     result_color = "#ffffff"
+    risk_message = None   # <-- NEW FIELD
 
     if selected_state and selected_state in grouped["State"].values:
         label = grouped.loc[grouped["State"] == selected_state, "label"].values[0]
         result = f"{selected_state} → {label}"
-        result_color = "#00ff66" if "Low" in label else "#ffaa33" if "Medium" in label else "#ff4444"
+        result_color = (
+            "#00ff66" if "Low" in label
+            else "#ffaa33" if "Medium" in label
+            else "#ff4444"
+        )
+
+        # ---------------- Classification Message ----------------
+        if "High" in label:
+            risk_message = "⚠ High Risk: Increased crime activity. Extra security recommended."
+        elif "Medium" in label:
+            risk_message = "🟠 Medium Risk: Moderate crime levels. Stay aware."
+        else:
+            risk_message = "🟢 Low Risk: Crime levels are low. Area is safe."
 
     return render(request, "cluster.html", {
         "elbow_graph": "/static/graphs/elbow_method.png",
@@ -539,9 +572,9 @@ def cluster_prediction(request):
         "states": sorted(grouped["State"].tolist()),
         "result": result,
         "result_color": result_color,
-        "selected_state": selected_state
+        "selected_state": selected_state,
+        "risk_message": risk_message,   # <-- ADDED
     })
-
 
 # ------------------- Future Prediction -------------------
 @login_required(login_url='/')
@@ -584,22 +617,32 @@ def future_prediction(request):
         "Andaman & Nicobar Islands": [11.7401, 92.6586]
     }
 
-    # ---------------- Latest Year ----------------
+    # ---------------- Latest Year Data ----------------
     latest_df = df.sort_values("Year").groupby("State").tail(1)
 
     kmeans = KMeans(n_clusters=3, random_state=42)
     latest_df["Cluster"] = kmeans.fit_predict(latest_df[["Total_Crimes"]])
 
+    # Sort clusters by crime level
     cluster_order = latest_df.groupby("Cluster")["Total_Crimes"].mean().sort_values().index.tolist()
+
     cluster_to_risk = {
         cluster_order[0]: "Low Risk",
         cluster_order[1]: "Medium Risk",
         cluster_order[2]: "High Risk"
     }
+
     cluster_to_color = {
         cluster_order[0]: "green",
         cluster_order[1]: "yellow",
         cluster_order[2]: "red"
+    }
+
+    # Risk messages for tourism
+    risk_message = {
+        "Low Risk": "🟢 Safe for tourism and travel.",
+        "Medium Risk": "🟠 Medium Risk – Travel with caution.",
+        "High Risk": "⚠️ High Risk Area – Not recommended for tourists."
     }
 
     # ---------------- Zoom Logic ----------------
@@ -629,9 +672,10 @@ def future_prediction(request):
     delete_if_exists(map_path)
     folium_map.save(map_path)
 
-    # ---------------- Forecast ----------------
+    # ---------------- Forecast (2025–2026) ----------------
     result = None
     risk_level = None
+    final_message = None
     line_plot = None
 
     if selected_state:
@@ -655,24 +699,32 @@ def future_prediction(request):
             plt.figure(figsize=(8, 4))
             plt.plot(yearly["Year"], y, marker="o", label="Observed")
             plt.plot([2025, 2026], preds, marker="x", label="Predicted")
+            plt.title(f"Future Crime Trend (2025–2026) - {selected_state}")
             plt.legend()
             plt.tight_layout()
             plt.savefig(os.path.join(gdir, "future_trend.png"))
             plt.close()
 
             line_plot = "/static/graphs/future_trend.png"
-            result = f"{selected_state}: 2025 → {int(preds[0])} | 2026 → {int(preds[1])}"
+
+            result = (
+                f"{selected_state} (Future Prediction 2025–2026): "
+                f"2025 → {int(preds[0])} crimes | "
+                f"2026 → {int(preds[1])} crimes"
+            )
         else:
             result = f"{selected_state}: Not enough data for prediction."
 
         cluster_id = latest_df.loc[latest_df["State"] == selected_state, "Cluster"].values[0]
         risk_level = cluster_to_risk[cluster_id]
+        final_message = risk_message[risk_level]
 
     return render(request, "future.html", {
         "states": states,
         "selected_state": selected_state,
         "result": result,
         "risk_level": risk_level,
+        "risk_message": final_message,
         "line_plot": line_plot,
         "map_url": "/static/graphs/future_india_map.html",
     })
