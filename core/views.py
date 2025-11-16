@@ -206,11 +206,13 @@ def analyze_data(request):
 
         # Remove old graphs if exist
         for f in os.listdir(gdir):
-            if f.startswith(("crime_rate_by_state",
-                             "total_crimes_year",
-                             "cyber_crime_state",
-                             "crime_heatmap",
-                             "choropleth_map")):
+            if f.startswith((
+                "crime_rate_by_state",
+                "total_crimes_year",
+                "cyber_crime_state",
+                "crime_heatmap",
+                "choropleth_map"
+            )):
                 try:
                     os.remove(os.path.join(gdir, f))
                 except:
@@ -222,21 +224,19 @@ def analyze_data(request):
         df["Year"] = df["Year"].astype(int)
         df["State"] = df["State"].astype(str).str.strip()
 
-        # Full correct mapping (DF → GeoJSON)
         state_fix = {
             "Andaman & Nicobar Islands": "Andaman and Nicobar",
-
             "Jammu & Kashmir": "Jammu and Kashmir",
             "Jammu And Kashmir": "Jammu and Kashmir",
-            "Ladakh": "Jammu and Kashmir",  # Not present in your GeoJSON
+            "Ladakh": "Jammu and Kashmir",
 
-            "NCT of Delhi": "Delhi",
+            "Delhi": "NCT of Delhi",
+            "NCT of Delhi": "NCT of Delhi",
 
             "Odisha": "Orissa",
-
             "Uttarakhand": "Uttaranchal",
 
-            "Pondicherry": "Puducherry",
+            "Puducherry": "Pondicherry",
 
             "Dadra & Nagar Haveli": "Dadra and Nagar Haveli",
             "Daman & Diu": "Daman and Diu",
@@ -301,7 +301,8 @@ def analyze_data(request):
             pivot = df.groupby("State")["Total_Crimes"].sum().sort_values()
 
             plt.figure(figsize=(12, 10))
-            plt.barh(pivot.index, pivot.values, color=plt.cm.hot(pivot.values / pivot.max()))
+            plt.barh(pivot.index, pivot.values,
+                     color=plt.cm.hot(pivot.values / pivot.max()))
             plt.tight_layout()
             plt.title("Crime Density Heatmap")
             plt.savefig(heatmap_path, dpi=150)
@@ -316,7 +317,8 @@ def analyze_data(request):
         # ----------------------------------------------------------
         choropleth_url = None
         try:
-            geojson_path = os.path.join(settings.BASE_DIR, "static", "geojson", "india_states.geojson")
+            geojson_path = os.path.join(settings.BASE_DIR, "static",
+                                        "geojson", "india_states.geojson")
 
             with open(geojson_path, "r", encoding="utf-8") as f:
                 india_geojson = json.load(f)
@@ -324,14 +326,12 @@ def analyze_data(request):
             crime_data = df.groupby("State")["Total_Crimes"].sum().reset_index()
             crime_dict = dict(zip(crime_data["State"], crime_data["Total_Crimes"]))
 
-            # Add crime data inside GeoJSON
             for feature in india_geojson["features"]:
                 nm = feature["properties"]["NAME_1"]
                 feature["properties"]["TOTAL_CRIME"] = int(crime_dict.get(nm, 0))
 
             m = folium.Map(location=[22.97, 78.65], zoom_start=5)
 
-            # Choropleth layer
             folium.Choropleth(
                 geo_data=geojson_path,
                 name="choropleth",
@@ -343,7 +343,6 @@ def analyze_data(request):
                 legend_name="Crime Rate by State"
             ).add_to(m)
 
-            # Tooltip Layer
             folium.GeoJson(
                 india_geojson,
                 tooltip=folium.features.GeoJsonTooltip(
@@ -354,9 +353,6 @@ def analyze_data(request):
                 highlight_function=lambda x: {"weight": 3, "color": "black"},
             ).add_to(m)
 
-            # ----------------------------------------------------------
-            # FIXED ZOOM FUNCTION — WORKS FOR DELHI + ALL UTs
-            # ----------------------------------------------------------
             if request.method == "POST":
                 sel = request.POST.get("state")
                 if sel:
@@ -367,7 +363,6 @@ def analyze_data(request):
                             m.fit_bounds(gj.get_bounds())
                             break
 
-            # Save map
             choropleth_path = os.path.join(gdir, "choropleth_map.html")
             m.save(choropleth_path)
             choropleth_url = "/static/graphs/choropleth_map.html"
