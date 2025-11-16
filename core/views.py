@@ -225,24 +225,28 @@ def analyze_data(request):
         df["State"] = df["State"].astype(str).str.strip()
 
         state_fix = {
-            "Andaman & Nicobar Islands": "Andaman and Nicobar",
-            "Jammu & Kashmir": "Jammu and Kashmir",
-            "Jammu And Kashmir": "Jammu and Kashmir",
-            "Ladakh": "Jammu and Kashmir",
+    "Andaman & Nicobar Islands": "Andaman and Nicobar",
 
-            "Delhi": "NCT of Delhi",
-            "NCT of Delhi": "NCT of Delhi",
+    "Jammu & Kashmir": "Jammu and Kashmir",
+    "Jammu And Kashmir": "Jammu and Kashmir",
+    "Ladakh": "Jammu and Kashmir",
 
-            "Odisha": "Orissa",
-            "Uttarakhand": "Uttaranchal",
+    "Delhi": "Delhi",
+    "NCT of Delhi": "Delhi",
 
-            "Puducherry": "Pondicherry",
+    "Odisha": "Orissa",
+    "Uttarakhand": "Uttaranchal",
 
-            "Dadra & Nagar Haveli": "Dadra and Nagar Haveli",
-            "Daman & Diu": "Daman and Diu",
+    "Puducherry": "Puducherry",
 
-            "Chattisgarh": "Chhattisgarh",
-        }
+    "Dadra & Nagar Haveli": "Dadra and Nagar Haveli",
+
+    # Optional (harmless)
+    "Daman & Diu": "Daman and Diu",
+
+    "Chattisgarh": "Chhattisgarh",
+}
+
 
         df["State"] = df["State"].replace(state_fix)
 
